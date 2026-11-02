@@ -756,6 +756,50 @@ let clipX, clipZ, xMin, xMax, zMin, zMax;
 let scanXraf = null, scanZraf = null;
 let ready = false;
 
+// ── Terrain noise helpers ────────────────────────────────────
+function h2(x, y) { const n=Math.sin(x*127.1+y*311.7)*43758.5453; return n-Math.floor(n); }
+function sn(x, y) {
+  const ix=Math.floor(x),iy=Math.floor(y),fx=x-ix,fy=y-iy;
+  const ux=fx*fx*(3-2*fx),uy=fy*fy*(3-2*fy);
+  return h2(ix,iy)*(1-ux)*(1-uy)+h2(ix+1,iy)*ux*(1-uy)+
+         h2(ix,iy+1)*(1-ux)*uy  +h2(ix+1,iy+1)*ux*uy;
+}
+function fbmH(x, y) {
+  let v=0,a=0.55,f=0.13;
+  for(let i=0;i<6;i++){v+=a*sn(x*f,y*f);a*=0.5;f*=2.05;}
+  return (v-0.5)*2.2; // ±1.1 km exaggerated relief
+}
+function pip(x, z, pts) { // point-in-polygon (scene XZ)
+  let inside=false;
+  for(let i=0,j=pts.length-1;i<pts.length;j=i++){
+    const xi=pts[i].x,zi=pts[i].y,xj=pts[j].x,zj=pts[j].y;
+    if(((zi>z)!==(zj>z))&&x<(xj-xi)*(z-zi)/(zj-zi)+xi) inside=!inside;
+  }
+  return inside;
+}
+function buildTerrain(pts, xMin, xMax, zMin, zMax, clips) {
+  const W=xMax-xMin, D=zMax-zMin;
+  const cell=0.45; // ~450 m per grid cell
+  const gx=Math.round(W/cell), gz=Math.round(D/cell);
+  const verts=[], idx=[], vi=[];
+  for(let j=0;j<=gz;j++) vi.push(new Array(gx+1).fill(-1));
+  for(let j=0;j<=gz;j++){
+    for(let i=0;i<=gx;i++){
+      const x=xMin+i/gx*W, z=zMin+j/gz*D;
+      if(pip(x,z,pts)){ vi[j][i]=verts.length/3; verts.push(x,fbmH(x,z),z); }
+    }
+  }
+  for(let j=0;j<gz;j++)
+    for(let i=0;i<gx;i++){
+      const a=vi[j][i],b=vi[j][i+1],c=vi[j+1][i],d=vi[j+1][i+1];
+      if(a>=0&&b>=0&&c>=0&&d>=0) idx.push(a,b,c,b,d,c);
+    }
+  const geo=new THREE.BufferGeometry();
+  geo.setAttribute('position',new THREE.Float32BufferAttribute(verts,3));
+  geo.setIndex(idx); geo.computeVertexNormals();
+  return geo;
+}
+
 function init3D() {
   if (ready) { resize3D(); return; }
   ready = true;
@@ -836,19 +880,23 @@ function init3D() {
     yTop += layer.vh;
   });
 
-  // Green cropland surface on top
-  const topGeo = new THREE.ShapeGeometry(shape);
-  topGeo.rotateX(Math.PI / 2);
-  scene.add(new THREE.Mesh(topGeo,
-    new THREE.MeshLambertMaterial({ color: 0x4a7a28, side: THREE.DoubleSide })));
+  // Terrain surface with fbm relief (replaces flat ShapeGeometry)
+  const terrainGeo = buildTerrain(pts, xMin, xMax, zMin, zMax);
+  const terrainMat = new THREE.MeshLambertMaterial({
+    color: 0x4a7a28, side: THREE.DoubleSide,
+    clippingPlanes: [clipX, clipZ],
+  });
+  scene.add(new THREE.Mesh(terrainGeo, terrainMat));
 
-  // Subtle wire border around top
-  const edgePts = pts.map(p => new THREE.Vector3(p.x, 0.01, p.y));
+  // Polygon border following terrain height
+  const edgePts = pts.map(p => new THREE.Vector3(p.x, fbmH(p.x, p.y) + 0.04, p.y));
   edgePts.push(edgePts[0].clone());
-  scene.add(new THREE.Line(
+  const edgeLine = new THREE.Line(
     new THREE.BufferGeometry().setFromPoints(edgePts),
-    new THREE.LineBasicMaterial({ color: 0x4ade80, opacity: 0.5, transparent: true })
-  ));
+    new THREE.LineBasicMaterial({ color: 0x4ade80, opacity: 0.55, transparent: true })
+  );
+  edgeLine.frustumCulled = false;
+  scene.add(edgeLine);
 
   // Grid plane below
   const grid = new THREE.GridHelper(span * 2.2, 22, 0x1a2830, 0x121c28);
