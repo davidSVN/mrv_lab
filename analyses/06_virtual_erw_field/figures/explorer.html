@@ -1,0 +1,677 @@
+<title>ERW Field Explorer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: sticky header, two-panel grid, deliberate dark-only (GIS/satellite tool) */
+:root {
+  --bg: #0c1018;
+  --sur: #141924;
+  --sur2: #1c2233;
+  --sur3: #252b3f;
+  --fg: #dde2f0;
+  --fg2: #7e8aa6;
+  --fg3: #4a5268;
+  --acc: #4ade80;
+  --acc-dim: rgba(74,222,128,.12);
+  --teal: #22d3ee;
+  --teal-dim: rgba(34,211,238,.1);
+  --amb: #fbbf24;
+  --amb-dim: rgba(251,191,36,.1);
+  --bdr: rgba(255,255,255,.06);
+  --bdr2: rgba(255,255,255,.1);
+  color-scheme: dark;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:'Inter',system-ui,sans-serif;font-size:14px;line-height:1.5;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0;
+  display:flex;flex-direction:column;min-height:100%;
+}
+body::before{
+  content:"";position:fixed;inset:0 0 auto;
+  height:env(safe-area-inset-top,0px);z-index:11;background:var(--sur);
+}
+
+/* HEADER */
+.hdr{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:10;
+  background:var(--sur);border-bottom:1px solid var(--bdr);
+  padding:12px 0 0;
+}
+.hdr-top{display:flex;align-items:center;gap:12px;padding-bottom:12px;flex-wrap:wrap}
+.hdr-badge{
+  font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;
+  color:var(--acc);background:var(--acc-dim);border:1px solid rgba(74,222,128,.3);
+  padding:2px 8px;border-radius:4px;letter-spacing:.06em;white-space:nowrap;
+}
+.hdr-title{font-size:15px;font-weight:600}
+.hdr-sub{font-size:11px;color:var(--fg2);margin-left:auto;white-space:nowrap}
+.tabs{display:flex}
+.tab-btn{
+  background:none;border:none;border-bottom:2px solid transparent;
+  color:var(--fg2);cursor:pointer;font-family:'Inter',sans-serif;
+  font-size:13px;font-weight:500;padding:8px 16px;
+  transition:color .15s,border-color .15s;
+}
+.tab-btn:hover{color:var(--fg)}
+.tab-btn.active{color:var(--acc);border-bottom-color:var(--acc)}
+
+/* CONTENT */
+.content{flex:1;padding-block:20px}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* CARD */
+.card{background:var(--sur);border:1px solid var(--bdr);border-radius:8px;overflow:hidden}
+.card-hdr{
+  padding:10px 14px;border-bottom:1px solid var(--bdr);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.card-ttl{
+  font-size:10px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--fg2);
+}
+.card-body{padding:14px}
+
+/* TAB 1 */
+.t1-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media(max-width:680px){.t1-grid{grid-template-columns:1fr}}
+
+#mapCanvas{display:block;width:100%;cursor:crosshair}
+.map-legend{
+  padding:8px 14px;display:flex;gap:16px;flex-wrap:wrap;
+  border-top:1px solid var(--bdr);
+}
+.leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--fg2)}
+.leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* Candidate rows */
+.cand-row{
+  display:grid;grid-template-columns:20px 1fr 1fr auto;
+  gap:8px;align-items:center;padding:10px 14px;
+  border-bottom:1px solid var(--bdr);cursor:pointer;
+  transition:background .1s;
+}
+.cand-row:last-child{border-bottom:none}
+.cand-row:hover{background:var(--sur2)}
+.cand-row.hi{background:var(--acc-dim)}
+.cand-row.sel{background:var(--acc-dim);border-left:3px solid var(--acc)}
+
+.rk{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg3)}
+.area-wrap{min-width:0}
+.area-val{
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  font-variant-numeric:tabular-nums;color:var(--fg);
+}
+.bar-bg{height:3px;background:var(--sur3);border-radius:2px;margin-top:3px}
+.bar-fill{height:3px;border-radius:2px;background:var(--teal)}
+.cand-id{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg2)}
+.cand-coords{
+  font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.badge{
+  font-size:10px;font-weight:600;padding:2px 6px;
+  border-radius:3px;letter-spacing:.03em;white-space:nowrap;
+}
+.b-green{background:var(--acc-dim);color:var(--acc);border:1px solid rgba(74,222,128,.25)}
+.b-grey{background:rgba(255,255,255,.04);color:var(--fg3);border:1px solid var(--bdr)}
+.b-sel{background:var(--acc);color:#0c1018;font-weight:700}
+
+/* TAB 2 */
+.t2-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:680px){.t2-grid{grid-template-columns:1fr}}
+
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:0}
+@media(max-width:500px){.metrics-row{grid-template-columns:1fr 1fr}}
+.metric{
+  background:var(--sur2);border:1px solid var(--bdr);
+  border-radius:6px;padding:12px;
+}
+.m-val{
+  font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;
+  color:var(--acc);font-variant-numeric:tabular-nums;line-height:1.2;
+}
+.m-unit{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)}
+.m-lbl{font-size:11px;color:var(--fg2);margin-top:3px}
+
+/* Criteria */
+.crit-list{display:flex;flex-direction:column;gap:8px}
+.crit{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;border-radius:6px;
+  background:var(--sur2);border:1px solid var(--bdr);
+}
+.crit.pass{border-left:3px solid var(--acc)}
+.crit.pend{border-left:3px solid var(--amb)}
+.crit-ico{font-size:15px;margin-top:0;flex-shrink:0}
+.crit-name{font-size:13px;font-weight:500;color:var(--fg)}
+.crit-detail{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--fg2);margin-top:2px;
+}
+.crit-pend{color:var(--amb)}
+
+/* Reasons */
+.reasons{display:flex;flex-direction:column;gap:8px}
+.reason{
+  display:flex;gap:14px;padding:10px 12px;
+  background:var(--sur2);border-radius:6px;border:1px solid var(--bdr);
+}
+.r-num{
+  font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;
+  color:var(--fg3);line-height:1.1;flex-shrink:0;margin-top:1px;
+}
+.r-txt{font-size:13px;color:var(--fg);line-height:1.5}
+.r-sub{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--fg2);margin-top:3px;
+}
+
+/* Sources */
+.src-list{display:flex;flex-direction:column;gap:0}
+.src-row{
+  display:flex;align-items:flex-start;gap:10px;
+  font-size:12px;color:var(--fg2);
+  padding:8px 0;border-bottom:1px solid var(--bdr);
+}
+.src-row:last-child{border-bottom:none}
+.src-tag{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  padding:2px 6px;border-radius:3px;
+  background:var(--teal-dim);color:var(--teal);
+  border:1px solid rgba(34,211,238,.15);white-space:nowrap;flex-shrink:0;
+}
+
+/* Coords grid */
+.coord-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+.coord-item{background:var(--sur2);border-radius:4px;padding:8px 10px}
+.coord-lbl{
+  font-size:10px;color:var(--fg3);letter-spacing:.07em;
+  text-transform:uppercase;font-weight:500;
+}
+.coord-val{
+  font-family:'JetBrains Mono',monospace;font-size:12px;
+  color:var(--fg);margin-top:2px;font-variant-numeric:tabular-nums;
+}
+
+/* Pending notice */
+.notice-amber{
+  margin-top:12px;padding:10px 12px;
+  background:var(--amb-dim);border:1px solid rgba(251,191,36,.2);
+  border-radius:6px;font-size:12px;color:var(--amb);
+  display:flex;gap:8px;align-items:flex-start;
+}
+
+#selCanvas{display:block;width:100%}
+
+/* Stats strip */
+.stats-strip{
+  display:flex;gap:16px;flex-wrap:wrap;padding:10px 14px;
+  border-top:1px solid var(--bdr);
+}
+.stat-kv{display:flex;flex-direction:column}
+.stat-k{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.07em}
+.stat-v{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--fg2);font-variant-numeric:tabular-nums}
+</style>
+
+<!-- HEADER -->
+<header class="hdr">
+  <div class="hdr-top">
+    <span class="hdr-badge">ERW · Analysis 06</span>
+    <span class="hdr-title">Altillanura Field Explorer</span>
+    <span class="hdr-sub">Meta, Colombia · WorldCover 2021 · CopDEM GLO-30</span>
+  </div>
+  <nav class="tabs">
+    <button class="tab-btn active" data-tab="t1">Candidatos (10)</button>
+    <button class="tab-btn" data-tab="t2">Polígono Seleccionado</button>
+  </nav>
+</header>
+
+<div class="content">
+
+<!-- TAB 1: ALL CANDIDATES -->
+<div class="tab-panel active" id="t1">
+  <div class="t1-grid">
+
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-ttl">Mapa de Candidatos</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)">búsqueda 3.5–5.0°N · 73.5–71.5°W</span>
+      </div>
+      <canvas id="mapCanvas"></canvas>
+      <div class="map-legend">
+        <div class="leg-item"><div class="leg-dot" style="background:#4ade80"></div>Seleccionado</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#22d3ee"></div>Cumple criterios</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#4a5268"></div>No cumple área</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-ttl">Top 10 Componentes ≥ 500 ha</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)">de 50 componentes</span>
+      </div>
+      <div id="candList"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- TAB 2: SELECTED POLYGON -->
+<div class="tab-panel" id="t2">
+  <div class="t2-grid">
+
+    <!-- LEFT COLUMN -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+
+      <div class="card">
+        <div class="card-hdr">
+          <span class="card-ttl">Mapa del Polígono</span>
+          <span class="badge b-sel" style="font-size:11px">Componente 2340</span>
+        </div>
+        <canvas id="selCanvas"></canvas>
+        <div class="stats-strip">
+          <div class="stat-kv">
+            <span class="stat-k">Centro Lon</span>
+            <span class="stat-v">-72.5685°</span>
+          </div>
+          <div class="stat-kv">
+            <span class="stat-k">Centro Lat</span>
+            <span class="stat-v">4.4272°</span>
+          </div>
+          <div class="stat-kv">
+            <span class="stat-k">Ancho</span>
+            <span class="stat-v">~40 km</span>
+          </div>
+          <div class="stat-kv">
+            <span class="stat-k">Alto</span>
+            <span class="stat-v">~7 km</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><span class="card-ttl">Métricas Clave</span></div>
+        <div class="card-body">
+          <div class="metrics-row">
+            <div class="metric">
+              <div class="m-val">10<span class="m-unit" style="font-size:14px">,</span>437</div>
+              <div class="m-unit">ha</div>
+              <div class="m-lbl">Área total</div>
+            </div>
+            <div class="metric">
+              <div class="m-val">10<span class="m-unit" style="font-size:14px">,</span>437</div>
+              <div class="m-unit">celdas 100 m</div>
+              <div class="m-lbl">Resolución análisis</div>
+            </div>
+            <div class="metric">
+              <div class="m-val" style="font-size:16px">Rank #1</div>
+              <div class="m-unit">de 50</div>
+              <div class="m-lbl">Componentes</div>
+            </div>
+          </div>
+          <div class="coord-grid">
+            <div class="coord-item">
+              <div class="coord-lbl">Lon mín</div>
+              <div class="coord-val">-72.7523°</div>
+            </div>
+            <div class="coord-item">
+              <div class="coord-lbl">Lon máx</div>
+              <div class="coord-val">-72.3847°</div>
+            </div>
+            <div class="coord-item">
+              <div class="coord-lbl">Lat mín</div>
+              <div class="coord-val">4.3960°N</div>
+            </div>
+            <div class="coord-item">
+              <div class="coord-lbl">Lat máx</div>
+              <div class="coord-val">4.4584°N</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><span class="card-ttl">Fuentes de Datos</span></div>
+        <div class="card-body">
+          <div class="src-list">
+            <div class="src-row">
+              <span class="src-tag">CC BY 4.0</span>
+              <span>ESA WorldCover 2021 v200 — cobertura cropland (clase 40), 10 m</span>
+            </div>
+            <div class="src-row">
+              <span class="src-tag">Copernicus</span>
+              <span>Copernicus DEM GLO-30 — pendiente calculada por diferencias centrales, 30 m</span>
+            </div>
+            <div class="src-row" style="color:var(--amb)">
+              <span class="src-tag" style="background:var(--amb-dim);color:var(--amb);border-color:rgba(251,191,36,.2)">PENDIENTE</span>
+              <span>SoilGrids 2.0 ISRIC — verificación Oxisol / WRB Ferralsol</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RIGHT COLUMN -->
+    <div style="display:flex;flex-direction:column;gap:16px">
+
+      <div class="card">
+        <div class="card-hdr"><span class="card-ttl">Criterios de Selección</span></div>
+        <div class="card-body">
+          <div class="crit-list">
+            <div class="crit pass">
+              <span class="crit-ico">✓</span>
+              <div>
+                <div class="crit-name">Cobertura cropland</div>
+                <div class="crit-detail">WorldCover clase 40 · 100% del parche</div>
+              </div>
+            </div>
+            <div class="crit pass">
+              <span class="crit-ico">✓</span>
+              <div>
+                <div class="crit-name">Pendiente &lt; 3°</div>
+                <div class="crit-detail">CopDEM GLO-30 · todas las celdas del parche</div>
+              </div>
+            </div>
+            <div class="crit pass">
+              <span class="crit-ico">✓</span>
+              <div>
+                <div class="crit-name">Área ≥ 5 000 ha</div>
+                <div class="crit-detail">10 437 ha · cumple 2.1× el mínimo</div>
+              </div>
+            </div>
+            <div class="crit pass">
+              <span class="crit-ico">✓</span>
+              <div>
+                <div class="crit-name">Parche contiguo</div>
+                <div class="crit-detail">4-conectividad · componente único 2340</div>
+              </div>
+            </div>
+            <div class="crit pass">
+              <span class="crit-ico">✓</span>
+              <div>
+                <div class="crit-name">Corredor Puerto López–Puerto Gaitán</div>
+                <div class="crit-detail">centro -72.57°W, 4.43°N · Altillanura Meta</div>
+              </div>
+            </div>
+            <div class="crit pend">
+              <span class="crit-ico" style="color:var(--amb)">⚠</span>
+              <div>
+                <div class="crit-name" style="color:var(--amb)">Dominio Oxisol / Ferralsol</div>
+                <div class="crit-detail crit-pend">Verificación SoilGrids 2.0 WRB pendiente · API 503</div>
+              </div>
+            </div>
+          </div>
+          <div class="notice-amber">
+            <span>⚠</span>
+            <span>El criterio Oxisol no está verificado aún. La capa WRB de SoilGrids devolvió error 503. Se necesita acceso WebDAV/WCS antes de cerrar la selección.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><span class="card-ttl">Por qué este polígono</span></div>
+        <div class="card-body">
+          <div class="reasons">
+            <div class="reason">
+              <div class="r-num">01</div>
+              <div>
+                <div class="r-txt">El mayor componente contiguo del área de búsqueda</div>
+                <div class="r-sub">10 437 ha vs. 7 878 ha del #2 (+32 %)</div>
+              </div>
+            </div>
+            <div class="reason">
+              <div class="r-num">02</div>
+              <div>
+                <div class="r-txt">Solo 3 de 50 componentes superan los 5 000 ha</div>
+                <div class="r-sub">≥ 5 000 ha necesarios para representatividad estadística de MRV</div>
+              </div>
+            </div>
+            <div class="reason">
+              <div class="r-num">03</div>
+              <div>
+                <div class="r-txt">Ubicado en el núcleo del corredor Altillanura</div>
+                <div class="r-sub">suelos Oxisol típicos · llano plano · agricultura extensiva de soya/maíz</div>
+              </div>
+            </div>
+            <div class="reason">
+              <div class="r-num">04</div>
+              <div>
+                <div class="r-txt">Acceso potencial a datos IDEAM y IGAC</div>
+                <div class="r-sub">estaciones hidrometeorológicas en radio de ~80 km</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /t2 -->
+
+</div><!-- /content -->
+
+<script>
+// ── DATA ─────────────────────────────────────────────────
+const SEARCH = { lonMin: -73.5, lonMax: -71.5, latMin: 3.5, latMax: 5.0 };
+
+const candidates = [
+  { rank:1,  id:2340, area:10437, lonMin:-72.7523, lonMax:-72.3847, latMin:4.3960, latMax:4.4584, meetsTarget:true,  selected:true  },
+  { rank:2,  id:3065, area:7878,  lonMin:-72.5162, lonMax:-72.2550, latMin:4.2712, latMax:4.3571, meetsTarget:true,  selected:false },
+  { rank:3,  id:2630, area:6647,  lonMin:-71.9838, lonMax:-71.8153, latMin:4.3183, latMax:4.4096, meetsTarget:true,  selected:false },
+  { rank:4,  id:2638, area:4635,  lonMin:-72.9838, lonMax:-72.7468, latMin:4.3544, latMax:4.4078, meetsTarget:false, selected:false },
+  { rank:5,  id:3874, area:3514,  lonMin:-72.7847, lonMax:-72.6505, latMin:4.2080, latMax:4.2749, meetsTarget:false, selected:false },
+  { rank:6,  id:3417, area:3023,  lonMin:-73.2189, lonMax:-73.0955, latMin:4.2351, latMax:4.3074, meetsTarget:false, selected:false },
+  { rank:7,  id:5573, area:2622,  lonMin:-73.3586, lonMax:-73.2622, latMin:3.9702, latMax:4.0280, meetsTarget:false, selected:false },
+  { rank:8,  id:2993, area:2334,  lonMin:-71.7450, lonMax:-71.5982, latMin:4.3237, latMax:4.3653, meetsTarget:false, selected:false },
+  { rank:9,  id:2393, area:1923,  lonMin:-71.7505, lonMax:-71.5766, latMin:4.4186, latMax:4.4421, meetsTarget:false, selected:false },
+  { rank:10, id:2302, area:1789,  lonMin:-72.7883, lonMax:-72.6396, latMin:4.4620, latMax:4.4828, meetsTarget:false, selected:false },
+];
+
+const SEL = candidates[0];
+const MAX_AREA = candidates[0].area;
+
+// ── TABS ──────────────────────────────────────────────────
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(btn.dataset.tab).classList.add('active');
+    if (btn.dataset.tab === 't2') drawSelected();
+  });
+});
+
+// ── CANDIDATE LIST ────────────────────────────────────────
+const list = document.getElementById('candList');
+candidates.forEach((c, i) => {
+  const row = document.createElement('div');
+  row.className = 'cand-row' + (c.selected ? ' sel' : '');
+  row.dataset.idx = i;
+  const pct = Math.round(c.area / MAX_AREA * 100);
+  const badgeCls = c.selected ? 'b-sel' : c.meetsTarget ? 'b-green' : 'b-grey';
+  const badgeTxt = c.selected ? 'SELECCIONADO' : c.meetsTarget ? '≥ 5000 ha' : 'No cumple';
+  row.innerHTML = `
+    <span class="rk">${String(c.rank).padStart(2,'0')}</span>
+    <div class="area-wrap">
+      <div class="area-val">${c.area.toLocaleString()} ha</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div style="min-width:0">
+      <div class="cand-id">C-${c.id}</div>
+      <div class="cand-coords">${c.lonMin.toFixed(2)}…${c.lonMax.toFixed(2)}, ${c.latMin.toFixed(2)}°N</div>
+    </div>
+    <span class="badge ${badgeCls}">${badgeTxt}</span>
+  `;
+  row.addEventListener('mouseenter', () => { highlightIdx = i; drawMap(); });
+  row.addEventListener('mouseleave', () => { highlightIdx = -1; drawMap(); });
+  list.appendChild(row);
+});
+
+// ── MAP CANVAS ────────────────────────────────────────────
+const mapCanvas = document.getElementById('mapCanvas');
+const mapCtx = mapCanvas.getContext('2d');
+let highlightIdx = -1;
+
+function lonToX(lon, w) { return (lon - SEARCH.lonMin) / (SEARCH.lonMax - SEARCH.lonMin) * w; }
+function latToY(lat, h) { return (1 - (lat - SEARCH.latMin) / (SEARCH.latMax - SEARCH.latMin)) * h; }
+
+function drawMap() {
+  const dpr = window.devicePixelRatio || 1;
+  const W = mapCanvas.offsetWidth;
+  const H = Math.round(W * 0.65);
+  mapCanvas.width = W * dpr;
+  mapCanvas.height = H * dpr;
+  mapCanvas.style.height = H + 'px';
+  const ctx = mapCtx;
+  ctx.scale(dpr, dpr);
+
+  // Background
+  ctx.fillStyle = '#0c1018';
+  ctx.fillRect(0, 0, W, H);
+
+  // Grid lines (degrees)
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
+  ctx.lineWidth = 1;
+  for (let lon = Math.ceil(SEARCH.lonMin); lon <= Math.floor(SEARCH.lonMax); lon++) {
+    const x = lonToX(lon, W);
+    ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+    ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.fillText(lon + '°', x + 3, H - 4);
+  }
+  for (let lat = Math.ceil(SEARCH.latMin * 2) / 2; lat <= SEARCH.latMax; lat += 0.5) {
+    const y = latToY(lat, H);
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+    if (lat % 1 === 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.15)';
+      ctx.font = '9px JetBrains Mono, monospace';
+      ctx.fillText(lat.toFixed(1) + '°N', 3, y - 3);
+    }
+  }
+
+  // Candidates
+  candidates.forEach((c, i) => {
+    const x1 = lonToX(c.lonMin, W), x2 = lonToX(c.lonMax, W);
+    const y1 = latToY(c.latMax, H), y2 = latToY(c.latMin, H);
+    const rw = Math.max(x2 - x1, 2), rh = Math.max(y2 - y1, 2);
+
+    const isHi = i === highlightIdx;
+    let fill, stroke;
+    if (c.selected)          { fill = 'rgba(74,222,128,0.25)'; stroke = '#4ade80'; }
+    else if (c.meetsTarget)  { fill = 'rgba(34,211,238,0.12)'; stroke = '#22d3ee'; }
+    else                     { fill = 'rgba(74,82,104,0.15)';  stroke = '#4a5268'; }
+
+    ctx.fillStyle = isHi ? (c.selected ? 'rgba(74,222,128,0.45)' : 'rgba(255,255,255,0.15)') : fill;
+    ctx.strokeStyle = isHi ? '#fff' : stroke;
+    ctx.lineWidth = c.selected ? 1.5 : 1;
+    ctx.fillRect(x1, y1, rw, rh);
+    ctx.strokeRect(x1, y1, rw, rh);
+
+    // Rank label on hover or selected
+    if (isHi || c.selected) {
+      ctx.fillStyle = c.selected ? '#4ade80' : '#fff';
+      ctx.font = `${c.selected ? '600 ' : ''}10px JetBrains Mono, monospace`;
+      ctx.fillText('#' + c.rank + (c.selected ? ' ✓' : ''), x1 + 3, y1 - 3);
+    }
+  });
+
+  // Altillanura label
+  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.font = '10px Inter, sans-serif';
+  ctx.fillText('ALTILLANURA · META', lonToX(-72.8, W), latToY(4.55, H));
+}
+
+// ── SELECTED CANVAS ───────────────────────────────────────
+const selCanvas = document.getElementById('selCanvas');
+const selCtx = selCanvas.getContext('2d');
+
+function drawSelected() {
+  const dpr = window.devicePixelRatio || 1;
+  const W = selCanvas.offsetWidth;
+  if (!W) return;
+  const pad = 0.05; // degrees padding
+  const view = {
+    lonMin: SEL.lonMin - pad, lonMax: SEL.lonMax + pad,
+    latMin: SEL.latMin - pad, latMax: SEL.latMax + pad,
+  };
+  const aspect = (view.latMax - view.latMin) / (view.lonMax - view.lonMin);
+  const H = Math.round(W * aspect * 1.0);
+  selCanvas.width = W * dpr;
+  selCanvas.height = H * dpr;
+  selCanvas.style.height = H + 'px';
+  const ctx = selCtx;
+  ctx.scale(dpr, dpr);
+
+  function lx(lon) { return (lon - view.lonMin) / (view.lonMax - view.lonMin) * W; }
+  function ly(lat) { return (1 - (lat - view.latMin) / (view.latMax - view.latMin)) * H; }
+
+  // Background
+  ctx.fillStyle = '#0c1018';
+  ctx.fillRect(0, 0, W, H);
+
+  // Subtle grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 1;
+  const lonStep = 0.05, latStep = 0.02;
+  for (let lon = Math.floor(SEL.lonMin / lonStep) * lonStep; lon <= SEL.lonMax; lon += lonStep) {
+    const x = lx(lon); ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  }
+  for (let lat = Math.floor(SEL.latMin / latStep) * latStep; lat <= SEL.latMax; lat += latStep) {
+    const y = ly(lat); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  }
+
+  // Bounding box fill
+  const bx1 = lx(SEL.lonMin), bx2 = lx(SEL.lonMax);
+  const by1 = ly(SEL.latMax), by2 = ly(SEL.latMin);
+  ctx.fillStyle = 'rgba(74,222,128,0.15)';
+  ctx.fillRect(bx1, by1, bx2 - bx1, by2 - by1);
+  ctx.strokeStyle = '#4ade80';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(bx1, by1, bx2 - bx1, by2 - by1);
+
+  // Centre cross
+  const cx = lx(-72.5685), cy = ly(4.4272);
+  ctx.strokeStyle = '#4ade80';
+  ctx.lineWidth = 1;
+  ctx.setLineDash([3, 3]);
+  ctx.beginPath(); ctx.moveTo(cx - 10, cy); ctx.lineTo(cx + 10, cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx, cy - 10); ctx.lineTo(cx, cy + 10); ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Labels
+  ctx.fillStyle = '#4ade80';
+  ctx.font = '500 11px Inter, sans-serif';
+  ctx.fillText('C-2340 · 10 437 ha', bx1 + 6, by1 + 16);
+  ctx.fillStyle = 'rgba(74,222,128,0.6)';
+  ctx.font = '10px JetBrains Mono, monospace';
+  ctx.fillText('-72.5685°, 4.4272°N', cx + 6, cy - 4);
+
+  // Degree labels
+  ctx.fillStyle = 'rgba(255,255,255,0.25)';
+  ctx.font = '9px JetBrains Mono, monospace';
+  ctx.fillText(SEL.lonMin.toFixed(2) + '°', lx(SEL.lonMin) + 2, H - 4);
+  ctx.fillText(SEL.lonMax.toFixed(2) + '°', lx(SEL.lonMax) - 38, H - 4);
+  ctx.fillText(SEL.latMin.toFixed(2) + '°N', 3, ly(SEL.latMin) - 3);
+  ctx.fillText(SEL.latMax.toFixed(2) + '°N', 3, ly(SEL.latMax) + 12);
+}
+
+// ── RESIZE ────────────────────────────────────────────────
+const ro = new ResizeObserver(() => {
+  drawMap();
+  if (document.getElementById('t2').classList.contains('active')) drawSelected();
+});
+ro.observe(mapCanvas.parentElement);
+ro.observe(selCanvas.parentElement);
+
+// Initial draw
+requestAnimationFrame(() => {
+  drawMap();
+});
+</script>
