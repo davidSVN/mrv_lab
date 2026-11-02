@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
 <style>
-/* Layout: sticky header, two-panel grid, deliberate dark-only (GIS/satellite tool) */
+/* Layout: sticky header + two-tab geographic map — deliberate dark theme (GIS/satellite tool) */
 :root {
   --bg: #0c1018;
   --sur: #141924;
@@ -18,7 +18,6 @@
   --amb: #fbbf24;
   --amb-dim: rgba(251,191,36,.1);
   --bdr: rgba(255,255,255,.06);
-  --bdr2: rgba(255,255,255,.1);
   color-scheme: dark;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -69,162 +68,109 @@ body::before{
 .card{background:var(--sur);border:1px solid var(--bdr);border-radius:8px;overflow:hidden}
 .card-hdr{
   padding:10px 14px;border-bottom:1px solid var(--bdr);
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
 }
-.card-ttl{
-  font-size:10px;font-weight:600;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--fg2);
-}
+.card-ttl{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--fg2)}
 .card-body{padding:14px}
 
-/* TAB 1 */
-.t1-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
-@media(max-width:680px){.t1-grid{grid-template-columns:1fr}}
+/* TAB 1 layout */
+.t1-grid{display:grid;grid-template-columns:1fr 340px;gap:16px;align-items:start}
+@media(max-width:720px){.t1-grid{grid-template-columns:1fr}}
 
+/* Tooltip */
+#tooltip{
+  position:fixed;z-index:50;
+  background:#1e2640;border:1px solid rgba(255,255,255,.12);
+  border-radius:6px;padding:10px 12px;
+  font-size:12px;pointer-events:none;
+  max-width:220px;
+  opacity:0;transition:opacity .12s;
+}
+#tooltip.vis{opacity:1}
+.tt-name{font-weight:600;color:var(--fg);margin-bottom:4px}
+.tt-row{display:flex;justify-content:space-between;gap:12px;color:var(--fg2)}
+.tt-val{font-family:'JetBrains Mono',monospace;color:var(--fg);font-variant-numeric:tabular-nums}
+.tt-badge{
+  display:inline-block;margin-top:5px;
+  font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px;
+}
+.tt-sel{background:var(--acc);color:#0c1018}
+.tt-ok{background:var(--acc-dim);color:var(--acc);border:1px solid rgba(74,222,128,.25)}
+.tt-no{background:rgba(255,255,255,.04);color:var(--fg3);border:1px solid var(--bdr)}
+
+/* Map canvas */
 #mapCanvas{display:block;width:100%;cursor:crosshair}
-.map-legend{
-  padding:8px 14px;display:flex;gap:16px;flex-wrap:wrap;
-  border-top:1px solid var(--bdr);
+.map-footer{
+  padding:8px 14px;display:flex;align-items:center;gap:16px;
+  border-top:1px solid var(--bdr);flex-wrap:wrap;
 }
 .leg-item{display:flex;align-items:center;gap:6px;font-size:11px;color:var(--fg2)}
 .leg-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
 
-/* Candidate rows */
+/* Candidate list */
 .cand-row{
-  display:grid;grid-template-columns:20px 1fr 1fr auto;
+  display:grid;grid-template-columns:20px 80px 1fr auto;
   gap:8px;align-items:center;padding:10px 14px;
   border-bottom:1px solid var(--bdr);cursor:pointer;
   transition:background .1s;
 }
 .cand-row:last-child{border-bottom:none}
-.cand-row:hover{background:var(--sur2)}
-.cand-row.hi{background:var(--acc-dim)}
+.cand-row:hover,.cand-row.hi{background:var(--sur2)}
 .cand-row.sel{background:var(--acc-dim);border-left:3px solid var(--acc)}
-
 .rk{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg3)}
 .area-wrap{min-width:0}
-.area-val{
-  font-family:'JetBrains Mono',monospace;font-size:12px;
-  font-variant-numeric:tabular-nums;color:var(--fg);
-}
+.area-val{font-family:'JetBrains Mono',monospace;font-size:12px;font-variant-numeric:tabular-nums;color:var(--fg)}
 .bar-bg{height:3px;background:var(--sur3);border-radius:2px;margin-top:3px}
-.bar-fill{height:3px;border-radius:2px;background:var(--teal)}
+.bar-fill{height:3px;border-radius:2px}
 .cand-id{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg2)}
-.cand-coords{
-  font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3);
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
-}
-.badge{
-  font-size:10px;font-weight:600;padding:2px 6px;
-  border-radius:3px;letter-spacing:.03em;white-space:nowrap;
-}
-.b-green{background:var(--acc-dim);color:var(--acc);border:1px solid rgba(74,222,128,.25)}
-.b-grey{background:rgba(255,255,255,.04);color:var(--fg3);border:1px solid var(--bdr)}
+.cand-coords{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{font-size:10px;font-weight:600;padding:2px 6px;border-radius:3px;letter-spacing:.03em;white-space:nowrap}
 .b-sel{background:var(--acc);color:#0c1018;font-weight:700}
+.b-ok{background:var(--acc-dim);color:var(--acc);border:1px solid rgba(74,222,128,.25)}
+.b-no{background:rgba(255,255,255,.04);color:var(--fg3);border:1px solid var(--bdr)}
 
 /* TAB 2 */
 .t2-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:680px){.t2-grid{grid-template-columns:1fr}}
-
-.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:0}
+#selCanvas{display:block;width:100%}
+.metrics-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 @media(max-width:500px){.metrics-row{grid-template-columns:1fr 1fr}}
-.metric{
-  background:var(--sur2);border:1px solid var(--bdr);
-  border-radius:6px;padding:12px;
-}
-.m-val{
-  font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;
-  color:var(--acc);font-variant-numeric:tabular-nums;line-height:1.2;
-}
+.metric{background:var(--sur2);border:1px solid var(--bdr);border-radius:6px;padding:12px}
+.m-val{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;color:var(--acc);font-variant-numeric:tabular-nums;line-height:1.2}
 .m-unit{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)}
 .m-lbl{font-size:11px;color:var(--fg2);margin-top:3px}
-
-/* Criteria */
 .crit-list{display:flex;flex-direction:column;gap:8px}
-.crit{
-  display:flex;align-items:flex-start;gap:10px;
-  padding:10px 12px;border-radius:6px;
-  background:var(--sur2);border:1px solid var(--bdr);
-}
+.crit{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border-radius:6px;background:var(--sur2);border:1px solid var(--bdr)}
 .crit.pass{border-left:3px solid var(--acc)}
 .crit.pend{border-left:3px solid var(--amb)}
-.crit-ico{font-size:15px;margin-top:0;flex-shrink:0}
-.crit-name{font-size:13px;font-weight:500;color:var(--fg)}
-.crit-detail{
-  font-family:'JetBrains Mono',monospace;font-size:11px;
-  color:var(--fg2);margin-top:2px;
-}
-.crit-pend{color:var(--amb)}
-
-/* Reasons */
+.crit-name{font-size:13px;font-weight:500}
+.crit-detail{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg2);margin-top:2px}
 .reasons{display:flex;flex-direction:column;gap:8px}
-.reason{
-  display:flex;gap:14px;padding:10px 12px;
-  background:var(--sur2);border-radius:6px;border:1px solid var(--bdr);
-}
-.r-num{
-  font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;
-  color:var(--fg3);line-height:1.1;flex-shrink:0;margin-top:1px;
-}
+.reason{display:flex;gap:14px;padding:10px 12px;background:var(--sur2);border-radius:6px;border:1px solid var(--bdr)}
+.r-num{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:500;color:var(--fg3);line-height:1.1;flex-shrink:0;margin-top:1px}
 .r-txt{font-size:13px;color:var(--fg);line-height:1.5}
-.r-sub{
-  font-family:'JetBrains Mono',monospace;font-size:11px;
-  color:var(--fg2);margin-top:3px;
-}
-
-/* Sources */
-.src-list{display:flex;flex-direction:column;gap:0}
-.src-row{
-  display:flex;align-items:flex-start;gap:10px;
-  font-size:12px;color:var(--fg2);
-  padding:8px 0;border-bottom:1px solid var(--bdr);
-}
+.r-sub{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fg2);margin-top:3px}
+.notice{margin-top:12px;padding:10px 12px;background:var(--amb-dim);border:1px solid rgba(251,191,36,.2);border-radius:6px;font-size:12px;color:var(--amb);display:flex;gap:8px}
+.src-list{display:flex;flex-direction:column}
+.src-row{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--fg2);padding:8px 0;border-bottom:1px solid var(--bdr)}
 .src-row:last-child{border-bottom:none}
-.src-tag{
-  font-family:'JetBrains Mono',monospace;font-size:10px;
-  padding:2px 6px;border-radius:3px;
-  background:var(--teal-dim);color:var(--teal);
-  border:1px solid rgba(34,211,238,.15);white-space:nowrap;flex-shrink:0;
-}
-
-/* Coords grid */
-.coord-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
-.coord-item{background:var(--sur2);border-radius:4px;padding:8px 10px}
-.coord-lbl{
-  font-size:10px;color:var(--fg3);letter-spacing:.07em;
-  text-transform:uppercase;font-weight:500;
-}
-.coord-val{
-  font-family:'JetBrains Mono',monospace;font-size:12px;
-  color:var(--fg);margin-top:2px;font-variant-numeric:tabular-nums;
-}
-
-/* Pending notice */
-.notice-amber{
-  margin-top:12px;padding:10px 12px;
-  background:var(--amb-dim);border:1px solid rgba(251,191,36,.2);
-  border-radius:6px;font-size:12px;color:var(--amb);
-  display:flex;gap:8px;align-items:flex-start;
-}
-
-#selCanvas{display:block;width:100%}
-
-/* Stats strip */
-.stats-strip{
-  display:flex;gap:16px;flex-wrap:wrap;padding:10px 14px;
-  border-top:1px solid var(--bdr);
-}
-.stat-kv{display:flex;flex-direction:column}
-.stat-k{font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.07em}
-.stat-v{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--fg2);font-variant-numeric:tabular-nums}
+.src-tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:3px;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(34,211,238,.15);white-space:nowrap;flex-shrink:0}
 </style>
+
+<!-- TOOLTIP (outside card) -->
+<div id="tooltip">
+  <div class="tt-name" id="tt-name">—</div>
+  <div class="tt-row"><span>Área</span><span class="tt-val" id="tt-area">—</span></div>
+  <div class="tt-row"><span>Centro</span><span class="tt-val" id="tt-ctr">—</span></div>
+  <div id="tt-badge"></div>
+</div>
 
 <!-- HEADER -->
 <header class="hdr">
   <div class="hdr-top">
     <span class="hdr-badge">ERW · Analysis 06</span>
     <span class="hdr-title">Altillanura Field Explorer</span>
-    <span class="hdr-sub">Meta, Colombia · WorldCover 2021 · CopDEM GLO-30</span>
+    <span class="hdr-sub">Meta, Colombia · formas reales · escala geográfica</span>
   </div>
   <nav class="tabs">
     <button class="tab-btn active" data-tab="t1">Candidatos (10)</button>
@@ -234,444 +180,414 @@ body::before{
 
 <div class="content">
 
-<!-- TAB 1: ALL CANDIDATES -->
+<!-- TAB 1 -->
 <div class="tab-panel active" id="t1">
   <div class="t1-grid">
-
     <div class="card">
       <div class="card-hdr">
-        <span class="card-ttl">Mapa de Candidatos</span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)">búsqueda 3.5–5.0°N · 73.5–71.5°W</span>
+        <span class="card-ttl">Mapa — formas reales de los parches</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)">proyección equirrectangular · cos(4.2°) · WorldCover + CopDEM</span>
       </div>
       <canvas id="mapCanvas"></canvas>
-      <div class="map-legend">
-        <div class="leg-item"><div class="leg-dot" style="background:#4ade80"></div>Seleccionado</div>
-        <div class="leg-item"><div class="leg-dot" style="background:#22d3ee"></div>Cumple criterios</div>
+      <div class="map-footer">
+        <div class="leg-item"><div class="leg-dot" style="background:#4ade80"></div>Seleccionado (C-2340)</div>
+        <div class="leg-item"><div class="leg-dot" style="background:#22d3ee"></div>Cumple ≥ 5000 ha</div>
         <div class="leg-item"><div class="leg-dot" style="background:#4a5268"></div>No cumple área</div>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3);margin-left:auto" id="scaleLabel">—</span>
       </div>
     </div>
-
     <div class="card">
       <div class="card-hdr">
-        <span class="card-ttl">Top 10 Componentes ≥ 500 ha</span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)">de 50 componentes</span>
+        <span class="card-ttl">Top 10 Componentes</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)">de 50 ≥ 500 ha</span>
       </div>
       <div id="candList"></div>
     </div>
-
   </div>
 </div>
 
-<!-- TAB 2: SELECTED POLYGON -->
+<!-- TAB 2 -->
 <div class="tab-panel" id="t2">
   <div class="t2-grid">
-
-    <!-- LEFT COLUMN -->
     <div style="display:flex;flex-direction:column;gap:16px">
-
       <div class="card">
         <div class="card-hdr">
-          <span class="card-ttl">Mapa del Polígono</span>
-          <span class="badge b-sel" style="font-size:11px">Componente 2340</span>
+          <span class="card-ttl">Forma real del polígono</span>
+          <span class="badge b-sel" style="font-size:11px">C-2340 · 10 437 ha</span>
         </div>
         <canvas id="selCanvas"></canvas>
-        <div class="stats-strip">
-          <div class="stat-kv">
-            <span class="stat-k">Centro Lon</span>
-            <span class="stat-v">-72.5685°</span>
+        <div class="map-footer" style="gap:12px">
+          <div style="display:flex;flex-direction:column">
+            <span style="font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.07em">Centro Lon</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-variant-numeric:tabular-nums">-72.5685°</span>
           </div>
-          <div class="stat-kv">
-            <span class="stat-k">Centro Lat</span>
-            <span class="stat-v">4.4272°</span>
+          <div style="display:flex;flex-direction:column">
+            <span style="font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.07em">Centro Lat</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;font-variant-numeric:tabular-nums">4.4272°N</span>
           </div>
-          <div class="stat-kv">
-            <span class="stat-k">Ancho</span>
-            <span class="stat-v">~40 km</span>
+          <div style="display:flex;flex-direction:column">
+            <span style="font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.07em">Ext. E–O</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px">~41 km</span>
           </div>
-          <div class="stat-kv">
-            <span class="stat-k">Alto</span>
-            <span class="stat-v">~7 km</span>
+          <div style="display:flex;flex-direction:column">
+            <span style="font-size:10px;color:var(--fg3);text-transform:uppercase;letter-spacing:.07em">Ext. N–S</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px">~7 km</span>
           </div>
         </div>
       </div>
-
       <div class="card">
-        <div class="card-hdr"><span class="card-ttl">Métricas Clave</span></div>
+        <div class="card-hdr"><span class="card-ttl">Métricas</span></div>
         <div class="card-body">
           <div class="metrics-row">
             <div class="metric">
               <div class="m-val">10<span class="m-unit" style="font-size:14px">,</span>437</div>
-              <div class="m-unit">ha</div>
-              <div class="m-lbl">Área total</div>
+              <div class="m-unit">ha</div><div class="m-lbl">Área total</div>
             </div>
             <div class="metric">
-              <div class="m-val">10<span class="m-unit" style="font-size:14px">,</span>437</div>
-              <div class="m-unit">celdas 100 m</div>
-              <div class="m-lbl">Resolución análisis</div>
+              <div class="m-val" style="font-size:16px">Rank 1</div>
+              <div class="m-unit">de 50</div><div class="m-lbl">Componentes</div>
             </div>
             <div class="metric">
-              <div class="m-val" style="font-size:16px">Rank #1</div>
-              <div class="m-unit">de 50</div>
-              <div class="m-lbl">Componentes</div>
-            </div>
-          </div>
-          <div class="coord-grid">
-            <div class="coord-item">
-              <div class="coord-lbl">Lon mín</div>
-              <div class="coord-val">-72.7523°</div>
-            </div>
-            <div class="coord-item">
-              <div class="coord-lbl">Lon máx</div>
-              <div class="coord-val">-72.3847°</div>
-            </div>
-            <div class="coord-item">
-              <div class="coord-lbl">Lat mín</div>
-              <div class="coord-val">4.3960°N</div>
-            </div>
-            <div class="coord-item">
-              <div class="coord-lbl">Lat máx</div>
-              <div class="coord-val">4.4584°N</div>
+              <div class="m-val">205</div>
+              <div class="m-unit">vértices</div><div class="m-lbl">Polígono simplif.</div>
             </div>
           </div>
         </div>
       </div>
-
-      <div class="card">
-        <div class="card-hdr"><span class="card-ttl">Fuentes de Datos</span></div>
-        <div class="card-body">
-          <div class="src-list">
-            <div class="src-row">
-              <span class="src-tag">CC BY 4.0</span>
-              <span>ESA WorldCover 2021 v200 — cobertura cropland (clase 40), 10 m</span>
-            </div>
-            <div class="src-row">
-              <span class="src-tag">Copernicus</span>
-              <span>Copernicus DEM GLO-30 — pendiente calculada por diferencias centrales, 30 m</span>
-            </div>
-            <div class="src-row" style="color:var(--amb)">
-              <span class="src-tag" style="background:var(--amb-dim);color:var(--amb);border-color:rgba(251,191,36,.2)">PENDIENTE</span>
-              <span>SoilGrids 2.0 ISRIC — verificación Oxisol / WRB Ferralsol</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
-
-    <!-- RIGHT COLUMN -->
     <div style="display:flex;flex-direction:column;gap:16px">
-
       <div class="card">
         <div class="card-hdr"><span class="card-ttl">Criterios de Selección</span></div>
         <div class="card-body">
           <div class="crit-list">
-            <div class="crit pass">
-              <span class="crit-ico">✓</span>
-              <div>
-                <div class="crit-name">Cobertura cropland</div>
-                <div class="crit-detail">WorldCover clase 40 · 100% del parche</div>
-              </div>
-            </div>
-            <div class="crit pass">
-              <span class="crit-ico">✓</span>
-              <div>
-                <div class="crit-name">Pendiente &lt; 3°</div>
-                <div class="crit-detail">CopDEM GLO-30 · todas las celdas del parche</div>
-              </div>
-            </div>
-            <div class="crit pass">
-              <span class="crit-ico">✓</span>
-              <div>
-                <div class="crit-name">Área ≥ 5 000 ha</div>
-                <div class="crit-detail">10 437 ha · cumple 2.1× el mínimo</div>
-              </div>
-            </div>
-            <div class="crit pass">
-              <span class="crit-ico">✓</span>
-              <div>
-                <div class="crit-name">Parche contiguo</div>
-                <div class="crit-detail">4-conectividad · componente único 2340</div>
-              </div>
-            </div>
-            <div class="crit pass">
-              <span class="crit-ico">✓</span>
-              <div>
-                <div class="crit-name">Corredor Puerto López–Puerto Gaitán</div>
-                <div class="crit-detail">centro -72.57°W, 4.43°N · Altillanura Meta</div>
-              </div>
-            </div>
-            <div class="crit pend">
-              <span class="crit-ico" style="color:var(--amb)">⚠</span>
-              <div>
-                <div class="crit-name" style="color:var(--amb)">Dominio Oxisol / Ferralsol</div>
-                <div class="crit-detail crit-pend">Verificación SoilGrids 2.0 WRB pendiente · API 503</div>
-              </div>
-            </div>
+            <div class="crit pass"><span style="font-size:14px">✓</span><div><div class="crit-name">Cobertura cropland</div><div class="crit-detail">WorldCover clase 40 · 100% del parche</div></div></div>
+            <div class="crit pass"><span style="font-size:14px">✓</span><div><div class="crit-name">Pendiente &lt; 3°</div><div class="crit-detail">CopDEM GLO-30 · todas las celdas</div></div></div>
+            <div class="crit pass"><span style="font-size:14px">✓</span><div><div class="crit-name">Área ≥ 5 000 ha</div><div class="crit-detail">10 437 ha · cumple 2.1× el mínimo</div></div></div>
+            <div class="crit pass"><span style="font-size:14px">✓</span><div><div class="crit-name">Parche contiguo (4-conectividad)</div><div class="crit-detail">componente único 2340</div></div></div>
+            <div class="crit pass"><span style="font-size:14px">✓</span><div><div class="crit-name">Corredor Puerto López–Puerto Gaitán</div><div class="crit-detail">centro -72.57°W, 4.43°N · Altillanura</div></div></div>
+            <div class="crit pend"><span style="font-size:14px;color:var(--amb)">⚠</span><div><div class="crit-name" style="color:var(--amb)">Oxisol / Ferralsol</div><div class="crit-detail" style="color:var(--amb)">SoilGrids WRB pendiente — API 503</div></div></div>
           </div>
-          <div class="notice-amber">
-            <span>⚠</span>
-            <span>El criterio Oxisol no está verificado aún. La capa WRB de SoilGrids devolvió error 503. Se necesita acceso WebDAV/WCS antes de cerrar la selección.</span>
-          </div>
+          <div class="notice"><span>⚠</span><span>El criterio Oxisol no está verificado. SoilGrids devolvió error 503. Requiere acceso WebDAV/WCS antes de cerrar la selección.</span></div>
         </div>
       </div>
-
       <div class="card">
         <div class="card-hdr"><span class="card-ttl">Por qué este polígono</span></div>
         <div class="card-body">
           <div class="reasons">
-            <div class="reason">
-              <div class="r-num">01</div>
-              <div>
-                <div class="r-txt">El mayor componente contiguo del área de búsqueda</div>
-                <div class="r-sub">10 437 ha vs. 7 878 ha del #2 (+32 %)</div>
-              </div>
-            </div>
-            <div class="reason">
-              <div class="r-num">02</div>
-              <div>
-                <div class="r-txt">Solo 3 de 50 componentes superan los 5 000 ha</div>
-                <div class="r-sub">≥ 5 000 ha necesarios para representatividad estadística de MRV</div>
-              </div>
-            </div>
-            <div class="reason">
-              <div class="r-num">03</div>
-              <div>
-                <div class="r-txt">Ubicado en el núcleo del corredor Altillanura</div>
-                <div class="r-sub">suelos Oxisol típicos · llano plano · agricultura extensiva de soya/maíz</div>
-              </div>
-            </div>
-            <div class="reason">
-              <div class="r-num">04</div>
-              <div>
-                <div class="r-txt">Acceso potencial a datos IDEAM y IGAC</div>
-                <div class="r-sub">estaciones hidrometeorológicas en radio de ~80 km</div>
-              </div>
-            </div>
+            <div class="reason"><div class="r-num">01</div><div><div class="r-txt">Mayor componente contiguo del área de búsqueda</div><div class="r-sub">10 437 ha vs. 7 878 ha del #2 (+32 %)</div></div></div>
+            <div class="reason"><div class="r-num">02</div><div><div class="r-txt">Solo 3 de 50 superan los 5 000 ha</div><div class="r-sub">mínimo para representatividad estadística MRV</div></div></div>
+            <div class="reason"><div class="r-num">03</div><div><div class="r-txt">Núcleo del corredor Altillanura</div><div class="r-sub">suelos Oxisol típicos · soya/maíz extensivo</div></div></div>
+            <div class="reason"><div class="r-num">04</div><div><div class="r-txt">Acceso a datos IDEAM e IGAC</div><div class="r-sub">estaciones hidrometeorológicas en ~80 km</div></div></div>
           </div>
         </div>
       </div>
-
+      <div class="card">
+        <div class="card-hdr"><span class="card-ttl">Fuentes</span></div>
+        <div class="card-body">
+          <div class="src-list">
+            <div class="src-row"><span class="src-tag">CC BY 4.0</span><span>ESA WorldCover 2021 v200 — cropland clase 40, 10 m</span></div>
+            <div class="src-row"><span class="src-tag">Copernicus</span><span>Copernicus DEM GLO-30 — pendiente por diferencias centrales, 30 m</span></div>
+            <div class="src-row" style="color:var(--amb)"><span class="src-tag" style="background:var(--amb-dim);color:var(--amb);border-color:rgba(251,191,36,.2)">PENDIENTE</span><span>SoilGrids 2.0 ISRIC — WRB Ferralsol / Oxisol</span></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div><!-- /t2 -->
+</div>
 
 </div><!-- /content -->
 
 <script>
-// ── DATA ─────────────────────────────────────────────────
-const SEARCH = { lonMin: -73.5, lonMax: -71.5, latMin: 3.5, latMax: 5.0 };
+// ── POLYGON DATA (simplified ~165m tolerance, Shapely 2.2) ───────────────
+const DATA = {"polys":[{"id":2340,"area":10437.0,"meets":true,"sel":true,"c":[[-72.72703,4.45841],[-72.72793,4.45389],[-72.74234,4.4557],[-72.75225,4.45389],[-72.75225,4.45208],[-72.74685,4.45027],[-72.73063,4.45118],[-72.73153,4.44756],[-72.73694,4.44846],[-72.73694,4.44665],[-72.72432,4.44846],[-72.72883,4.44665],[-72.73153,4.44394],[-72.73874,4.44394],[-72.73874,4.44575],[-72.74054,4.44394],[-72.73514,4.44033],[-72.72703,4.44033],[-72.73153,4.43852],[-72.71892,4.4358],[-72.73063,4.4349],[-72.73333,4.43761],[-72.74234,4.43761],[-72.73964,4.43671],[-72.74054,4.4349],[-72.74685,4.43671],[-72.74685,4.4349],[-72.74955,4.4349],[-72.74865,4.43309],[-72.73964,4.43309],[-72.74234,4.43128],[-72.73694,4.42857],[-72.71982,4.42676],[-72.70631,4.42948],[-72.7,4.43309],[-72.69099,4.43128],[-72.7027,4.42857],[-72.70721,4.42495],[-72.6973,4.42315],[-72.68018,4.42676],[-72.68108,4.42224],[-72.67117,4.42224],[-72.67027,4.42043],[-72.68468,4.42134],[-72.69009,4.41863],[-72.67658,4.4123],[-72.66937,4.41139],[-72.67207,4.40868],[-72.66847,4.40778],[-72.65495,4.40868],[-72.65225,4.4132],[-72.64054,4.4132],[-72.64234,4.41591],[-72.63874,4.41682],[-72.64054,4.41772],[-72.63874,4.42043],[-72.64414,4.42043],[-72.64234,4.42315],[-72.63874,4.42134],[-72.61982,4.42134],[-72.63694,4.42043],[-72.63694,4.4141],[-72.62793,4.4132],[-72.63694,4.40868],[-72.63423,4.40597],[-72.63784,4.40416],[-72.63423,4.40325],[-72.61622,4.40325],[-72.61532,4.4123],[-72.62432,4.4123],[-72.61892,4.4141],[-72.61802,4.42134],[-72.60721,4.42134],[-72.61351,4.41863],[-72.60991,4.41591],[-72.61081,4.40325],[-72.59369,4.40416],[-72.59369,4.41049],[-72.6036,4.41501],[-72.6036,4.41772],[-72.59099,4.41501],[-72.59009,4.41953],[-72.59279,4.42134],[-72.58288,4.42134],[-72.58559,4.42043],[-72.58559,4.4141],[-72.57838,4.41501],[-72.57838,4.40868],[-72.56937,4.40868],[-72.57297,4.40687],[-72.57297,4.40325],[-72.56757,4.40416],[-72.57027,4.40054],[-72.56306,4.39964],[-72.56216,4.39602],[-72.55946,4.39873],[-72.56126,4.40054],[-72.54865,4.40235],[-72.54775,4.40416],[-72.55045,4.40416],[-72.55045,4.40506],[-72.54595,4.40506],[-72.54865,4.40687],[-72.53604,4.40506],[-72.53694,4.40868],[-72.53333,4.40687],[-72.53333,4.40958],[-72.53964,4.40958],[-72.53874,4.4132],[-72.54234,4.41139],[-72.55495,4.41501],[-72.53604,4.4141],[-72.53514,4.41049],[-72.52973,4.40868],[-72.51982,4.40958],[-72.51892,4.4123],[-72.50991,4.41049],[-72.4991,4.4132],[-72.5036,4.42043],[-72.51351,4.42134],[-72.5009,4.42134],[-72.5027,4.41953],[-72.48919,4.41591],[-72.48919,4.4132],[-72.47928,4.4132],[-72.47387,4.41501],[-72.47568,4.42134],[-72.46757,4.42134],[-72.46847,4.42315],[-72.46036,4.42134],[-72.45766,4.42224],[-72.45766,4.42495],[-72.45405,4.42405],[-72.45495,4.42043],[-72.44685,4.42043],[-72.44414,4.41772],[-72.41441,4.41772],[-72.40631,4.42134],[-72.38468,4.42315],[-72.43874,4.43219],[-72.46036,4.42857],[-72.46306,4.42948],[-72.46486,4.434],[-72.47568,4.434],[-72.4955,4.42948],[-72.50631,4.43128],[-72.52883,4.43038],[-72.54144,4.42767],[-72.53784,4.42586],[-72.54144,4.42043],[-72.55405,4.42043],[-72.56396,4.41772],[-72.55856,4.41953],[-72.56036,4.42767],[-72.57387,4.42676],[-72.57477,4.42948],[-72.53694,4.43219],[-72.53694,4.434],[-72.54775,4.43671],[-72.57297,4.43761],[-72.58559,4.4349],[-72.6009,4.4349],[-72.5973,4.43852],[-72.58919,4.43761],[-72.58378,4.44033],[-72.56937,4.44123],[-72.59369,4.44213],[-72.59189,4.44033],[-72.5964,4.43942],[-72.5973,4.44575],[-72.6,4.44304],[-72.6036,4.44394],[-72.6036,4.44213],[-72.60541,4.44485],[-72.62793,4.44485],[-72.62703,4.44213],[-72.62973,4.44394],[-72.62973,4.44575],[-72.61712,4.44756],[-72.58378,4.44846],[-72.57297,4.45118],[-72.56937,4.45479],[-72.60901,4.4575],[-72.62883,4.45208],[-72.63153,4.44846],[-72.63243,4.45027],[-72.63694,4.44937],[-72.63604,4.45118],[-72.63694,4.45389],[-72.63153,4.45298],[-72.63333,4.45841],[-72.66036,4.45841],[-72.66036,4.4557],[-72.66306,4.4557],[-72.66306,4.4575],[-72.67117,4.4557],[-72.67207,4.44937],[-72.67658,4.44846],[-72.67568,4.45298],[-72.68829,4.45841],[-72.7009,4.4575],[-72.7045,4.45389],[-72.70901,4.45389],[-72.71532,4.45841],[-72.72703,4.45841]]},{"id":3065,"area":7878.0,"meets":true,"sel":false,"c":[[-72.28378,4.35714],[-72.2973,4.35624],[-72.2991,4.34991],[-72.31081,4.34629],[-72.31622,4.34177],[-72.31892,4.34177],[-72.31712,4.3481],[-72.32613,4.3472],[-72.32523,4.34901],[-72.32793,4.34991],[-72.34505,4.35262],[-72.35135,4.35081],[-72.35225,4.35353],[-72.35946,4.35443],[-72.35766,4.35262],[-72.36216,4.35081],[-72.36126,4.34539],[-72.37568,4.33725],[-72.37838,4.33454],[-72.37838,4.33002],[-72.38829,4.3264],[-72.38198,4.32369],[-72.39099,4.3255],[-72.3982,4.32278],[-72.44324,4.31826],[-72.43243,4.32459],[-72.45045,4.32459],[-72.45405,4.32098],[-72.44955,4.31917],[-72.45766,4.32007],[-72.46577,4.31736],[-72.46577,4.31555],[-72.42523,4.30922],[-72.42432,4.30561],[-72.43153,4.3047],[-72.43153,4.30289],[-72.42703,4.3038],[-72.42793,4.30108],[-72.42432,4.30108],[-72.42432,4.29928],[-72.43153,4.29656],[-72.44505,4.29837],[-72.44595,4.29566],[-72.45045,4.29566],[-72.45045,4.29295],[-72.45315,4.29566],[-72.46306,4.29656],[-72.4955,4.29295],[-72.51261,4.29566],[-72.51351,4.29204],[-72.50811,4.29114],[-72.51622,4.29114],[-72.51622,4.28933],[-72.51441,4.28481],[-72.50991,4.283],[-72.49369,4.29114],[-72.48378,4.29114],[-72.49099,4.28843],[-72.48829,4.28752],[-72.48919,4.28662],[-72.48829,4.28391],[-72.49369,4.28662],[-72.49279,4.28481],[-72.4973,4.28391],[-72.49459,4.28119],[-72.5,4.283],[-72.5036,4.28029],[-72.5,4.27939],[-72.5018,4.27758],[-72.4991,4.27758],[-72.4991,4.27486],[-72.49189,4.27848],[-72.48829,4.27486],[-72.49099,4.27215],[-72.48018,4.27125],[-72.46126,4.27848],[-72.45766,4.27667],[-72.45946,4.27486],[-72.45225,4.27577],[-72.45045,4.27939],[-72.45676,4.2821],[-72.45495,4.28481],[-72.46216,4.28391],[-72.46126,4.28843],[-72.44775,4.28571],[-72.44505,4.2821],[-72.43604,4.27939],[-72.43514,4.28119],[-72.43333,4.27939],[-72.42072,4.27939],[-72.42072,4.2821],[-72.41892,4.28029],[-72.40631,4.28119],[-72.41081,4.28391],[-72.39369,4.28391],[-72.39279,4.28752],[-72.38018,4.29024],[-72.39279,4.29476],[-72.42432,4.29114],[-72.40631,4.29747],[-72.40901,4.3047],[-72.38739,4.30108],[-72.36577,4.30018],[-72.36216,4.30108],[-72.36486,4.30199],[-72.36216,4.3038],[-72.36847,4.3047],[-72.36577,4.30741],[-72.37117,4.30741],[-72.37117,4.30922],[-72.36036,4.30741],[-72.36216,4.30561],[-72.35045,4.30741],[-72.35045,4.30561],[-72.35946,4.3047],[-72.36036,4.30199],[-72.35766,4.30108],[-72.34775,4.30289],[-72.34685,4.3047],[-72.34955,4.30561],[-72.33784,4.30651],[-72.33784,4.30832],[-72.33243,4.30832],[-72.33694,4.30741],[-72.33333,4.30561],[-72.31802,4.30561],[-72.31712,4.3038],[-72.30811,4.3047],[-72.30901,4.30741],[-72.3009,4.30651],[-72.3,4.30832],[-72.26577,4.30561],[-72.26577,4.30741],[-72.27387,4.30922],[-72.28378,4.30922],[-72.28378,4.31646],[-72.29099,4.31646],[-72.2982,4.31103],[-72.30901,4.31374],[-72.32342,4.31193],[-72.32162,4.31826],[-72.35676,4.31826],[-72.37207,4.31555],[-72.35946,4.32098],[-72.33964,4.32278],[-72.31982,4.32369],[-72.31892,4.32188],[-72.30901,4.32098],[-72.30541,4.32731],[-72.32613,4.32911],[-72.31712,4.33002],[-72.31441,4.33273],[-72.28559,4.33454],[-72.28378,4.33906],[-72.27027,4.33635],[-72.26667,4.33725],[-72.26937,4.33996],[-72.26036,4.33906],[-72.26216,4.34177],[-72.25495,4.34177],[-72.25586,4.34629],[-72.26306,4.3472],[-72.26577,4.34991],[-72.27117,4.34991],[-72.27207,4.35443],[-72.28108,4.35714],[-72.28288,4.35533],[-72.28378,4.35714]]},{"id":2630,"area":6647.0,"meets":true,"sel":false,"c":[[-71.84775,4.40958],[-71.84685,4.40687],[-71.84955,4.40597],[-71.84955,4.40235],[-71.85225,4.40145],[-71.85135,4.39783],[-71.86667,4.39512],[-71.86306,4.39783],[-71.86847,4.39873],[-71.87117,4.39602],[-71.86937,4.39421],[-71.87117,4.39241],[-71.87568,4.39331],[-71.87928,4.38788],[-71.9009,4.38788],[-71.9018,4.39873],[-71.92613,4.39964],[-71.92432,4.40145],[-71.91982,4.40145],[-71.92342,4.39964],[-71.91351,4.40145],[-71.91261,4.40325],[-71.91532,4.40235],[-71.91622,4.40506],[-71.94234,4.40597],[-71.94324,4.40416],[-71.93964,4.40235],[-71.94324,4.40145],[-71.94234,4.39873],[-71.93063,4.39873],[-71.93243,4.39602],[-71.92973,4.39512],[-71.93423,4.39331],[-71.92973,4.3906],[-71.92973,4.38788],[-71.91532,4.38969],[-71.91712,4.38156],[-71.9045,4.38065],[-71.90901,4.37703],[-71.90901,4.37432],[-71.92703,4.3689],[-71.92703,4.36709],[-71.92342,4.36709],[-71.92432,4.36528],[-71.91892,4.36438],[-71.92342,4.36166],[-71.91712,4.36166],[-71.91712,4.36438],[-71.90631,4.36257],[-71.91622,4.36166],[-71.91712,4.35895],[-71.92162,4.35895],[-71.92072,4.35714],[-71.92703,4.35714],[-71.92703,4.35533],[-71.92342,4.35533],[-71.92613,4.35081],[-71.93153,4.35172],[-71.93153,4.35353],[-71.92703,4.35353],[-71.93063,4.35624],[-71.93604,4.35262],[-71.93784,4.35443],[-71.93514,4.35714],[-71.94775,4.35714],[-71.94865,4.35986],[-71.96036,4.36076],[-71.96937,4.35714],[-71.96937,4.35533],[-71.97207,4.35714],[-71.97928,4.35443],[-71.98378,4.34991],[-71.95495,4.3481],[-71.95495,4.34629],[-71.93694,4.34901],[-71.93694,4.34539],[-71.93874,4.3481],[-71.94595,4.34448],[-71.93423,4.34268],[-71.93423,4.34087],[-71.92973,4.34268],[-71.92523,4.33906],[-71.93423,4.33996],[-71.93423,4.33816],[-71.92973,4.33725],[-71.93243,4.33454],[-71.93964,4.33544],[-71.94054,4.33906],[-71.94324,4.33725],[-71.94234,4.33363],[-71.92973,4.32821],[-71.91441,4.33092],[-71.91261,4.33454],[-71.90811,4.33363],[-71.9045,4.33092],[-71.89459,4.33002],[-71.9,4.3255],[-71.9,4.32278],[-71.89099,4.32278],[-71.89099,4.31826],[-71.88468,4.32007],[-71.88198,4.31826],[-71.87928,4.32821],[-71.88108,4.33002],[-71.86847,4.33273],[-71.86757,4.33454],[-71.87027,4.33725],[-71.84955,4.33454],[-71.85225,4.33725],[-71.85856,4.33725],[-71.85856,4.34087],[-71.85045,4.33816],[-71.84955,4.33996],[-71.85225,4.34268],[-71.85766,4.34268],[-71.85676,4.34448],[-71.86937,4.3481],[-71.86937,4.34991],[-71.86036,4.35081],[-71.86036,4.34629],[-71.85405,4.3472],[-71.85225,4.34539],[-71.84775,4.34629],[-71.85225,4.3481],[-71.83333,4.34991],[-71.83694,4.35081],[-71.83694,4.35624],[-71.86847,4.35624],[-71.86577,4.35805],[-71.87297,4.35714],[-71.87838,4.35986],[-71.86306,4.35895],[-71.86757,4.35986],[-71.86757,4.36166],[-71.84505,4.36166],[-71.84144,4.36347],[-71.84054,4.36166],[-71.82973,4.36166],[-71.82703,4.35895],[-71.81982,4.35805],[-71.81532,4.35895],[-71.81712,4.36438],[-71.82523,4.36438],[-71.82342,4.36709],[-71.82973,4.36618],[-71.83153,4.3698],[-71.83333,4.36709],[-71.84144,4.36709],[-71.84685,4.36799],[-71.84775,4.37071],[-71.84955,4.3698],[-71.85586,4.3698],[-71.85946,4.37342],[-71.86757,4.37251],[-71.86937,4.37432],[-71.87117,4.37251],[-71.87117,4.37613],[-71.86577,4.37523],[-71.86667,4.37794],[-71.85495,4.37884],[-71.85766,4.38065],[-71.84595,4.38156],[-71.84505,4.37884],[-71.85315,4.37975],[-71.85405,4.37613],[-71.84414,4.37523],[-71.83333,4.37613],[-71.83333,4.37794],[-71.82432,4.37975],[-71.82072,4.38336],[-71.82793,4.38969],[-71.82973,4.38969],[-71.82973,4.38698],[-71.84324,4.38788],[-71.84324,4.38969],[-71.84595,4.38788],[-71.84775,4.39421],[-71.84144,4.39512],[-71.84865,4.39512],[-71.84865,4.39964],[-71.84234,4.39964],[-71.84234,4.40597],[-71.84505,4.40687],[-71.84505,4.40958],[-71.84775,4.40958]]},{"id":2638,"area":4635.0,"meets":false,"sel":false,"c":[[-72.81712,4.40778],[-72.81802,4.40597],[-72.81532,4.40506],[-72.81892,4.40506],[-72.81892,4.40054],[-72.81532,4.39873],[-72.81892,4.39783],[-72.80721,4.39964],[-72.80721,4.39783],[-72.81712,4.39693],[-72.81712,4.39241],[-72.81982,4.3906],[-72.81802,4.38788],[-72.82072,4.38698],[-72.83063,4.38879],[-72.83243,4.38698],[-72.82793,4.38608],[-72.83243,4.38427],[-72.84865,4.38517],[-72.84955,4.38336],[-72.85135,4.38608],[-72.86036,4.38517],[-72.85856,4.38065],[-72.86126,4.37794],[-72.86937,4.37884],[-72.86667,4.38065],[-72.87207,4.38246],[-72.87477,4.38427],[-72.87477,4.38517],[-72.87568,4.38517],[-72.87568,4.38608],[-72.88198,4.38608],[-72.89099,4.38427],[-72.88739,4.37794],[-72.88919,4.37613],[-72.9,4.38246],[-72.9009,4.38065],[-72.90991,4.38156],[-72.91351,4.38065],[-72.91712,4.37523],[-72.92342,4.37432],[-72.92883,4.3689],[-72.94144,4.3689],[-72.94324,4.36528],[-72.95225,4.36709],[-72.95766,4.36347],[-72.96036,4.36347],[-72.96036,4.36528],[-72.95676,4.36618],[-72.95676,4.3698],[-72.96306,4.36528],[-72.97117,4.36528],[-72.97027,4.36709],[-72.97568,4.36799],[-72.98108,4.36618],[-72.98378,4.36347],[-72.98378,4.36076],[-72.97838,4.35895],[-72.97838,4.35714],[-72.94865,4.35895],[-72.94595,4.36166],[-72.94144,4.35895],[-72.92432,4.36257],[-72.92432,4.36438],[-72.91532,4.36438],[-72.91622,4.36618],[-72.90901,4.36528],[-72.87027,4.37161],[-72.86937,4.37342],[-72.87207,4.37342],[-72.87207,4.37432],[-72.86757,4.37432],[-72.86667,4.37251],[-72.86667,4.37432],[-72.85495,4.37523],[-72.85045,4.37794],[-72.83784,4.37703],[-72.82072,4.38065],[-72.82252,4.38246],[-72.80541,4.37975],[-72.8036,4.38427],[-72.7982,4.38246],[-72.7955,4.37703],[-72.79099,4.37613],[-72.7991,4.37613],[-72.8027,4.37342],[-72.80991,4.37432],[-72.80991,4.37251],[-72.82342,4.37523],[-72.82973,4.37342],[-72.82973,4.37161],[-72.83333,4.37161],[-72.83063,4.37342],[-72.85676,4.37161],[-72.86306,4.3689],[-72.88829,4.36618],[-72.89099,4.36528],[-72.89009,4.36347],[-72.8955,4.36438],[-72.9,4.35986],[-72.91261,4.35986],[-72.83874,4.35895],[-72.86757,4.35805],[-72.85946,4.35443],[-72.82793,4.35714],[-72.82342,4.36076],[-72.82703,4.36166],[-72.82703,4.36347],[-72.82883,4.36347],[-72.82883,4.36438],[-72.81892,4.36528],[-72.81982,4.36257],[-72.81712,4.36076],[-72.80631,4.36438],[-72.8,4.3689],[-72.7982,4.36709],[-72.78649,4.37071],[-72.79099,4.37251],[-72.79459,4.37161],[-72.79459,4.37342],[-72.78829,4.37432],[-72.78468,4.37161],[-72.78288,4.37432],[-72.77658,4.37432],[-72.77748,4.37703],[-72.77568,4.37794],[-72.77928,4.37703],[-72.77568,4.38156],[-72.77748,4.38427],[-72.77568,4.38427],[-72.77568,4.38698],[-72.77297,4.38517],[-72.77387,4.38788],[-72.76937,4.38788],[-72.77027,4.38969],[-72.76757,4.38879],[-72.76757,4.3906],[-72.77117,4.3906],[-72.76937,4.39421],[-72.75315,4.39241],[-72.75495,4.39602],[-72.74865,4.39602],[-72.74685,4.40145],[-72.74865,4.40506],[-72.76577,4.40506],[-72.76577,4.40325],[-72.76937,4.40506],[-72.77748,4.40325],[-72.77658,4.40506],[-72.77838,4.40506],[-72.78378,4.40325],[-72.78378,4.40054],[-72.78829,4.40235],[-72.78919,4.39964],[-72.79099,4.40145],[-72.79279,4.40054],[-72.79099,4.39783],[-72.79369,4.39783],[-72.79369,4.39873],[-72.7955,4.39873],[-72.7973,4.39964],[-72.7973,4.40054],[-72.8036,4.40054],[-72.8027,4.40235],[-72.80631,4.40235],[-72.80811,4.40597],[-72.81712,4.40778]]},{"id":3874,"area":3514.0,"meets":false,"sel":false,"c":[[-72.65405,4.27486],[-72.65405,4.27306],[-72.68559,4.26582],[-72.74144,4.25949],[-72.74144,4.25316],[-72.75495,4.25226],[-72.75586,4.24593],[-72.75946,4.24774],[-72.76126,4.24231],[-72.76577,4.2396],[-72.76577,4.23689],[-72.76036,4.23779],[-72.76306,4.23508],[-72.75495,4.23418],[-72.75946,4.23056],[-72.74775,4.23146],[-72.75045,4.22694],[-72.75586,4.22514],[-72.75586,4.22333],[-72.75946,4.22423],[-72.75766,4.22694],[-72.76036,4.22694],[-72.76036,4.22423],[-72.76577,4.22333],[-72.76667,4.22694],[-72.77477,4.22875],[-72.77838,4.22423],[-72.78108,4.22604],[-72.78468,4.22333],[-72.78108,4.22061],[-72.78108,4.217],[-72.77748,4.21609],[-72.77207,4.217],[-72.77568,4.21971],[-72.77568,4.22242],[-72.77207,4.22242],[-72.77027,4.22604],[-72.76847,4.22604],[-72.77027,4.22333],[-72.76577,4.22152],[-72.76937,4.2179],[-72.76486,4.21881],[-72.76486,4.22061],[-72.76126,4.2179],[-72.75135,4.2179],[-72.75315,4.22061],[-72.75045,4.22333],[-72.74955,4.20796],[-72.73063,4.20886],[-72.72523,4.20976],[-72.72523,4.21157],[-72.70991,4.21067],[-72.70991,4.23056],[-72.72523,4.22875],[-72.73333,4.22242],[-72.73694,4.22242],[-72.73694,4.22604],[-72.71712,4.23237],[-72.71351,4.24322],[-72.72793,4.2396],[-72.74144,4.24051],[-72.73243,4.24051],[-72.7027,4.24774],[-72.68739,4.2604],[-72.68559,4.25859],[-72.6973,4.24864],[-72.67748,4.25045],[-72.66757,4.25769],[-72.66757,4.2604],[-72.67838,4.2604],[-72.68378,4.2613],[-72.68378,4.26311],[-72.66396,4.2613],[-72.65045,4.27306],[-72.65405,4.27486]]},{"id":3417,"area":3023.0,"meets":false,"sel":false,"c":[[-73.16306,4.30741],[-73.16126,4.30561],[-73.16396,4.3038],[-73.17387,4.30289],[-73.17748,4.29837],[-73.16937,4.29747],[-73.16757,4.29928],[-73.16847,4.29656],[-73.16216,4.29566],[-73.18198,4.29476],[-73.18468,4.29024],[-73.19099,4.28843],[-73.18649,4.28662],[-73.18649,4.28391],[-73.17748,4.28119],[-73.1955,4.2821],[-73.1973,4.27939],[-73.19279,4.27848],[-73.1964,4.27758],[-73.19369,4.27577],[-73.18468,4.27577],[-73.17838,4.26944],[-73.16396,4.26944],[-73.16396,4.26763],[-73.17477,4.26582],[-73.17387,4.2604],[-73.19099,4.2604],[-73.19009,4.25859],[-73.19459,4.25588],[-73.19279,4.25407],[-73.1955,4.25407],[-73.1964,4.25136],[-73.20631,4.25226],[-73.2018,4.24955],[-73.20811,4.24955],[-73.21081,4.24684],[-73.21171,4.24684],[-73.21171,4.24774],[-73.21441,4.24684],[-73.21441,4.24864],[-73.21622,4.24864],[-73.21532,4.24593],[-73.21892,4.24322],[-73.1991,4.2396],[-73.19099,4.24141],[-73.18829,4.2396],[-73.18919,4.23779],[-73.18288,4.23508],[-73.17658,4.2387],[-73.17748,4.24412],[-73.17838,4.24231],[-73.18559,4.24412],[-73.19189,4.24231],[-73.18919,4.24503],[-73.19369,4.24774],[-73.16216,4.24774],[-73.15135,4.25136],[-73.16036,4.25407],[-73.15766,4.25678],[-73.15045,4.25497],[-73.15045,4.25769],[-73.15405,4.25769],[-73.15315,4.25949],[-73.16757,4.25407],[-73.17477,4.25407],[-73.16036,4.25949],[-73.15856,4.26221],[-73.16216,4.26582],[-73.15586,4.26311],[-73.14505,4.26582],[-73.14234,4.2613],[-73.15225,4.2604],[-73.14775,4.25588],[-73.14955,4.25407],[-73.13243,4.25497],[-73.13153,4.25678],[-73.13333,4.25588],[-73.13964,4.25588],[-73.14144,4.25859],[-73.12883,4.25769],[-73.11982,4.26311],[-73.11171,4.25949],[-73.10901,4.2604],[-73.10901,4.25859],[-73.1036,4.25949],[-73.1027,4.26311],[-73.11171,4.26221],[-73.11171,4.26401],[-73.1009,4.26763],[-73.1009,4.26944],[-73.10901,4.26944],[-73.11081,4.27125],[-73.0964,4.27215],[-73.0973,4.27486],[-73.0991,4.27486],[-73.0982,4.27306],[-73.11171,4.27486],[-73.11441,4.27215],[-73.11802,4.27396],[-73.13423,4.27306],[-73.13964,4.27486],[-73.13604,4.27758],[-73.14955,4.27848],[-73.15495,4.28029],[-73.15405,4.283],[-73.16126,4.27939],[-73.16126,4.2821],[-73.16396,4.283],[-73.16396,4.28391],[-73.15586,4.28571],[-73.15495,4.29024],[-73.17297,4.29295],[-73.15766,4.29566],[-73.14595,4.30651],[-73.16306,4.30741]]},{"id":5573,"area":2622.0,"meets":false,"sel":false,"c":[[-73.30991,4.02803],[-73.31081,4.0208],[-73.31171,4.02441],[-73.32342,4.02441],[-73.32883,4.0208],[-73.32523,4.01356],[-73.33333,4.01356],[-73.33243,4.00723],[-73.31892,4.00904],[-73.31982,4.00633],[-73.31532,4.00633],[-73.31351,4.00362],[-73.31532,3.99819],[-73.32072,3.99458],[-73.32432,4.00181],[-73.32793,4.00271],[-73.32523,4.00542],[-73.32883,4.00542],[-73.32883,4.00452],[-73.32973,4.00452],[-73.32973,4.00362],[-73.33063,4.00362],[-73.33063,4.00633],[-73.33423,4.00633],[-73.33423,4.0],[-73.33874,4.00362],[-73.35405,4.00271],[-73.35405,4.0009],[-73.34685,4.0009],[-73.34865,3.99638],[-73.33604,3.99005],[-73.34775,3.98915],[-73.34865,3.99096],[-73.34234,3.99277],[-73.34955,3.99367],[-73.35315,3.98825],[-73.35225,3.98463],[-73.35856,3.98282],[-73.35676,3.9792],[-73.35045,3.9783],[-73.34595,3.98192],[-73.33604,3.98101],[-73.33423,3.9774],[-73.33153,3.9783],[-73.33243,3.97649],[-73.34865,3.97378],[-73.34144,3.97378],[-73.33423,3.97016],[-73.33243,3.97016],[-73.33423,3.97197],[-73.33243,3.97378],[-73.32793,3.97107],[-73.31892,3.97107],[-73.31261,3.97649],[-73.3027,3.97288],[-73.29369,3.97468],[-73.29009,3.9783],[-73.28108,3.97559],[-73.28108,3.97378],[-73.27568,3.97559],[-73.27568,3.97197],[-73.27027,3.97016],[-73.26667,3.97559],[-73.26757,3.98011],[-73.26396,3.9783],[-73.26216,3.98101],[-73.26577,3.98101],[-73.26486,3.98373],[-73.26667,3.98373],[-73.26667,3.98101],[-73.26937,3.98101],[-73.26757,3.98282],[-73.27027,3.98373],[-73.27387,3.9783],[-73.27748,3.9783],[-73.28018,3.98192],[-73.27838,3.98463],[-73.28108,3.98463],[-73.28108,3.98734],[-73.28559,3.98644],[-73.28559,3.99096],[-73.28288,3.99186],[-73.29009,3.99096],[-73.28829,3.99638],[-73.29279,3.99729],[-73.29279,4.0009],[-73.2964,4.0009],[-73.2964,4.00271],[-73.30631,4.0009],[-73.30631,4.00362],[-73.3009,4.00271],[-73.3009,4.00452],[-73.30991,4.00633],[-73.3045,4.00723],[-73.3045,4.00995],[-73.30721,4.00904],[-73.30811,4.01447],[-73.30991,4.01447],[-73.30991,4.01537],[-73.3045,4.01537],[-73.30811,4.0217],[-73.30541,4.0217],[-73.30631,4.02351],[-73.3027,4.02532],[-73.30721,4.02532],[-73.30631,4.02712],[-73.30991,4.02803]]},{"id":2993,"area":2334.0,"meets":false,"sel":false,"c":[[-71.65766,4.36528],[-71.66577,4.36257],[-71.66667,4.35986],[-71.65495,4.35714],[-71.65315,4.35443],[-71.66937,4.35624],[-71.67387,4.35443],[-71.67658,4.34991],[-71.68108,4.34991],[-71.67297,4.3472],[-71.65946,4.34901],[-71.65946,4.34629],[-71.66306,4.34448],[-71.66577,4.3472],[-71.66847,4.34629],[-71.66667,4.34448],[-71.67297,4.34539],[-71.68288,4.34268],[-71.67477,4.33996],[-71.68018,4.33996],[-71.68288,4.33816],[-71.6955,4.33996],[-71.71081,4.33725],[-71.70901,4.33544],[-71.71441,4.33454],[-71.72162,4.33544],[-71.71712,4.33635],[-71.72162,4.33816],[-71.71892,4.33996],[-71.73243,4.33996],[-71.74505,4.33725],[-71.74505,4.33544],[-71.72432,4.33002],[-71.71892,4.33092],[-71.71892,4.32911],[-71.70901,4.3264],[-71.70811,4.32369],[-71.7,4.32369],[-71.69279,4.32821],[-71.67658,4.33002],[-71.67658,4.33183],[-71.67027,4.33092],[-71.66577,4.33363],[-71.66126,4.33273],[-71.65856,4.33544],[-71.65766,4.33363],[-71.64955,4.33454],[-71.65045,4.33635],[-71.65495,4.33544],[-71.65045,4.33725],[-71.65225,4.33906],[-71.66306,4.34087],[-71.65766,4.34177],[-71.65586,4.34448],[-71.65495,4.34177],[-71.64414,4.34268],[-71.64775,4.34087],[-71.64865,4.33725],[-71.64234,4.33725],[-71.60721,4.34087],[-71.6036,4.3472],[-71.5982,4.3481],[-71.6027,4.34991],[-71.6009,4.35172],[-71.60901,4.35262],[-71.61171,4.35533],[-71.62162,4.35805],[-71.63063,4.35714],[-71.62883,4.35805],[-71.63063,4.35986],[-71.65766,4.36528]]},{"id":2393,"area":1923.0,"meets":false,"sel":false,"c":[[-71.66847,4.44213],[-71.68018,4.44123],[-71.68018,4.43671],[-71.68108,4.43942],[-71.69189,4.43942],[-71.6964,4.43671],[-71.70901,4.4358],[-71.71261,4.43309],[-71.71351,4.43309],[-71.71351,4.434],[-71.72162,4.43309],[-71.71892,4.43671],[-71.72523,4.43852],[-71.74685,4.4349],[-71.75045,4.43219],[-71.73964,4.42857],[-71.72432,4.42767],[-71.72703,4.43038],[-71.72342,4.43038],[-71.72342,4.42767],[-71.71892,4.42767],[-71.71892,4.43038],[-71.71441,4.42857],[-71.71441,4.43038],[-71.6991,4.43309],[-71.6973,4.42948],[-71.69369,4.43128],[-71.69369,4.42134],[-71.6964,4.42134],[-71.6973,4.41863],[-71.69189,4.41863],[-71.69099,4.42405],[-71.67568,4.42405],[-71.67117,4.42857],[-71.65676,4.42495],[-71.65045,4.42857],[-71.64865,4.42495],[-71.64865,4.42676],[-71.64234,4.42676],[-71.64234,4.42948],[-71.63964,4.43038],[-71.63514,4.42857],[-71.63423,4.43128],[-71.63604,4.43219],[-71.63333,4.43219],[-71.63243,4.43038],[-71.57748,4.43219],[-71.57838,4.43852],[-71.57658,4.43852],[-71.57838,4.44123],[-71.61892,4.44123],[-71.65856,4.43671],[-71.66847,4.44213]]},{"id":2302,"area":1789.0,"meets":false,"sel":false,"c":[[-72.6964,4.48282],[-72.6991,4.48011],[-72.71982,4.48192],[-72.75225,4.4792],[-72.75405,4.4774],[-72.78559,4.47649],[-72.78829,4.47468],[-72.76937,4.47197],[-72.76667,4.46926],[-72.75946,4.47016],[-72.75676,4.46745],[-72.76036,4.46564],[-72.75225,4.46203],[-72.73694,4.46203],[-72.72432,4.46474],[-72.72432,4.46655],[-72.73784,4.46474],[-72.74234,4.46655],[-72.72432,4.46926],[-72.73153,4.47197],[-72.73874,4.47107],[-72.73694,4.47468],[-72.73243,4.47559],[-72.72072,4.47288],[-72.7018,4.47468],[-72.7036,4.47197],[-72.71171,4.46926],[-72.70811,4.46564],[-72.68108,4.46655],[-72.67748,4.47016],[-72.67838,4.47468],[-72.67568,4.47197],[-72.64054,4.47197],[-72.64955,4.47378],[-72.63964,4.47559],[-72.64144,4.4783],[-72.64955,4.4783],[-72.64955,4.48011],[-72.67027,4.48011],[-72.67207,4.48192],[-72.68649,4.48192],[-72.68649,4.47649],[-72.68829,4.47649],[-72.68829,4.48282],[-72.6964,4.48282]]}]};
 
-const candidates = [
-  { rank:1,  id:2340, area:10437, lonMin:-72.7523, lonMax:-72.3847, latMin:4.3960, latMax:4.4584, meetsTarget:true,  selected:true  },
-  { rank:2,  id:3065, area:7878,  lonMin:-72.5162, lonMax:-72.2550, latMin:4.2712, latMax:4.3571, meetsTarget:true,  selected:false },
-  { rank:3,  id:2630, area:6647,  lonMin:-71.9838, lonMax:-71.8153, latMin:4.3183, latMax:4.4096, meetsTarget:true,  selected:false },
-  { rank:4,  id:2638, area:4635,  lonMin:-72.9838, lonMax:-72.7468, latMin:4.3544, latMax:4.4078, meetsTarget:false, selected:false },
-  { rank:5,  id:3874, area:3514,  lonMin:-72.7847, lonMax:-72.6505, latMin:4.2080, latMax:4.2749, meetsTarget:false, selected:false },
-  { rank:6,  id:3417, area:3023,  lonMin:-73.2189, lonMax:-73.0955, latMin:4.2351, latMax:4.3074, meetsTarget:false, selected:false },
-  { rank:7,  id:5573, area:2622,  lonMin:-73.3586, lonMax:-73.2622, latMin:3.9702, latMax:4.0280, meetsTarget:false, selected:false },
-  { rank:8,  id:2993, area:2334,  lonMin:-71.7450, lonMax:-71.5982, latMin:4.3237, latMax:4.3653, meetsTarget:false, selected:false },
-  { rank:9,  id:2393, area:1923,  lonMin:-71.7505, lonMax:-71.5766, latMin:4.4186, latMax:4.4421, meetsTarget:false, selected:false },
-  { rank:10, id:2302, area:1789,  lonMin:-72.7883, lonMax:-72.6396, latMin:4.4620, latMax:4.4828, meetsTarget:false, selected:false },
-];
+// ── PROJECTION ──────────────────────────────────────────────
+// Equirectangular with cos correction for proportional km distances
+const VIEW = { lonMin: -73.45, lonMax: -71.48, latMin: 3.92, latMax: 4.54 };
+const LAT_MID = (VIEW.latMin + VIEW.latMax) / 2;
+const COS_LAT = Math.cos(LAT_MID * Math.PI / 180);
+// Aspect ratio: height/width so 1px = same km in both axes
+const MAP_ASPECT = (VIEW.latMax - VIEW.latMin) / ((VIEW.lonMax - VIEW.lonMin) * COS_LAT);
+const KM_PER_DEG_LAT = 111.32;
 
-const SEL = candidates[0];
-const MAX_AREA = candidates[0].area;
+function lx(lon, W) { return (lon - VIEW.lonMin) / (VIEW.lonMax - VIEW.lonMin) * W; }
+function ly(lat, H) { return (1 - (lat - VIEW.latMin) / (VIEW.latMax - VIEW.latMin)) * H; }
 
-// ── TABS ──────────────────────────────────────────────────
+// ── TABS ─────────────────────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById(btn.dataset.tab).classList.add('active');
-    if (btn.dataset.tab === 't2') drawSelected();
+    if (btn.dataset.tab === 't2') requestAnimationFrame(drawSelected);
   });
 });
 
-// ── CANDIDATE LIST ────────────────────────────────────────
+// ── CANDIDATE LIST ────────────────────────────────────────────
+const MAX_AREA = DATA.polys[0].area;
 const list = document.getElementById('candList');
-candidates.forEach((c, i) => {
+DATA.polys.forEach((p, i) => {
   const row = document.createElement('div');
-  row.className = 'cand-row' + (c.selected ? ' sel' : '');
+  row.className = 'cand-row' + (p.sel ? ' sel' : '');
   row.dataset.idx = i;
-  const pct = Math.round(c.area / MAX_AREA * 100);
-  const badgeCls = c.selected ? 'b-sel' : c.meetsTarget ? 'b-green' : 'b-grey';
-  const badgeTxt = c.selected ? 'SELECCIONADO' : c.meetsTarget ? '≥ 5000 ha' : 'No cumple';
+  const pct = Math.round(p.area / MAX_AREA * 100);
+  const fill = p.sel ? '#4ade80' : p.meets ? '#22d3ee' : '#4a5268';
+  const bCls = p.sel ? 'b-sel' : p.meets ? 'b-ok' : 'b-no';
+  const bTxt = p.sel ? 'SELECCIONADO' : p.meets ? '≥ 5000 ha' : 'No cumple';
+  const lons = p.c.map(c=>c[0]), lats = p.c.map(c=>c[1]);
+  const cx = ((Math.min(...lons)+Math.max(...lons))/2).toFixed(2);
+  const cy = ((Math.min(...lats)+Math.max(...lats))/2).toFixed(2);
   row.innerHTML = `
-    <span class="rk">${String(c.rank).padStart(2,'0')}</span>
+    <span class="rk">${String(i+1).padStart(2,'0')}</span>
     <div class="area-wrap">
-      <div class="area-val">${c.area.toLocaleString()} ha</div>
-      <div class="bar-bg"><div class="bar-fill" style="width:${pct}%"></div></div>
+      <div class="area-val">${p.area.toLocaleString()} ha</div>
+      <div class="bar-bg"><div class="bar-fill" style="width:${pct}%;background:${fill}"></div></div>
     </div>
     <div style="min-width:0">
-      <div class="cand-id">C-${c.id}</div>
-      <div class="cand-coords">${c.lonMin.toFixed(2)}…${c.lonMax.toFixed(2)}, ${c.latMin.toFixed(2)}°N</div>
+      <div class="cand-id">C-${p.id}</div>
+      <div class="cand-coords">${cx}°W, ${cy}°N</div>
     </div>
-    <span class="badge ${badgeCls}">${badgeTxt}</span>
-  `;
-  row.addEventListener('mouseenter', () => { highlightIdx = i; drawMap(); });
-  row.addEventListener('mouseleave', () => { highlightIdx = -1; drawMap(); });
+    <span class="badge ${bCls}">${bTxt}</span>`;
+  row.addEventListener('mouseenter', () => { hiIdx = i; drawMap(); });
+  row.addEventListener('mouseleave', () => { hiIdx = -1; drawMap(); });
   list.appendChild(row);
 });
 
-// ── MAP CANVAS ────────────────────────────────────────────
+// ── MAP CANVAS ────────────────────────────────────────────────
 const mapCanvas = document.getElementById('mapCanvas');
 const mapCtx = mapCanvas.getContext('2d');
-let highlightIdx = -1;
+let hiIdx = -1;
 
-function lonToX(lon, w) { return (lon - SEARCH.lonMin) / (SEARCH.lonMax - SEARCH.lonMin) * w; }
-function latToY(lat, h) { return (1 - (lat - SEARCH.latMin) / (SEARCH.latMax - SEARCH.latMin)) * h; }
+const POLY_COLORS = {
+  sel:  { fill: 'rgba(74,222,128,0.28)',  stroke: '#4ade80', hi: 'rgba(74,222,128,0.55)'  },
+  ok:   { fill: 'rgba(34,211,238,0.18)',  stroke: '#22d3ee', hi: 'rgba(34,211,238,0.4)'   },
+  no:   { fill: 'rgba(74,82,104,0.18)',   stroke: '#4a5268', hi: 'rgba(120,130,160,0.35)' },
+};
+
+function polyColor(p, isHi) {
+  const k = p.sel ? 'sel' : p.meets ? 'ok' : 'no';
+  return { fill: isHi ? POLY_COLORS[k].hi : POLY_COLORS[k].fill, stroke: POLY_COLORS[k].stroke };
+}
+
+function drawPoly(ctx, coords, W, H) {
+  ctx.beginPath();
+  coords.forEach(([lon, lat], i) => {
+    const x = lx(lon, W), y = ly(lat, H);
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.closePath();
+}
+
+function drawScaleBar(ctx, W, H) {
+  // 50 km bar
+  const km = 50;
+  const degLon = km / (KM_PER_DEG_LAT * COS_LAT);
+  const barW = degLon / (VIEW.lonMax - VIEW.lonMin) * W;
+  const bx = W - barW - 14, by = H - 18;
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  ctx.fillRect(bx, by, barW, 2);
+  ctx.fillRect(bx, by - 4, 2, 10);
+  ctx.fillRect(bx + barW - 1, by - 4, 2, 10);
+  ctx.font = '9px JetBrains Mono, monospace';
+  ctx.fillStyle = 'rgba(255,255,255,0.6)';
+  ctx.textAlign = 'center';
+  ctx.fillText('50 km', bx + barW / 2, by - 6);
+  ctx.textAlign = 'left';
+  document.getElementById('scaleLabel').textContent =
+    `1 px ≈ ${(km * 1000 / barW).toFixed(0)} m`;
+}
 
 function drawMap() {
   const dpr = window.devicePixelRatio || 1;
   const W = mapCanvas.offsetWidth;
-  const H = Math.round(W * 0.65);
-  mapCanvas.width = W * dpr;
-  mapCanvas.height = H * dpr;
+  const H = Math.round(W * MAP_ASPECT);
+  mapCanvas.width = W * dpr; mapCanvas.height = H * dpr;
   mapCanvas.style.height = H + 'px';
   const ctx = mapCtx;
   ctx.scale(dpr, dpr);
 
   // Background
-  ctx.fillStyle = '#0c1018';
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#0c1018'; ctx.fillRect(0, 0, W, H);
 
-  // Grid lines (degrees)
-  ctx.strokeStyle = 'rgba(255,255,255,0.04)';
-  ctx.lineWidth = 1;
-  for (let lon = Math.ceil(SEARCH.lonMin); lon <= Math.floor(SEARCH.lonMax); lon++) {
-    const x = lonToX(lon, W);
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 1;
+  for (let lon = -73.5; lon <= -71.5; lon += 0.25) {
+    const x = lx(lon, W);
     ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
-    ctx.fillStyle = 'rgba(255,255,255,0.15)';
-    ctx.font = '9px JetBrains Mono, monospace';
-    ctx.fillText(lon + '°', x + 3, H - 4);
+    if (lon % 0.5 === 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.18)';
+      ctx.font = '9px JetBrains Mono, monospace';
+      ctx.fillText(lon.toFixed(1) + '°', x + 2, H - 5);
+    }
   }
-  for (let lat = Math.ceil(SEARCH.latMin * 2) / 2; lat <= SEARCH.latMax; lat += 0.5) {
-    const y = latToY(lat, H);
+  for (let lat = 3.75; lat <= 4.75; lat += 0.25) {
+    const y = ly(lat, H);
     ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-    if (lat % 1 === 0) {
-      ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    if (lat % 0.5 === 0) {
+      ctx.fillStyle = 'rgba(255,255,255,0.18)';
       ctx.font = '9px JetBrains Mono, monospace';
       ctx.fillText(lat.toFixed(1) + '°N', 3, y - 3);
     }
   }
 
-  // Candidates
-  candidates.forEach((c, i) => {
-    const x1 = lonToX(c.lonMin, W), x2 = lonToX(c.lonMax, W);
-    const y1 = latToY(c.latMax, H), y2 = latToY(c.latMin, H);
-    const rw = Math.max(x2 - x1, 2), rh = Math.max(y2 - y1, 2);
-
-    const isHi = i === highlightIdx;
-    let fill, stroke;
-    if (c.selected)          { fill = 'rgba(74,222,128,0.25)'; stroke = '#4ade80'; }
-    else if (c.meetsTarget)  { fill = 'rgba(34,211,238,0.12)'; stroke = '#22d3ee'; }
-    else                     { fill = 'rgba(74,82,104,0.15)';  stroke = '#4a5268'; }
-
-    ctx.fillStyle = isHi ? (c.selected ? 'rgba(74,222,128,0.45)' : 'rgba(255,255,255,0.15)') : fill;
-    ctx.strokeStyle = isHi ? '#fff' : stroke;
-    ctx.lineWidth = c.selected ? 1.5 : 1;
-    ctx.fillRect(x1, y1, rw, rh);
-    ctx.strokeRect(x1, y1, rw, rh);
-
-    // Rank label on hover or selected
-    if (isHi || c.selected) {
-      ctx.fillStyle = c.selected ? '#4ade80' : '#fff';
-      ctx.font = `${c.selected ? '600 ' : ''}10px JetBrains Mono, monospace`;
-      ctx.fillText('#' + c.rank + (c.selected ? ' ✓' : ''), x1 + 3, y1 - 3);
+  // Draw non-selected first, selected last (on top)
+  const order = [...DATA.polys.keys()].sort((a, b) => DATA.polys[a].sel ? 1 : DATA.polys[b].sel ? -1 : 0);
+  order.forEach(i => {
+    const p = DATA.polys[i];
+    const isHi = i === hiIdx;
+    const { fill, stroke } = polyColor(p, isHi);
+    drawPoly(ctx, p.c, W, H);
+    ctx.fillStyle = fill;
+    ctx.fill();
+    ctx.strokeStyle = stroke;
+    ctx.lineWidth = p.sel ? 1.5 : (isHi ? 1.5 : 0.8);
+    ctx.stroke();
+    if (p.sel || isHi) {
+      const lons = p.c.map(c=>c[0]), lats = p.c.map(c=>c[1]);
+      const cx = lx((Math.min(...lons)+Math.max(...lons))/2, W);
+      const cy = ly((Math.min(...lats)+Math.max(...lats))/2, H);
+      ctx.fillStyle = p.sel ? '#4ade80' : '#fff';
+      ctx.font = `${p.sel ? '600 ' : ''}10px Inter, sans-serif`;
+      ctx.fillText('C-' + p.id, cx - 16, cy - 4);
     }
   });
 
   // Altillanura label
-  ctx.fillStyle = 'rgba(255,255,255,0.2)';
+  ctx.fillStyle = 'rgba(255,255,255,0.15)';
   ctx.font = '10px Inter, sans-serif';
-  ctx.fillText('ALTILLANURA · META', lonToX(-72.8, W), latToY(4.55, H));
+  ctx.fillText('ALTILLANURA · META, COLOMBIA', lx(-73.3, W), ly(4.49, H));
+
+  drawScaleBar(ctx, W, H);
 }
 
-// ── SELECTED CANVAS ───────────────────────────────────────
+// ── TOOLTIP ───────────────────────────────────────────────────
+const tooltip = document.getElementById('tooltip');
+function getCentroid(coords) {
+  let sx = 0, sy = 0;
+  coords.forEach(([x,y]) => { sx += x; sy += y; });
+  return [sx/coords.length, sy/coords.length];
+}
+mapCanvas.addEventListener('mousemove', e => {
+  const rect = mapCanvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  const W = mapCanvas.offsetWidth, H = mapCanvas.offsetHeight;
+  let found = -1;
+  for (let i = DATA.polys.length - 1; i >= 0; i--) {
+    const p = DATA.polys[i];
+    const ctx = document.createElement('canvas').getContext('2d');
+    drawPoly(ctx, p.c, W, H);
+    if (ctx.isPointInPath(mx, my)) { found = i; break; }
+  }
+  if (found !== -1) {
+    const p = DATA.polys[found];
+    const [cx, cy] = getCentroid(p.c);
+    document.getElementById('tt-name').textContent = `C-${p.id}`;
+    document.getElementById('tt-area').textContent = p.area.toLocaleString() + ' ha';
+    document.getElementById('tt-ctr').textContent = `${cx.toFixed(3)}°W, ${cy.toFixed(3)}°N`;
+    const bEl = document.getElementById('tt-badge');
+    bEl.innerHTML = p.sel ? '<span class="tt-badge tt-sel">SELECCIONADO</span>'
+      : p.meets ? '<span class="tt-badge tt-ok">Cumple ≥ 5 000 ha</span>'
+      : '<span class="tt-badge tt-no">No cumple área</span>';
+    tooltip.style.left = (e.clientX + 12) + 'px';
+    tooltip.style.top = (e.clientY - 10) + 'px';
+    tooltip.classList.add('vis');
+    if (hiIdx !== found) { hiIdx = found; drawMap(); updateListHi(found); }
+  } else {
+    tooltip.classList.remove('vis');
+    if (hiIdx !== -1) { hiIdx = -1; drawMap(); updateListHi(-1); }
+  }
+});
+mapCanvas.addEventListener('mouseleave', () => {
+  tooltip.classList.remove('vis');
+  hiIdx = -1; drawMap(); updateListHi(-1);
+});
+
+function updateListHi(idx) {
+  document.querySelectorAll('.cand-row').forEach((r, i) => {
+    r.classList.toggle('hi', i === idx && !DATA.polys[i].sel);
+  });
+}
+
+// ── SELECTED CANVAS ───────────────────────────────────────────
 const selCanvas = document.getElementById('selCanvas');
 const selCtx = selCanvas.getContext('2d');
+const SEL = DATA.polys.find(p => p.sel);
 
 function drawSelected() {
   const dpr = window.devicePixelRatio || 1;
   const W = selCanvas.offsetWidth;
   if (!W) return;
-  const pad = 0.05; // degrees padding
-  const view = {
-    lonMin: SEL.lonMin - pad, lonMax: SEL.lonMax + pad,
-    latMin: SEL.latMin - pad, latMax: SEL.latMax + pad,
+  const lons = SEL.c.map(c=>c[0]), lats = SEL.c.map(c=>c[1]);
+  const lonPad = 0.06, latPad = 0.04;
+  const SV = {
+    lonMin: Math.min(...lons) - lonPad, lonMax: Math.max(...lons) + lonPad,
+    latMin: Math.min(...lats) - latPad, latMax: Math.max(...lats) + latPad,
   };
-  const aspect = (view.latMax - view.latMin) / (view.lonMax - view.lonMin);
-  const H = Math.round(W * aspect * 1.0);
-  selCanvas.width = W * dpr;
-  selCanvas.height = H * dpr;
+  const aspect = (SV.latMax - SV.latMin) / ((SV.lonMax - SV.lonMin) * COS_LAT);
+  const H = Math.round(W * aspect);
+  selCanvas.width = W * dpr; selCanvas.height = H * dpr;
   selCanvas.style.height = H + 'px';
   const ctx = selCtx;
   ctx.scale(dpr, dpr);
 
-  function lx(lon) { return (lon - view.lonMin) / (view.lonMax - view.lonMin) * W; }
-  function ly(lat) { return (1 - (lat - view.latMin) / (view.latMax - view.latMin)) * H; }
+  function slx(lon) { return (lon - SV.lonMin) / (SV.lonMax - SV.lonMin) * W; }
+  function sly(lat) { return (1 - (lat - SV.latMin) / (SV.latMax - SV.latMin)) * H; }
 
-  // Background
-  ctx.fillStyle = '#0c1018';
-  ctx.fillRect(0, 0, W, H);
+  ctx.fillStyle = '#0c1018'; ctx.fillRect(0, 0, W, H);
 
-  // Subtle grid
-  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
-  ctx.lineWidth = 1;
-  const lonStep = 0.05, latStep = 0.02;
-  for (let lon = Math.floor(SEL.lonMin / lonStep) * lonStep; lon <= SEL.lonMax; lon += lonStep) {
-    const x = lx(lon); ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+  // Grid 0.1° intervals
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)'; ctx.lineWidth = 1;
+  for (let lon = Math.floor(SV.lonMin * 10) / 10; lon <= SV.lonMax; lon += 0.1) {
+    const x = slx(lon); ctx.beginPath(); ctx.moveTo(x,0); ctx.lineTo(x,H); ctx.stroke();
+    ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.font='8px JetBrains Mono,monospace';
+    ctx.fillText(lon.toFixed(1)+'°', x+2, H-3);
   }
-  for (let lat = Math.floor(SEL.latMin / latStep) * latStep; lat <= SEL.latMax; lat += latStep) {
-    const y = ly(lat); ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+  for (let lat = Math.floor(SV.latMin * 10) / 10; lat <= SV.latMax; lat += 0.05) {
+    const y = sly(lat); ctx.beginPath(); ctx.moveTo(0,y); ctx.lineTo(W,y); ctx.stroke();
+    if ((lat * 100) % 10 === 0) {
+      ctx.fillStyle='rgba(255,255,255,0.2)'; ctx.font='8px JetBrains Mono,monospace';
+      ctx.fillText(lat.toFixed(2)+'°N', 3, y-2);
+    }
   }
 
-  // Bounding box fill
-  const bx1 = lx(SEL.lonMin), bx2 = lx(SEL.lonMax);
-  const by1 = ly(SEL.latMax), by2 = ly(SEL.latMin);
-  ctx.fillStyle = 'rgba(74,222,128,0.15)';
-  ctx.fillRect(bx1, by1, bx2 - bx1, by2 - by1);
-  ctx.strokeStyle = '#4ade80';
-  ctx.lineWidth = 1.5;
-  ctx.strokeRect(bx1, by1, bx2 - bx1, by2 - by1);
+  // Draw the polygon
+  ctx.beginPath();
+  SEL.c.forEach(([lon, lat], i) => {
+    const x = slx(lon), y = sly(lat);
+    i === 0 ? ctx.moveTo(x,y) : ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(74,222,128,0.22)'; ctx.fill();
+  ctx.strokeStyle = '#4ade80'; ctx.lineWidth = 1.5; ctx.stroke();
 
   // Centre cross
-  const cx = lx(-72.5685), cy = ly(4.4272);
-  ctx.strokeStyle = '#4ade80';
-  ctx.lineWidth = 1;
-  ctx.setLineDash([3, 3]);
-  ctx.beginPath(); ctx.moveTo(cx - 10, cy); ctx.lineTo(cx + 10, cy); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(cx, cy - 10); ctx.lineTo(cx, cy + 10); ctx.stroke();
+  const cx = slx(-72.5685), cy = sly(4.4272);
+  ctx.strokeStyle = 'rgba(74,222,128,0.6)'; ctx.lineWidth = 1;
+  ctx.setLineDash([3,3]);
+  ctx.beginPath(); ctx.moveTo(cx-12,cy); ctx.lineTo(cx+12,cy); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(cx,cy-12); ctx.lineTo(cx,cy+12); ctx.stroke();
   ctx.setLineDash([]);
 
-  // Labels
-  ctx.fillStyle = '#4ade80';
-  ctx.font = '500 11px Inter, sans-serif';
-  ctx.fillText('C-2340 · 10 437 ha', bx1 + 6, by1 + 16);
-  ctx.fillStyle = 'rgba(74,222,128,0.6)';
-  ctx.font = '10px JetBrains Mono, monospace';
-  ctx.fillText('-72.5685°, 4.4272°N', cx + 6, cy - 4);
+  ctx.fillStyle = '#4ade80'; ctx.font = '500 11px Inter, sans-serif';
+  ctx.fillText('C-2340 · 10 437 ha', slx(Math.min(...lons)) + 6, sly(Math.max(...lats)) + 16);
 
-  // Degree labels
-  ctx.fillStyle = 'rgba(255,255,255,0.25)';
-  ctx.font = '9px JetBrains Mono, monospace';
-  ctx.fillText(SEL.lonMin.toFixed(2) + '°', lx(SEL.lonMin) + 2, H - 4);
-  ctx.fillText(SEL.lonMax.toFixed(2) + '°', lx(SEL.lonMax) - 38, H - 4);
-  ctx.fillText(SEL.latMin.toFixed(2) + '°N', 3, ly(SEL.latMin) - 3);
-  ctx.fillText(SEL.latMax.toFixed(2) + '°N', 3, ly(SEL.latMax) + 12);
+  // Scale bar 10 km
+  const km10 = 10 / (KM_PER_DEG_LAT * COS_LAT);
+  const sb = km10 / (SV.lonMax - SV.lonMin) * W;
+  const sbx = W - sb - 12, sby = H - 16;
+  ctx.fillStyle = 'rgba(255,255,255,0.7)';
+  ctx.fillRect(sbx, sby, sb, 2); ctx.fillRect(sbx,sby-4,2,10); ctx.fillRect(sbx+sb-1,sby-4,2,10);
+  ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.font='9px JetBrains Mono,monospace';
+  ctx.textAlign='center'; ctx.fillText('10 km', sbx+sb/2, sby-6); ctx.textAlign='left';
 }
 
-// ── RESIZE ────────────────────────────────────────────────
+// ── RESIZE ────────────────────────────────────────────────────
 const ro = new ResizeObserver(() => {
   drawMap();
   if (document.getElementById('t2').classList.contains('active')) drawSelected();
 });
 ro.observe(mapCanvas.parentElement);
 ro.observe(selCanvas.parentElement);
-
-// Initial draw
-requestAnimationFrame(() => {
-  drawMap();
-});
+requestAnimationFrame(drawMap);
 </script>
