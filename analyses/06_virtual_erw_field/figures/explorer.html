@@ -168,6 +168,27 @@ body::before{
 .src-row{display:flex;align-items:flex-start;gap:10px;font-size:12px;color:var(--fg2);padding:8px 0;border-bottom:1px solid var(--bdr)}
 .src-row:last-child{border-bottom:none}
 .src-tag{font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:3px;background:var(--teal-dim);color:var(--teal);border:1px solid rgba(34,211,238,.15);white-space:nowrap;flex-shrink:0}
+
+/* ── 3D VIEWER ── */
+#v3d{display:block;width:100%;aspect-ratio:16/9;background:#080c14;cursor:grab}
+#v3d:active{cursor:grabbing}
+.v3d-hint{font-size:10px;color:var(--fg3);font-family:'JetBrains Mono',monospace}
+.v3d-controls{padding:12px 14px;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--bdr)}
+.slicer-row{display:flex;align-items:center;gap:10px}
+.slicer-label{font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--fg2);min-width:68px;flex-shrink:0}
+input[type=range]{flex:1;accent-color:var(--acc)}
+.scan-btn{
+  background:none;border:1px solid var(--bdr);border-radius:4px;
+  color:var(--fg2);font-size:11px;font-family:'JetBrains Mono',monospace;
+  padding:3px 10px;cursor:pointer;white-space:nowrap;
+  transition:background .15s,border-color .15s,color .15s;
+}
+.scan-btn:hover,.scan-btn.scanning{background:var(--acc-dim);color:var(--acc);border-color:rgba(74,222,128,.3)}
+.layer-legend-3d{display:flex;flex-wrap:wrap;gap:10px;margin-top:2px}
+.leg-l{display:flex;align-items:center;gap:6px}
+.leg-lc{width:12px;height:12px;border-radius:2px;flex-shrink:0;border:1px solid rgba(255,255,255,.12)}
+.leg-ln{font-size:11px;color:var(--fg)}
+.leg-la{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)}
 </style>
 
 <!-- TOOLTIP (outside card) -->
@@ -188,6 +209,7 @@ body::before{
   <nav class="tabs">
     <button class="tab-btn active" data-tab="t1">Candidatos (10)</button>
     <button class="tab-btn" data-tab="t2">Polígono Seleccionado</button>
+    <button class="tab-btn" data-tab="t3">3D · Bloque Geológico</button>
   </nav>
 </header>
 
@@ -315,6 +337,30 @@ body::before{
   </div>
 </div>
 
+<!-- TAB 3 — 3D Geological Block -->
+<div class="tab-panel" id="t3">
+  <div class="card">
+    <div class="card-hdr">
+      <span class="card-ttl">Bloque geológico 3D — C-2340 · Altillanura</span>
+      <span class="v3d-hint">arrastra: rotar · rueda: zoom · shift+drag: pan · capas: placeholder</span>
+    </div>
+    <canvas id="v3d"></canvas>
+    <div class="v3d-controls">
+      <div class="slicer-row">
+        <span class="slicer-label">Corte E–O</span>
+        <input type="range" id="sliceX" min="0" max="100" value="100">
+        <button class="scan-btn" data-axis="x">▶ Scan</button>
+      </div>
+      <div class="slicer-row">
+        <span class="slicer-label">Corte N–S</span>
+        <input type="range" id="sliceZ" min="0" max="100" value="100">
+        <button class="scan-btn" data-axis="z">▶ Scan</button>
+      </div>
+      <div class="layer-legend-3d" id="layerLegend3d"></div>
+    </div>
+  </div>
+</div>
+
 </div><!-- /content -->
 
 <script>
@@ -341,6 +387,7 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.classList.add('active');
     document.getElementById(btn.dataset.tab).classList.add('active');
     if (btn.dataset.tab === 't2') requestAnimationFrame(drawSelected);
+    if (btn.dataset.tab === 't3' && window.__init3D) window.__init3D();
   });
 });
 
@@ -677,4 +724,218 @@ const ro = new ResizeObserver(() => {
 ro.observe(mapCanvas.parentElement);
 ro.observe(selCanvas.parentElement);
 requestAnimationFrame(drawMap);
+
+// Expose C-2340 coords for 3D module
+window.__C2340 = DATA.polys.find(p => p.sel).c;
+</script>
+
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+// ── GEOLOGICAL LAYERS (placeholder — real data pending SoilGrids) ──────────
+const LAYERS = [
+  { name: 'Topsoil A',   actual: '0–30 cm',   vh: 0.6,  col: 0x3d2b1f },
+  { name: 'Oxisol B',    actual: '30 cm–1 m', vh: 1.4,  col: 0x8b3a1a },
+  { name: 'Laterita C',  actual: '1–3 m',     vh: 2.0,  col: 0xb07035 },
+  { name: 'Saprolita',   actual: '3–10 m',    vh: 2.5,  col: 0xc8a070 },
+  { name: 'Roca base',   actual: '>10 m',     vh: 3.0,  col: 0x6e6258 },
+];
+const TOTAL_D = LAYERS.reduce((s, l) => s + l.vh, 0);
+
+let renderer, scene, cam, controls;
+let clipX, clipZ, xMin, xMax, zMin, zMax;
+let scanXraf = null, scanZraf = null;
+let ready = false;
+
+function init3D() {
+  if (ready) { resize3D(); return; }
+  ready = true;
+
+  const canvas = document.getElementById('v3d');
+
+  renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.localClippingEnabled = true;
+  renderer.setClearColor(0x080c14);
+
+  scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x080c14);
+  scene.fog = new THREE.FogExp2(0x080c14, 0.008);
+
+  cam = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 500);
+
+  controls = new OrbitControls(cam, canvas);
+  controls.enableDamping = true;
+  controls.dampingFactor = 0.06;
+  controls.screenSpacePanning = true;
+
+  // Lighting
+  scene.add(new THREE.AmbientLight(0xb0bdd0, 0.55));
+  const sun = new THREE.DirectionalLight(0xfff4e0, 1.1);
+  sun.position.set(20, 35, 15);
+  scene.add(sun);
+  const fill = new THREE.DirectionalLight(0x3060a8, 0.4);
+  fill.position.set(-20, 8, -12);
+  scene.add(fill);
+  const rim = new THREE.DirectionalLight(0xffffff, 0.2);
+  rim.position.set(0, -10, 20);
+  scene.add(rim);
+
+  // ── Polygon → scene coordinates ─────────────────────────────
+  const raw = window.__C2340;
+  const mLon = raw.reduce((s, c) => s + c[0], 0) / raw.length;
+  const mLat = raw.reduce((s, c) => s + c[1], 0) / raw.length;
+  const kmLon = 111.32 * Math.cos(mLat * Math.PI / 180);
+  const kmLat = 111.32;
+
+  const pts = raw.map(([lon, lat]) =>
+    new THREE.Vector2((lon - mLon) * kmLon, (lat - mLat) * kmLat)
+  );
+
+  xMin = Math.min(...pts.map(p => p.x));
+  xMax = Math.max(...pts.map(p => p.x));
+  zMin = Math.min(...pts.map(p => p.y));
+  zMax = Math.max(...pts.map(p => p.y));
+  const cx = (xMin + xMax) / 2, cz = (zMin + zMax) / 2;
+  const span = Math.max(xMax - xMin, zMax - zMin);
+
+  // Camera initial position
+  cam.position.set(cx + span * 0.55, span * 0.38, cz + span * 0.7);
+  controls.target.set(cx, -TOTAL_D * 0.45, cz);
+  controls.update();
+
+  // Slicer planes — start open (show everything)
+  clipX = new THREE.Plane(new THREE.Vector3(-1, 0, 0), xMax + 0.1);
+  clipZ = new THREE.Plane(new THREE.Vector3(0, 0, -1), zMax + 0.1);
+
+  // ── Build geological block ───────────────────────────────────
+  const shape = new THREE.Shape(pts);
+  let yTop = 0;
+
+  LAYERS.forEach(layer => {
+    const geo = new THREE.ExtrudeGeometry(shape, { depth: layer.vh, bevelEnabled: false });
+    // ExtrudeGeometry: shape in XY extruded in +Z.
+    // rotateX(π/2): XY→XZ (flat), extrusion goes in -Y (downward). ✓
+    geo.rotateX(Math.PI / 2);
+    geo.translate(0, -yTop, 0);
+    const mat = new THREE.MeshLambertMaterial({
+      color: layer.col,
+      side: THREE.DoubleSide,
+      clippingPlanes: [clipX, clipZ],
+    });
+    scene.add(new THREE.Mesh(geo, mat));
+    yTop += layer.vh;
+  });
+
+  // Green cropland surface on top
+  const topGeo = new THREE.ShapeGeometry(shape);
+  topGeo.rotateX(Math.PI / 2);
+  scene.add(new THREE.Mesh(topGeo,
+    new THREE.MeshLambertMaterial({ color: 0x4a7a28, side: THREE.DoubleSide })));
+
+  // Subtle wire border around top
+  const edgePts = pts.map(p => new THREE.Vector3(p.x, 0.01, p.y));
+  edgePts.push(edgePts[0].clone());
+  scene.add(new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(edgePts),
+    new THREE.LineBasicMaterial({ color: 0x4ade80, opacity: 0.5, transparent: true })
+  ));
+
+  // Grid plane below
+  const grid = new THREE.GridHelper(span * 2.2, 22, 0x1a2830, 0x121c28);
+  grid.position.set(cx, -yTop - 0.08, cz);
+  scene.add(grid);
+
+  // ── Slicer controls ─────────────────────────────────────────
+  const slX = document.getElementById('sliceX');
+  const slZ = document.getElementById('sliceZ');
+
+  slX.addEventListener('input', () => {
+    clipX.constant = xMin + (slX.value / 100) * (xMax - xMin) + 0.01;
+  });
+  slZ.addEventListener('input', () => {
+    clipZ.constant = zMin + (slZ.value / 100) * (zMax - zMin) + 0.01;
+  });
+
+  document.querySelectorAll('.scan-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const ax = btn.dataset.axis;
+      const isX = ax === 'x';
+      const currentRaf = isX ? scanXraf : scanZraf;
+
+      if (currentRaf) {
+        cancelAnimationFrame(currentRaf);
+        if (isX) scanXraf = null; else scanZraf = null;
+        btn.textContent = '▶ Scan';
+        btn.classList.remove('scanning');
+        return;
+      }
+      btn.textContent = '■ Stop';
+      btn.classList.add('scanning');
+
+      const plane = isX ? clipX : clipZ;
+      const inp   = isX ? slX   : slZ;
+      const mn = isX ? xMin : zMin;
+      const mx = isX ? xMax : zMax;
+      let t = parseFloat(inp.value) / 100;
+
+      function step() {
+        t = (t + 0.005) % 1;
+        inp.value = t * 100;
+        plane.constant = mn + t * (mx - mn) + 0.01;
+        const r = requestAnimationFrame(step);
+        if (isX) scanXraf = r; else scanZraf = r;
+      }
+      const r = requestAnimationFrame(step);
+      if (isX) scanXraf = r; else scanZraf = r;
+    });
+  });
+
+  // ── Layer legend ─────────────────────────────────────────────
+  const leg = document.getElementById('layerLegend3d');
+  LAYERS.forEach(l => {
+    const hex = '#' + l.col.toString(16).padStart(6, '0');
+    const d = document.createElement('div');
+    d.className = 'leg-l';
+    d.innerHTML = `<div class="leg-lc" style="background:${hex}"></div>
+      <div><div class="leg-ln">${l.name}</div><div class="leg-la">${l.actual}</div></div>`;
+    leg.appendChild(d);
+  });
+
+  resize3D();
+  loop3D();
+}
+
+function resize3D() {
+  const canvas = document.getElementById('v3d');
+  if (!canvas || !renderer) return;
+  const w = canvas.clientWidth, h = canvas.clientHeight || canvas.clientWidth * 0.5625;
+  renderer.setSize(w, h, false);
+  if (cam) { cam.aspect = w / h; cam.updateProjectionMatrix(); }
+}
+
+function loop3D() {
+  requestAnimationFrame(loop3D);
+  if (controls) controls.update();
+  if (renderer && scene && cam) renderer.render(scene, cam);
+}
+
+// Activate when tab opens
+window.__init3D = init3D;
+const p3 = document.getElementById('t3');
+if (p3) {
+  new MutationObserver(() => {
+    if (p3.classList.contains('active')) init3D();
+  }).observe(p3, { attributes: true, attributeFilter: ['class'] });
+}
+new ResizeObserver(resize3D).observe(document.documentElement);
 </script>
