@@ -1,0 +1,44 @@
+[
+  {
+    "key": "polygon_area_ha",
+    "value": 10437.0,
+    "unit": "ha",
+    "description": "Area of the selected virtual ERW field polygon (component 2340, contiguous cropland with slope < 3°, Puerto López–Puerto Gaitán corridor, Altillanura, Meta)",
+    "as_of": "2026-11-02"
+  },
+  {
+    "key": "cropland_total_search_ha",
+    "value": 164619.0,
+    "unit": "ha",
+    "description": "Total cropland (WorldCover 2021 v200 class 40) in the search bbox (3.5°–5.0°N, 73.5°–71.5°W)",
+    "as_of": "2026-11-02"
+  },
+  {
+    "key": "cropland_low_slope_ha",
+    "value": 151804.0,
+    "unit": "ha",
+    "description": "Total cropland with slope < 3° (Copernicus DEM GLO-30) in the search bbox",
+    "as_of": "2026-11-02"
+  },
+  {
+    "key": "n_candidate_components",
+    "value": 50,
+    "unit": "count",
+    "description": "Connected components (4-connectivity) of cropland + slope < 3° pixels ≥ 500 ha in the search bbox",
+    "as_of": "2026-11-02"
+  },
+  {
+    "key": "polygon_centre_lon",
+    "value": -72.5685,
+    "unit": "degrees_east",
+    "description": "Longitude of the bounding-box centre of the selected polygon (WGS84)",
+    "as_of": "2026-11-02"
+  },
+  {
+    "key": "polygon_centre_lat",
+    "value": 4.4272,
+    "unit": "degrees_north",
+    "description": "Latitude of the bounding-box centre of the selected polygon (WGS84)",
+    "as_of": "2026-11-02"
+  }
+]

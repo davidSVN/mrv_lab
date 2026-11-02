@@ -1,0 +1,168 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/davidSVN/mrv_lab/blob/main/viz/schema/manifest.schema.json",
+  "title": "ERW Virtual Field — viewer manifest",
+  "description": "Describes the grid, variable catalog and file layout for the 3D viewer (viz/). Written by the data pipeline; read by the TypeScript viewer. P6.0 of docs/plans/erw_virtual_field.md.",
+  "type": "object",
+  "required": ["version", "created_at", "grid", "variables"],
+  "additionalProperties": false,
+
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Manifest schema version (semver).",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 UTC timestamp when the pipeline wrote this manifest."
+    },
+    "scenario": {
+      "type": "string",
+      "description": "Path to the scenario.yaml used to generate this manifest."
+    },
+
+    "grid": {
+      "type": "object",
+      "description": "Spatial and vertical discretization of the field.",
+      "required": ["crs", "bbox", "cell_size_m", "nx", "ny", "depth_layers_m"],
+      "additionalProperties": false,
+      "properties": {
+        "crs": {
+          "type": "string",
+          "description": "CRS as an EPSG string, e.g. 'EPSG:32618' (UTM 18N).",
+          "pattern": "^EPSG:\\d+$"
+        },
+        "bbox": {
+          "type": "object",
+          "description": "Bounding box in the grid CRS (metres).",
+          "required": ["xmin", "ymin", "xmax", "ymax"],
+          "additionalProperties": false,
+          "properties": {
+            "xmin": {"type": "number"},
+            "ymin": {"type": "number"},
+            "xmax": {"type": "number"},
+            "ymax": {"type": "number"}
+          }
+        },
+        "cell_size_m": {
+          "type": "number",
+          "description": "Display cell size in metres (model may run at finer resolution).",
+          "exclusiveMinimum": 0
+        },
+        "nx": {
+          "type": "integer",
+          "description": "Number of cells in the x direction.",
+          "minimum": 1
+        },
+        "ny": {
+          "type": "integer",
+          "description": "Number of cells in the y direction.",
+          "minimum": 1
+        },
+        "depth_layers_m": {
+          "type": "array",
+          "description": "Lower boundary depth (m) of each modelled layer, e.g. [0.05, 0.15, 0.30, 0.60, 1.00].",
+          "items": {"type": "number", "exclusiveMinimum": 0},
+          "minItems": 1
+        },
+        "polygon_file": {
+          "type": "string",
+          "description": "Relative path to field.geojson from the repo root."
+        }
+      }
+    },
+
+    "forcing_time": {
+      "type": "object",
+      "description": "Time axis for daily forcing variables.",
+      "required": ["start_date", "end_date", "step_days"],
+      "additionalProperties": false,
+      "properties": {
+        "start_date": {"type": "string", "format": "date"},
+        "end_date": {"type": "string", "format": "date"},
+        "step_days": {"type": "integer", "minimum": 1}
+      }
+    },
+
+    "variables": {
+      "type": "array",
+      "description": "Catalog of all variables the viewer may render.",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "unit", "kind", "dims", "dtype", "status"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Snake_case identifier, unique within this manifest.",
+            "pattern": "^[a-z][a-z0-9_]*$"
+          },
+          "label": {
+            "type": "string",
+            "description": "Human-readable name for the viewer UI."
+          },
+          "unit": {
+            "type": "string",
+            "description": "Pint-parseable unit string, or 'dimensionless', or 'categorical'."
+          },
+          "kind": {
+            "type": "string",
+            "enum": ["static", "forcing", "model"],
+            "description": "static = time-invariant field; forcing = daily time series; model = simulation output."
+          },
+          "dims": {
+            "type": "array",
+            "description": "Ordered dimension names. E.g. ['y','x'] for static 2D, ['y','x','depth'] for 3D, ['time','y','x'] for forcing.",
+            "items": {"type": "string", "enum": ["y", "x", "depth", "time"]},
+            "minItems": 1
+          },
+          "dtype": {
+            "type": "string",
+            "description": "NumPy / JavaScript typed-array dtype, e.g. 'float32', 'int16', 'uint8'.",
+            "enum": ["float32", "float64", "int16", "int32", "uint8", "uint16"]
+          },
+          "status": {
+            "type": "string",
+            "enum": ["available", "pending", "missing"],
+            "description": "available = pipeline has written the data file; pending = planned but not yet computed; missing = no source data."
+          },
+          "range": {
+            "type": ["array", "null"],
+            "description": "Expected [min, max] for colormap scaling. null if unknown.",
+            "items": {"type": "number"},
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "colormap": {
+            "type": ["string", "null"],
+            "description": "Suggested colormap name (matplotlib convention). null = viewer default."
+          },
+          "source": {
+            "type": ["string", "null"],
+            "description": "Data source name (must match a row in data/SOURCES.md). null for derived variables."
+          },
+          "source_quality": {
+            "type": ["string", "null"],
+            "enum": ["dataset", "derived", "literature", null],
+            "description": "dataset = gridded raster; derived = computed from rasters; literature = single value from paper, shown with badge."
+          },
+          "uncertainty_ids": {
+            "type": ["array", "null"],
+            "description": "IDs of Q0.05/Q0.95 companion variables, if any.",
+            "items": {"type": "string"}
+          },
+          "file": {
+            "type": ["string", "null"],
+            "description": "Relative path to the binary data file from viz/data/. null when status != available."
+          },
+          "notes": {
+            "type": ["string", "null"]
+          }
+        }
+      }
+    }
+  }
+}

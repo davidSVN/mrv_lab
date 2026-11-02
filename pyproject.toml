@@ -7,11 +7,21 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "geopandas>=1.2.0",
+    "jsonschema>=4.26.0",
     "jupytext>=1.16",
     "matplotlib>=3.9",
     "numpy>=2.0",
     "pandas>=2.2",
+    "pint>=0.26.2",
+    "pydantic>=2.14.2",
+    "pyproj>=3.8.0",
+    "pyyaml>=6.0.3",
+    "rasterio>=1.5.2",
+    "rioxarray>=0.23.0",
     "scipy>=1.13",
+    "shapely>=2.2.0",
+    "xarray>=2026.9.0",
 ]
 
 [dependency-groups]

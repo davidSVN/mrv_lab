@@ -1,0 +1,150 @@
+# Soil static parameters — Oxisols / Ferralsols, Altillanura, Meta, Colombia
+# Source: SoilGrids 2.0 for mapped layers; literature for unmapped layers.
+# Add value + doi_or_url and change status to 'ok' when verified.
+# All values here are LITERATURE proxies (unmapped layers); SoilGrids layers
+# are loaded directly in the pipeline from raster data.
+
+- id: base_saturation_0_20cm
+  name: Base saturation, 0–20 cm
+  symbol: "BS"
+  group: soil
+  applies_to: [geochem, exchange]
+  value: null
+  unit: "%"
+  distribution: {type: uniform, params: {low: 10.0, high: 35.0}}
+  range_min: 5.0
+  range_max: 60.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "status: missing — add IGAC/CIAT/Agrosavia literature for Altillanura Oxisols"
+    doi_or_url: null
+    locator: null
+  quality: literature
+  status: missing
+  notes: "Oxisols in Llanos typically have very low BS (<30%); pH-dependent. Literature proxy only."
+
+- id: exch_ca_0_20cm
+  name: Exchangeable Ca, 0–20 cm
+  symbol: "Ca_exch"
+  group: soil
+  applies_to: [geochem, exchange]
+  value: null
+  unit: "cmolc/kg"
+  distribution: {type: lognormal, params: {mean: 0.5, sigma: 0.6}}
+  range_min: 0.05
+  range_max: 5.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "status: missing — add Cerrado/Oxisol literature"
+    doi_or_url: null
+  quality: literature
+  status: missing
+  notes: "Exchangeable Ca very low in Oxisols. Use total-digestion mobile cation data as proxy."
+
+- id: exch_mg_0_20cm
+  name: Exchangeable Mg, 0–20 cm
+  symbol: "Mg_exch"
+  group: soil
+  applies_to: [geochem, exchange]
+  value: null
+  unit: "cmolc/kg"
+  range_min: 0.01
+  range_max: 2.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "status: missing"
+    doi_or_url: null
+  quality: literature
+  status: missing
+
+- id: exch_k_0_20cm
+  name: Exchangeable K, 0–20 cm
+  symbol: "K_exch"
+  group: soil
+  applies_to: [geochem, exchange]
+  value: null
+  unit: "cmolc/kg"
+  range_min: 0.01
+  range_max: 0.5
+  kind: fixed
+  source:
+    type: paper
+    citation: "status: missing"
+    doi_or_url: null
+  quality: literature
+  status: missing
+
+- id: exch_al_0_20cm
+  name: Exchangeable Al, 0–20 cm
+  symbol: "Al_exch"
+  group: soil
+  applies_to: [geochem, exchange, soil_co2]
+  value: null
+  unit: "cmolc/kg"
+  range_min: 0.1
+  range_max: 8.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "status: missing — Al toxicity is characteristic of Altillanura Oxisols"
+    doi_or_url: null
+  quality: literature
+  status: missing
+  notes: "Al saturation is key for Oxisols; often >60% of effective CEC. NonCarbonicNeut term."
+
+- id: ti_total_0_20cm
+  name: Total Ti (immobile tracer), 0–20 cm
+  symbol: "Ti_total"
+  group: soil
+  applies_to: [massbalance]
+  value: null
+  unit: "mg/kg"
+  range_min: 1000.0
+  range_max: 15000.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "status: missing — total digestion ICP-MS from Oxisol literature"
+    doi_or_url: null
+  quality: literature
+  status: missing
+  notes: "Immobile tracer for soil mass balance (plan §5.3). Zr also required."
+
+- id: zr_total_0_20cm
+  name: Total Zr (immobile tracer), 0–20 cm
+  symbol: "Zr_total"
+  group: soil
+  applies_to: [massbalance]
+  value: null
+  unit: "mg/kg"
+  range_min: 50.0
+  range_max: 1000.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "status: missing"
+    doi_or_url: null
+  quality: literature
+  status: missing
+  notes: "Immobile tracer; ratio Ti/Zr used as cross-check."
+
+- id: sic_0_20cm
+  name: Soil inorganic carbon, 0–20 cm
+  symbol: "SIC"
+  group: soil
+  applies_to: [geochem]
+  value: null
+  unit: "g/kg"
+  range_min: 0.0
+  range_max: 2.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "status: missing — expected ~0 in humid tropical Oxisols (leached)"
+    doi_or_url: null
+  quality: literature
+  status: missing
+  notes: "Expected to be near zero (leached tropical soils). Confirm from literature."

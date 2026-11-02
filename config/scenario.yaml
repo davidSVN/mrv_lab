@@ -1,0 +1,51 @@
+# Virtual ERW Field — scenario defaults
+# Every item in this file is swappable via CLI: --scenario path/to/custom.yaml
+# Source: docs/plans/erw_virtual_field.md §1
+
+region:
+  name: "Altillanura, Meta"
+  municipalities: ["Puerto López", "Puerto Gaitán"]
+  crs: "EPSG:4326"
+  # field.geojson is written by analyses/06_virtual_erw_field/select_polygon.py
+  polygon_file: "analyses/06_virtual_erw_field/field.geojson"
+
+area_ha: 5000.0  # target contiguous cropland area (ha)
+
+crop:
+  system: "maize-soybean rotation"
+  water_regime: "rain-fed"
+  seasons_per_year: 1
+  main_season: "rainy (April–October)"
+  # Crop calendar from literature: Altillanura maize planting ~April, harvest ~August
+  # Citation: status: missing — add DOI for Altillanura crop calendar
+  planting_doy: 100   # ~April 10; status: missing — verify from literature
+  harvest_doy: 240    # ~August 28; status: missing — verify from literature
+
+bau_practice:
+  liming_material: "dolomitic lime"
+  # Required: BAU must include liming (module §4.1 — unamended controls need 10 yr records)
+  lime_rate_t_ha_yr: null   # status: missing — literature value for Altillanura
+  npk_kg_ha_yr:
+    n: null   # status: missing
+    p: null   # status: missing
+    k: null   # status: missing
+
+feedstock:
+  rock_type: "tholeiitic basalt"
+  # Mineralogy from a published XRD — status: missing (add reference)
+  mineralogy_source: null
+  application_rate_t_ha: 20.0       # mid-range default; sensitivity range 10–50 t/ha
+  application_rate_range_t_ha: [10.0, 50.0]
+  # PSD from literature — status: missing
+  psd_source: null
+  incorporation_depth_m: 0.20       # module §5.2 near-field zone default
+
+simulation:
+  spinup_yr: 1
+  run_yr: 2
+  forcing_years: [2023, 2024]  # historical daily forcing from ERA5-Land
+  time_step_days: 1
+  model_depth_m: 1.0
+  nfz_depth_m: 0.20            # near-field zone, module §5.2
+
+random_seed: 42  # recorded here AND in results.json per CLAUDE.md §9

@@ -1,0 +1,159 @@
+# Mineral kinetic parameters — Palandri & Kharaka (2004)
+# Source: USGS Open-File Report 2004-1068
+# URL: https://pubs.usgs.gov/of/2004/1068/
+# These are the RATE CONSTANTS used in the TST dissolution rate law.
+# All values have status: ok — primary source is the P&K 2004 report.
+# Unit for k25: mol/m^2/s; for Ea: kJ/mol
+
+# TST rate law (module §5.3):
+#   r = S_A * (k_acid * [H+]^n_H * exp(-Ea_acid/RT) +
+#               k_neut * exp(-Ea_neut/RT) +
+#               k_base * [OH-]^n_OH * exp(-Ea_base/RT)) * (1 - Omega)
+
+- id: plagioclase_k25_acid
+  name: Plagioclase — acid mechanism k25
+  symbol: "k_acid_plag"
+  group: minerals
+  applies_to: [feedstock, geochem]
+  value: 1.0e-10   # representative anorthite endmember; albite lower
+  unit: "mol/m^2/s"
+  range_min: 1.0e-12
+  range_max: 1.0e-8
+  kind: fixed
+  source:
+    type: paper
+    citation: "Palandri, J.L. & Kharaka, Y.K. (2004) USGS OFR 2004-1068, Table 1"
+    doi_or_url: "https://pubs.usgs.gov/of/2004/1068/"
+    locator: "Table 1, anorthite / albite"
+  quality: primary
+  status: ok
+  notes: "Range covers albite (slower) to anorthite (faster). Actual composition from XRD — status: missing."
+
+- id: plagioclase_ea_acid
+  name: Plagioclase — acid mechanism Ea
+  symbol: "Ea_acid_plag"
+  group: minerals
+  applies_to: [feedstock, geochem]
+  value: 65.0
+  unit: "kJ/mol"
+  range_min: 50.0
+  range_max: 80.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "Palandri & Kharaka (2004) Table 1"
+    doi_or_url: "https://pubs.usgs.gov/of/2004/1068/"
+    locator: "Table 1"
+  quality: primary
+  status: ok
+
+- id: plagioclase_k25_neutral
+  name: Plagioclase — neutral mechanism k25
+  symbol: "k_neut_plag"
+  group: minerals
+  applies_to: [feedstock, geochem]
+  value: 1.0e-12
+  unit: "mol/m^2/s"
+  range_min: 1.0e-14
+  range_max: 1.0e-10
+  kind: fixed
+  source:
+    type: paper
+    citation: "Palandri & Kharaka (2004) Table 1"
+    doi_or_url: "https://pubs.usgs.gov/of/2004/1068/"
+    locator: "Table 1"
+  quality: primary
+  status: ok
+
+- id: plagioclase_ea_neutral
+  name: Plagioclase — neutral mechanism Ea
+  symbol: "Ea_neut_plag"
+  group: minerals
+  applies_to: [feedstock, geochem]
+  value: 69.8
+  unit: "kJ/mol"
+  range_min: 50.0
+  range_max: 90.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "Palandri & Kharaka (2004) Table 1"
+    doi_or_url: "https://pubs.usgs.gov/of/2004/1068/"
+  quality: primary
+  status: ok
+
+- id: pyroxene_k25_acid
+  name: Augite/diopside — acid mechanism k25
+  symbol: "k_acid_pyx"
+  group: minerals
+  applies_to: [feedstock, geochem]
+  value: null
+  unit: "mol/m^2/s"
+  range_min: 1.0e-11
+  range_max: 1.0e-8
+  kind: fixed
+  source:
+    type: paper
+    citation: "Palandri & Kharaka (2004) Table 1"
+    doi_or_url: "https://pubs.usgs.gov/of/2004/1068/"
+    locator: "Table 1, augite/diopside"
+  quality: primary
+  status: missing
+  notes: "Need specific pyroxene composition from feedstock XRD — status: missing."
+
+- id: pyroxene_ea_acid
+  name: Augite/diopside — acid mechanism Ea
+  symbol: "Ea_acid_pyx"
+  group: minerals
+  applies_to: [feedstock, geochem]
+  value: null
+  unit: "kJ/mol"
+  range_min: 40.0
+  range_max: 90.0
+  kind: fixed
+  source:
+    type: paper
+    citation: "Palandri & Kharaka (2004) Table 1 — status: missing (depends on pyroxene composition from feedstock XRD)"
+    doi_or_url: "https://pubs.usgs.gov/of/2004/1068/"
+  quality: primary
+  status: missing
+  notes: "Depends on pyroxene endmember composition from feedstock XRD — status: missing."
+
+- id: olivine_k25_acid
+  name: Forsterite/fayalite — acid mechanism k25
+  symbol: "k_acid_ol"
+  group: minerals
+  applies_to: [feedstock, geochem]
+  value: null
+  unit: "mol/m^2/s"
+  range_min: 1.0e-9
+  range_max: 1.0e-6
+  kind: fixed
+  source:
+    type: paper
+    citation: "Palandri & Kharaka (2004) Table 1"
+    doi_or_url: "https://pubs.usgs.gov/of/2004/1068/"
+    locator: "Table 1, forsterite"
+  quality: primary
+  status: missing
+  notes: "Olivine dissolves much faster than feldspar. High uncertainty if present in feedstock."
+
+- id: reactive_sa_ratio
+  name: Reactive / BET surface area ratio (log-uniform)
+  symbol: "f_RSA"
+  group: minerals
+  applies_to: [feedstock]
+  value: null
+  unit: "dimensionless"
+  range_min: 0.001
+  range_max: 1.0
+  distribution: {type: loguniform, params: {low: 0.001, high: 1.0}}
+  kind: calibrated
+  source:
+    type: paper
+    citation: "Beerling et al. (2020) Nature Plants; Kelland et al. (2020) Nature Plants; module Table 4"
+    doi_or_url: "https://doi.org/10.1038/s41477-020-0714-3"
+    locator: "Table 4 — reactive surface area range"
+  quality: primary
+  status: missing
+  notes: "Three orders of magnitude below BET is the module default (Table 4). This is one of the highest-sensitivity parameters per Sobol analysis in comparable studies."

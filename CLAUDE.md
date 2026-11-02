@@ -38,17 +38,32 @@ mrv-lab/
 ├── LICENSE                    # MIT for code. Data keeps its source license
 ├── pyproject.toml
 ├── .gitignore                 # includes data/raw/, .env, PRIVATE_CONTEXT.md
+├── config/                    # scenario defaults and parameter registry YAMLs
+│   ├── scenario.yaml
+│   └── parameters/            # one YAML per parameter group (soil, minerals, …)
 ├── data/
 │   ├── SOURCES.md             # registry of every data source (see §7)
 │   ├── raw/                   # gitignored by default
+│   ├── interim/               # intermediate pipeline outputs (gitignored)
 │   └── processed/             # committed only if the license allows it
+├── docs/
+│   ├── plans/                 # analysis design docs (e.g. erw_virtual_field.md)
+│   └── adr/                   # architecture decision records
 ├── src/mrv_lab/
 │   ├── __init__.py
 │   ├── io.py                  # loaders / downloaders
 │   ├── plotting.py            # single style + palette + export helpers
 │   ├── uncertainty.py         # discounts, confidence intervals, Monte Carlo
 │   ├── sampling.py            # statistical power, sample size
-│   └── lca.py                 # net removal accounting
+│   ├── lca.py                 # net removal accounting
+│   └── erw/                   # virtual ERW field simulation package
+│       ├── __init__.py
+│       ├── registry.py        # pydantic parameter schema + loader
+│       └── …                  # (geochem, hydrology, etc. — added per phase)
+├── viz/                       # 3D viewer (TypeScript + three.js + Vite)
+│   └── schema/
+│       ├── manifest.schema.json   # P6.0 viewer data contract
+│       └── manifest.example.json
 ├── analyses/
 │   └── NN_slug/
 │       ├── README.md
@@ -57,6 +72,7 @@ mrv-lab/
 │       ├── results.json
 │       └── figures/
 ├── tests/
+│   └── erw/                   # tests for src/mrv_lab/erw/
 └── .github/workflows/ci.yml
 ```
 
@@ -104,7 +120,7 @@ uv run ruff check . && uv run ruff format --check . && uv run pytest
 Plus: the touched analysis runs from a clean state.
 
 ## 11. Git
-- One branch per analysis: `analysis/NN-slug`. Small branches for infra: `chore/...`.
+- Branches: `analysis/NN-slug` for self-contained analyses; `feat/slug` for multi-phase features (e.g. `feat/erw-field-data`, `feat/viz-static`); `chore/...` for infra.
 - Conventional commits (`feat:`, `fix:`, `docs:`, `chore:`, `data:`).
 - Never push to `main` or open a PR without David's OK. Never force-push.
 
@@ -116,7 +132,11 @@ Plus: the touched analysis runs from a clean state.
 | 03 | Biochar issuances in Latin America | Puro.earth registry |
 | 04 | Reproduce a public removal certificate (net removal, LCA, discount) | Isometric registry |
 | 05 | CBAM cost: default values vs actual data for an exporter | European Commission |
-| 06 | Statistical power of soil sampling in enhanced rock weathering | Cascade Data Quarry |
+| 06 | Virtual ERW field (Colombia, Altillanura): quantification, MRV, 3D viewer | SoilGrids, ERA5-Land, Copernicus DEM, WorldCover, Isometric module v1.0 |
+
+Analysis 06 is a multi-phase project. Design doc: `docs/plans/erw_virtual_field.md`.
+Priority constraint: analysis 01 ships first (deadline 2026-11-15). Until it ships, only
+Phases 1, 2, P6.0 and P6.1 of the ERW plan are active.
 
 ## 13. Session close (only on request)
 Only when David writes `cierre de sesión`, give him this block, in Spanish. Never otherwise:
