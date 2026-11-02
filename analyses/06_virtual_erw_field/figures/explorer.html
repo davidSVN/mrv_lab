@@ -99,7 +99,20 @@ body::before{
 .tt-no{background:rgba(255,255,255,.04);color:var(--fg3);border:1px solid var(--bdr)}
 
 /* Map canvas */
-#mapCanvas{display:block;width:100%;cursor:crosshair}
+#mapCanvas{display:block;width:100%;cursor:grab}
+#mapCanvas:active{cursor:grabbing}
+.map-wrap{position:relative;overflow:hidden}
+.zoom-ctrls{position:absolute;top:10px;right:10px;display:flex;flex-direction:column;gap:4px;z-index:2}
+.zoom-btn{
+  width:28px;height:28px;
+  background:rgba(20,25,36,0.88);border:1px solid rgba(255,255,255,0.12);
+  border-radius:5px;color:rgba(255,255,255,0.75);
+  font-size:15px;line-height:1;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s,border-color .15s,color .15s;user-select:none;
+}
+.zoom-btn:hover{background:rgba(74,222,128,0.15);border-color:rgba(74,222,128,0.4);color:#4ade80}
+.zoom-btn.reset{font-size:11px;font-family:'Inter',sans-serif;font-weight:600;letter-spacing:-.03em}
 .map-footer{
   padding:8px 14px;display:flex;align-items:center;gap:16px;
   border-top:1px solid var(--bdr);flex-wrap:wrap;
@@ -188,7 +201,14 @@ body::before{
         <span class="card-ttl">Mapa — formas reales de los parches</span>
         <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fg3)">proyección equirrectangular · cos(4.2°) · WorldCover + CopDEM</span>
       </div>
-      <canvas id="mapCanvas"></canvas>
+      <div class="map-wrap">
+        <canvas id="mapCanvas"></canvas>
+        <div class="zoom-ctrls">
+          <button class="zoom-btn" id="zoomIn" title="Zoom in">+</button>
+          <button class="zoom-btn reset" id="zoomReset" title="Reset">1:1</button>
+          <button class="zoom-btn" id="zoomOut" title="Zoom out">−</button>
+        </div>
+      </div>
       <div class="map-footer">
         <div class="leg-item"><div class="leg-dot" style="background:#4ade80"></div>Seleccionado (C-2340)</div>
         <div class="leg-item"><div class="leg-dot" style="background:#22d3ee"></div>Cumple ≥ 5000 ha</div>
@@ -358,6 +378,8 @@ DATA.polys.forEach((p, i) => {
 const mapCanvas = document.getElementById('mapCanvas');
 const mapCtx = mapCanvas.getContext('2d');
 let hiIdx = -1;
+// Pan/zoom state: tx/ty in CSS px, scale dimensionless
+let view = { scale: 1, tx: 0, ty: 0 };
 
 const POLY_COLORS = {
   sel:  { fill: 'rgba(74,222,128,0.28)',  stroke: '#4ade80', hi: 'rgba(74,222,128,0.55)'  },
@@ -379,11 +401,13 @@ function drawPoly(ctx, coords, W, H) {
   ctx.closePath();
 }
 
+// Adaptive scale bar drawn in screen space (outside geo transform)
 function drawScaleBar(ctx, W, H) {
-  // 50 km bar
-  const km = 50;
-  const degLon = km / (KM_PER_DEG_LAT * COS_LAT);
-  const barW = degLon / (VIEW.lonMax - VIEW.lonMin) * W;
+  const mPerPx = KM_PER_DEG_LAT * 1000 * (VIEW.lonMax - VIEW.lonMin) * COS_LAT / (W * view.scale);
+  const targets = [0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500];
+  const kmTarget = mPerPx * 80 / 1000;
+  const km = targets.reduce((a, b) => Math.abs(b - kmTarget) < Math.abs(a - kmTarget) ? b : a);
+  const barW = km * 1000 / mPerPx;
   const bx = W - barW - 14, by = H - 18;
   ctx.fillStyle = 'rgba(255,255,255,0.7)';
   ctx.fillRect(bx, by, barW, 2);
@@ -392,10 +416,9 @@ function drawScaleBar(ctx, W, H) {
   ctx.font = '9px JetBrains Mono, monospace';
   ctx.fillStyle = 'rgba(255,255,255,0.6)';
   ctx.textAlign = 'center';
-  ctx.fillText('50 km', bx + barW / 2, by - 6);
+  ctx.fillText(km >= 1 ? `${km} km` : `${(km * 1000).toFixed(0)} m`, bx + barW / 2, by - 6);
   ctx.textAlign = 'left';
-  document.getElementById('scaleLabel').textContent =
-    `1 px ≈ ${(km * 1000 / barW).toFixed(0)} m`;
+  document.getElementById('scaleLabel').textContent = `1 px ≈ ${mPerPx.toFixed(0)} m`;
 }
 
 function drawMap() {
@@ -405,10 +428,14 @@ function drawMap() {
   mapCanvas.width = W * dpr; mapCanvas.height = H * dpr;
   mapCanvas.style.height = H + 'px';
   const ctx = mapCtx;
-  ctx.scale(dpr, dpr);
 
-  // Background
-  ctx.fillStyle = '#0c1018'; ctx.fillRect(0, 0, W, H);
+  // Screen-space background (reset transform)
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.fillStyle = '#0c1018';
+  ctx.fillRect(0, 0, W * dpr, H * dpr);
+
+  // Geo content with pan+zoom transform
+  ctx.setTransform(dpr * view.scale, 0, 0, dpr * view.scale, dpr * view.tx, dpr * view.ty);
 
   // Grid
   ctx.strokeStyle = 'rgba(255,255,255,0.04)'; ctx.lineWidth = 1;
@@ -438,8 +465,7 @@ function drawMap() {
     const isHi = i === hiIdx;
     const { fill, stroke } = polyColor(p, isHi);
     drawPoly(ctx, p.c, W, H);
-    ctx.fillStyle = fill;
-    ctx.fill();
+    ctx.fillStyle = fill; ctx.fill();
     ctx.strokeStyle = stroke;
     ctx.lineWidth = p.sel ? 1.5 : (isHi ? 1.5 : 0.8);
     ctx.stroke();
@@ -458,6 +484,8 @@ function drawMap() {
   ctx.font = '10px Inter, sans-serif';
   ctx.fillText('ALTILLANURA · META, COLOMBIA', lx(-73.3, W), ly(4.49, H));
 
+  // Scale bar in screen space (reset transform to DPR only)
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   drawScaleBar(ctx, W, H);
 }
 
@@ -468,16 +496,37 @@ function getCentroid(coords) {
   coords.forEach(([x,y]) => { sx += x; sy += y; });
   return [sx/coords.length, sy/coords.length];
 }
+
+// ── PAN ───────────────────────────────────────────────────────
+let panning = false, panStart = {x:0,y:0}, panOrigin = {tx:0,ty:0};
+
+mapCanvas.addEventListener('mousedown', e => {
+  panning = true;
+  panStart = { x: e.clientX, y: e.clientY };
+  panOrigin = { tx: view.tx, ty: view.ty };
+  mapCanvas.style.cursor = 'grabbing';
+  tooltip.classList.remove('vis');
+});
+
 mapCanvas.addEventListener('mousemove', e => {
+  if (panning) {
+    view.tx = panOrigin.tx + (e.clientX - panStart.x);
+    view.ty = panOrigin.ty + (e.clientY - panStart.y);
+    drawMap();
+    return;
+  }
   const rect = mapCanvas.getBoundingClientRect();
   const mx = e.clientX - rect.left, my = e.clientY - rect.top;
   const W = mapCanvas.offsetWidth, H = mapCanvas.offsetHeight;
+  // Inverse view transform to get model-space coords for hit-testing
+  const mx_m = (mx - view.tx) / view.scale;
+  const my_m = (my - view.ty) / view.scale;
   let found = -1;
   for (let i = DATA.polys.length - 1; i >= 0; i--) {
     const p = DATA.polys[i];
-    const ctx = document.createElement('canvas').getContext('2d');
-    drawPoly(ctx, p.c, W, H);
-    if (ctx.isPointInPath(mx, my)) { found = i; break; }
+    const ctx2 = document.createElement('canvas').getContext('2d');
+    drawPoly(ctx2, p.c, W, H);
+    if (ctx2.isPointInPath(mx_m, my_m)) { found = i; break; }
   }
   if (found !== -1) {
     const p = DATA.polys[found];
@@ -498,9 +547,47 @@ mapCanvas.addEventListener('mousemove', e => {
     if (hiIdx !== -1) { hiIdx = -1; drawMap(); updateListHi(-1); }
   }
 });
+
+mapCanvas.addEventListener('mouseup', () => {
+  panning = false;
+  mapCanvas.style.cursor = 'grab';
+});
 mapCanvas.addEventListener('mouseleave', () => {
+  panning = false;
+  mapCanvas.style.cursor = 'grab';
   tooltip.classList.remove('vis');
   hiIdx = -1; drawMap(); updateListHi(-1);
+});
+
+// ── WHEEL ZOOM ────────────────────────────────────────────────
+mapCanvas.addEventListener('wheel', e => {
+  e.preventDefault();
+  const rect = mapCanvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left, my = e.clientY - rect.top;
+  zoomAt(mx, my, e.deltaY < 0 ? 1.15 : 1 / 1.15);
+}, { passive: false });
+
+function zoomAt(cx, cy, factor) {
+  const newScale = Math.max(0.5, Math.min(64, view.scale * factor));
+  const actual = newScale / view.scale;
+  view.tx = cx - (cx - view.tx) * actual;
+  view.ty = cy - (cy - view.ty) * actual;
+  view.scale = newScale;
+  drawMap();
+}
+
+// ── ZOOM BUTTONS ─────────────────────────────────────────────
+document.getElementById('zoomIn').addEventListener('click', () => {
+  const W = mapCanvas.offsetWidth, H = mapCanvas.offsetHeight;
+  zoomAt(W / 2, H / 2, 1.5);
+});
+document.getElementById('zoomOut').addEventListener('click', () => {
+  const W = mapCanvas.offsetWidth, H = mapCanvas.offsetHeight;
+  zoomAt(W / 2, H / 2, 1 / 1.5);
+});
+document.getElementById('zoomReset').addEventListener('click', () => {
+  view = { scale: 1, tx: 0, ty: 0 };
+  drawMap();
 });
 
 function updateListHi(idx) {
