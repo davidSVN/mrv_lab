@@ -883,7 +883,7 @@ function init3D() {
   // Terrain surface with fbm relief (replaces flat ShapeGeometry)
   const terrainGeo = buildTerrain(pts, xMin, xMax, zMin, zMax);
   const terrainMat = new THREE.MeshLambertMaterial({
-    color: 0x4a7a28, side: THREE.DoubleSide,
+    color: 0xb8926a, side: THREE.DoubleSide,
     clippingPlanes: [clipX, clipZ],
   });
   scene.add(new THREE.Mesh(terrainGeo, terrainMat));
