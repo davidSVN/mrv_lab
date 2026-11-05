@@ -105,18 +105,18 @@ Plus: the touched analysis runs from a clean state.
 
 ## 11. Git
 - One branch per analysis: `analysis/NN-slug`. Small branches for infra: `chore/...`.
+  Exception: a branch auto-named by a Claude Code cloud session (`claude/...`) may be used as-is.
+- Archived work lives in `archive/...` branches (e.g. `archive/erw-3d-viewer-v0`: virtual ERW field
+  + 3D viewer prototype, superseded). Do not branch new work from them.
 - Conventional commits (`feat:`, `fix:`, `docs:`, `chore:`, `data:`).
 - Never push to `main` or open a PR without David's OK. Never force-push.
 
 ## 12. Roadmap (public index; order can change)
 | # | Analysis | Data |
 |---|---|---|
-| 01 | CDR buyer concentration + contracted vs delivered | CDR.fyi |
-| 02 | Uncertainty discount calculator: tonnes and USD lost | Frontier / CarbonPlan |
-| 03 | Biochar issuances in Latin America | Puro.earth registry |
-| 04 | Reproduce a public removal certificate (net removal, LCA, discount) | Isometric registry |
-| 05 | CBAM cost: default values vs actual data for an exporter | European Commission |
-| 06 | Statistical power of soil sampling in enhanced rock weathering | Cascade Data Quarry |
+| 01 | ERW geography of Colombia, by region (scope pending) | To be defined |
+
+No deadlines. Priorities and dates are set only by David, per conversation.
 
 ## 13. Session close (only on request)
 Only when David writes `cierre de sesión`, give him this block, in Spanish. Never otherwise:
@@ -130,10 +130,10 @@ Hallazgos que afectan a otros chats:
 - [chat X]: ...
 Bloqueos:
 - ...
-Próxima acción + fecha:
+Próxima acción:
 - ...
 KPI:
-- análisis publicados N/6 · tests verdes sí/no
+- análisis publicados N · tests verdes sí/no
 ```
 
 ## 14. First session: bootstrap
