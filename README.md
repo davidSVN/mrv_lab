@@ -11,7 +11,7 @@ Every number published from this work is computed by code in this repo and store
 
 | # | Analysis | Question | Key result | Data |
 |---|---|---|---|---|
-| 01 | [ERW geography of Colombia](analyses/01_erw_geography_colombia/) | _In progress_ | — | — |
+| 01 | [Where does ERW make sense in Colombia?](analyses/01_erw_siting_colombia/) | _In progress_ | — | — |
 
 Each analysis lives in `analyses/NN_slug/` with a README (Question · Data · Method ·
 Result · Limitations · Reproduce), an `analysis.py`, a `results.json` and its figures.

@@ -12,10 +12,10 @@
 # ---
 
 # %% [markdown]
-# # 01 — ERW geography of Colombia (by region)
+# # 01 — Where does ERW make sense in Colombia?
 #
-# Skeleton. Scope pending David's scope document; cells are filled once it is agreed.
-# Runs end-to-end from raw data: `uv run python analyses/01_erw_geography_colombia/analysis.py`.
+# Skeleton. Spec: docs/plans/erw_siting_colombia.md. Cells are filled phase by phase.
+# Runs end-to-end from raw data: `uv run python analyses/01_erw_siting_colombia/analysis.py`.
 # Keep this script thin: reusable logic goes to `src/mrv_lab/` with tests.
 
 # %%

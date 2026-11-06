@@ -38,9 +38,11 @@ mrv-lab/
 ├── LICENSE                    # MIT for code. Data keeps its source license
 ├── pyproject.toml
 ├── .gitignore                 # includes data/raw/, .env, PRIVATE_CONTEXT.md
+├── config/                    # scenario + parameter registry YAMLs, one subfolder per analysis
 ├── data/
 │   ├── SOURCES.md             # registry of every data source (see §7)
 │   ├── raw/                   # gitignored by default
+│   ├── interim/               # intermediate pipeline outputs (gitignored)
 │   └── processed/             # committed only if the license allows it
 ├── src/mrv_lab/
 │   ├── __init__.py
@@ -48,7 +50,8 @@ mrv-lab/
 │   ├── plotting.py            # single style + palette + export helpers
 │   ├── uncertainty.py         # discounts, confidence intervals, Monte Carlo
 │   ├── sampling.py            # statistical power, sample size
-│   └── lca.py                 # net removal accounting
+│   ├── lca.py                 # net removal accounting
+│   └── erw_siting/            # ERW-specific logic for analysis 01
 ├── analyses/
 │   └── NN_slug/
 │       ├── README.md
@@ -56,6 +59,9 @@ mrv-lab/
 │       ├── download.py        # only if raw data can't be committed
 │       ├── results.json
 │       └── figures/
+├── docs/
+│   ├── plans/                 # analysis specs (e.g. erw_siting_colombia.md)
+│   └── adr/                   # architecture decision records
 ├── tests/
 └── .github/workflows/ci.yml
 ```
@@ -114,7 +120,7 @@ Plus: the touched analysis runs from a clean state.
 ## 12. Roadmap (public index; order can change)
 | # | Analysis | Data |
 |---|---|---|
-| 01 | ERW geography of Colombia, by region (scope pending) | To be defined |
+| 01 | Where does ERW make sense in Colombia? Site screening by region. Spec: `docs/plans/erw_siting_colombia.md` | SGC, ANM, UPRA, MapBiomas, SoilGrids, CHIRPS, ERA5-Land, Copernicus DEM, OSM, UPME (D1–D18 in spec) |
 
 No deadlines. Priorities and dates are set only by David, per conversation.
 

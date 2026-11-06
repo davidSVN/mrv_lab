@@ -8,6 +8,9 @@ PRIVATE_CONTEXT.md
 # Raw data is gitignored by default (see CLAUDE.md §7).
 data/raw/*
 !data/raw/.gitkeep
+# Intermediate pipeline outputs (clipped rasters, grids)
+data/interim/*
+!data/interim/.gitkeep
 
 # --- Python ---
 __pycache__/
