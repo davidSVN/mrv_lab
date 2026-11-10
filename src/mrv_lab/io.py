@@ -43,6 +43,11 @@ def raw_dir() -> Path:
     return data_dir() / "raw"
 
 
+def interim_dir() -> Path:
+    """Return ``data/interim/`` (intermediate pipeline outputs, gitignored)."""
+    return data_dir() / "interim"
+
+
 def processed_dir() -> Path:
     """Return ``data/processed/`` (committed only if the source license allows it)."""
     return data_dir() / "processed"
