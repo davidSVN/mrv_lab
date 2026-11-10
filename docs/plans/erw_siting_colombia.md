@@ -166,7 +166,9 @@ Any composite score must be transparent, with weights in `config/` and a sensiti
 
 ### 5.7 Scales
 
-- **Vertical slice first:** Meta + one Andean department (Tolima or Valle del Cauca), full chain F1–F6.
+- **Vertical slice first (decided):** Meta + one Andean department, full chain F1–F6. The Andean
+  department (Tolima or Valle del Cauca) is chosen in F2: the one with more suitable rock near farmland
+  according to the SGC geological map (D1).
 - Then national 1 km grid inside the agricultural frontier.
 - Regional comparison: Llanos (Meta), an Andean valley, and the Caribbean region.
 
