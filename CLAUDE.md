@@ -124,6 +124,10 @@ Plus: the touched analysis runs from a clean state.
 
 No deadlines. Priorities and dates are set only by David, per conversation.
 
+At session start, read the plan's status (§0 of `docs/plans/erw_siting_colombia.md`) and
+`docs/plans/erw_siting_journal.md` (steps, decisions D-xx, working rules R-xx, results). Every decision
+updates both in the same commit.
+
 ## 13. Session close (only on request)
 Only when David writes `cierre de sesión`, give him this block, in Spanish. Never otherwise:
 ```

@@ -1,7 +1,10 @@
 # Plan — Where does ERW make sense in Colombia? (analysis 01)
 
-Status: v0.2 · Owner: David · Code targets: `src/mrv_lab/erw_siting/` ·
+Status: v0.3 · Owner: David · Code targets: `src/mrv_lab/erw_siting/` ·
 `analyses/01_erw_siting_colombia/` · `config/erw_siting/`
+
+Companion: [`erw_siting_journal.md`](erw_siting_journal.md) explains each step, the decisions and rules
+behind it, and its result. This plan says **what we do now**; the journal says **how we got here**.
 
 This document is the specification for analysis 01. Hard rules:
 - Never invent values, URLs or licenses.
@@ -16,6 +19,34 @@ v0.2 changes vs. v0.1 (agreed with David):
 4. No CLI framework and no `.ipynb` in v0.1: one jupytext `analysis.py` (repo contract, CLAUDE.md §6).
 5. Generic logic (LCA, Monte Carlo) extends the existing `src/mrv_lab/lca.py` and
    `src/mrv_lab/uncertainty.py`; ERW-specific logic lives in `src/mrv_lab/erw_siting/`.
+
+## 0. Status
+
+Legend: ✅ done · 🔄 in progress · ❓ decision pending · ⛔ blocked · ⏳ not started.
+Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
+
+| Phase / step | What | Status | Pending / blocker |
+|---|---|---|---|
+| P0 | Workspace: plan, analysis folder, CLAUDE.md layout | ✅ | — |
+| F0a · T0 | Does this map already exist? | ❓ | David's search; the first research received covered actors, not maps (D-07) |
+| F0b | License rows in `data/SOURCES.md` | ✅ | D1 publication blocked until SGC answers (D-08); D3 dropped (D-09) |
+| F1 · step 0 | Download helper with SHA-256 pinning | ✅ | — |
+| F1 · step 1 | Pilot departments (clipping mask) | ✅ | — |
+| F1 · step 2 | Protected areas (RUNAP, D18) | ❓ | 3 decisions: categories, condition, update policy |
+| F1 · step 3 | Agricultural frontier (UPRA, D4) | ⏳ | Exact SIPRA download URL to verify |
+| F1 · step 4 | Soil (SoilGrids, D8) | ⏳ | New dependency `rasterio` (ask) |
+| F1 · step 5 | Land cover (MapBiomas, D6) | ⏳ | — |
+| F1 · step 6 | Slope, rainfall, temperature (D11, D9, D10) | ⏳ | Re-verify licenses from the archived prototype |
+| F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
+| F4 | Parameter registry with sources | ⏳ | — |
+| F3 | Rock sources (potential, from suitable polygons near roads) | ⏳ | Depends on D1 (D-09) |
+| F5 | Grid, masks, routing | ⏳ | Route-validation source to define |
+| F6 | Deterministic calculation, two departments | ⏳ | Checkpoint: re-plan if net < 0 everywhere |
+| F1–F6 national | Scale to the country | ⏳ | — |
+| F7 | Monte Carlo + sensitivity | ⏳ | — |
+| F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
+
+Next action: David decides the three RUNAP questions → implement F1 step 2.
 
 ---
 
@@ -61,14 +92,14 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 
 | # | Layer | Official source | Use | License | Status |
 |---|---|---|---|---|---|
-| D1 | Geology (lithological units) | Servicio Geológico Colombiano (SGC): Mapa Geológico de Colombia 2023, 1:1,500,000. https://www2.sgc.gov.co/MGC/Paginas/mgc_1_5M2023.aspx | Mafic/ultramafic polygons | Explanatory memoir states CC BY 4.0; confirm it covers the GDB | Exists (checked by David) |
+| D1 | Geology (lithological units) | Servicio Geológico Colombiano (SGC): Mapa Geológico de Colombia 2023, 1:1,500,000. https://www2.sgc.gov.co/MGC/Paginas/mgc_1_5M2023.aspx | Mafic/ultramafic polygons | Conflicting (memoir CC BY 4.0 vs. SGC general terms) | ⛔ Internal use only; publish after SGC answers (D-08) |
 | D2 | Geology, finer | SGC: Atlas Geológico de Colombia 2023, 1:500,000 (via MIIG) | Refine polygons in candidate zones | Verify | Exists (checked by David) |
-| D3 | Mining titles (real quarries) | Agencia Nacional de Minería (ANM): AnnA Minería geoservices | Quarries with valid title for construction material / rock | Verify | Geoservice access untested |
-| D4 | Agricultural frontier | UPRA, SIPRA (https://sipra.upra.gov.co) | Mask: where agriculture is allowed | Verify | Exists (checked by David) |
+| D3 | Mining titles (real quarries) | Agencia Nacional de Minería (ANM): AnnA Minería geoservices | Quarries with valid title for construction material / rock | No license found for polygons | Dropped in v0.1 (D-09) |
+| D4 | Agricultural frontier | UPRA, SIPRA (https://sipra.upra.gov.co) | Mask: where agriculture is allowed | CC BY-SA 4.0 (stricter reading, D-10) | ✅ License OK · download ⏳ |
 | D5 | Crop suitability | UPRA, SIPRA zonings (maize, soy, oil palm, …) | Weight zones by crop | Verify | Exists (checked by David) |
-| D6 | Land cover / use | MapBiomas Colombia, annual GeoTIFF (Collection 3.0, 1985–2024) | Actual current agriculture | Verify | Exists (checked by David) |
+| D6 | Land cover / use | MapBiomas Colombia, annual GeoTIFF (Collection 3.0, 1985–2024) | Actual current agriculture | CC BY 4.0 | ✅ License OK · download ⏳ |
 | D7 | Land cover (backup) | ESA WorldCover 10 m | Cross-check D6 | Verify | — |
-| D8 | Soil | ISRIC SoilGrids 2.0 (250 m): pH, CEC, clay, SOC, bulk density, Q0.05/Q0.95 | Acidity, lime demand, cation retention | Verify | — |
+| D8 | Soil | ISRIC SoilGrids 2.0 (250 m): pH, CEC, clay, SOC, bulk density, Q0.05/Q0.95 | Acidity, lime demand, cation retention | CC BY 4.0 | ✅ License OK · download ⏳ |
 | D9 | Precipitation | CHIRPS v2 | Annual rainfall | Verify | — |
 | D10 | Temperature | ERA5-Land (Copernicus CDS), annual mean 2 m | Dissolution-rate factor | Verify | — |
 | D11 | Topography | Copernicus DEM GLO-30 | Slope filter | Verify | — |
@@ -77,8 +108,9 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 | D14 | Diesel emission factor | UPME, FECOC | Truck emissions | Verify | — |
 | D15 | Grid emission factor | UPME/XM, SIN emission factor | Grinding emissions | Verify | — |
 | D16 | Rock chemistry | Literature (whole-rock analyses of Colombian basalts; SGC geochemistry if published) | CaO, MgO, Na₂O, K₂O → capture potential | Per article | To search |
-| D17 | Admin boundaries | DANE, Marco Geoestadístico Nacional | Aggregate by municipality / department | Verify | — |
-| D18 | Protected areas | National protected-area registry (RUNAP / Parques Nacionales) — URL to confirm in F0 | Hard exclusion filter | Verify | **New in v0.2** |
+| D17 | Admin boundaries | DANE, Marco Geoestadístico Nacional | Aggregate by municipality / department | Use + transform with citation | ⛔ Unreachable from the cloud session (D-11) |
+| D17b | Admin boundaries (clipping only) | geoBoundaries COL ADM1 (OSM-derived) | Clip layers to pilot departments | ODbL 1.0 | ✅ Downloaded, pinned (D-11) |
+| D18 | Protected areas | RUNAP, Parques Nacionales Naturales (`latest.zip`, linked by PNNC) | Hard exclusion filter | CC BY-SA 4.0 (stricter reading, D-10) | ✅ License + URL verified · ❓ step 2 decisions |
 
 Sources already verified in the archived prototype (`archive/erw-3d-viewer-v0`, `data/SOURCES.md`,
 accessed 2026-11-02): SoilGrids, Copernicus DEM, WorldCover, ERA5-Land, CHIRPS. Re-check before reuse.
@@ -195,10 +227,11 @@ data/SOURCES.md            # one row per source (D1–D18)
 data/raw/  data/interim/   # gitignored
 data/processed/            # derived data only where licenses allow
 src/mrv_lab/erw_siting/
+  regions.py               # ✅ pilot departments (clipping mask)
+  protected_areas.py       # ❓ RUNAP exclusion mask (step 2)
   registry.py              # parameter schema + loading + unit validation
-  fetch/                   # one downloader per source group
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
-  quarries.py              # ANM titles + suitable polygons → rock sources
+  quarries.py              # suitable polygons near roads → potential rock sources (ANM dropped, D-09)
   grid.py                  # 1 km grid + masks
   potential.py             # §5.2
   routing.py               # §5.4
@@ -207,6 +240,7 @@ src/mrv_lab/erw_siting/
 analyses/01_erw_siting_colombia/
   README.md  analysis.py  results.json  figures/
 docs/plans/erw_siting_colombia.md   # this file
+docs/plans/erw_siting_journal.md    # steps, decisions, rules, results
 docs/adr/                           # decisions (e.g. real routing vs. tortuosity)
 tests/erw_siting/
 ```
@@ -218,17 +252,22 @@ quality: primary|secondary|literature, status: ok|missing, notes`.
 Candidate dependencies (approve one by one): geopandas, shapely, pyproj, rasterio, rioxarray, xarray,
 osmnx or pandana, networkx, pint, pydantic, pyyaml, SALib. Optional: contextily, folium.
 
+One module per data layer (not a `fetch/` folder): each owns fetch → read → clip → save + QC map.
+Downloads go through `mrv_lab.io.download_file` (SHA-256 pinned in `data/checksums.json`).
+
 Single command: `uv run python analyses/01_erw_siting_colombia/analysis.py`.
 
 ## 8. Phases and exit criteria
+
+Status per phase: see §0.
 
 | Phase | What | Exit criterion |
 |---|---|---|
 | P0 | Workspace: this plan, folder, CLAUDE.md layout | Committed |
 | F0 | T0 novelty search (by David). License rows for D1, D3, D4, D6, D8 (+ D18) | `SOURCES.md` rows with quoted license text |
-| F1-mini | Download + clip, two departments | Reproducible scripts with checksum; one control figure per layer |
+| F1-mini | Download + clip, Meta + Tolima + Valle del Cauca | Reproducible scripts with checksum; one control figure per layer, reviewed by David |
 | F2 ∥ F4 | Lithology classification · parameter registry | Hand-reviewed unit table · registry tests pass, `missing` list in README |
-| F3 | Rock sources: ANM titles × suitable rock (fallback: potential sources, flagged) | Layer with origin per source |
+| F3 | Rock sources: suitable rock near roads, flagged as potential (ANM dropped, D-09) | Layer with origin per source |
 | F5 | Grid, masks, routing (two departments) | Validation vs. documented route sample |
 | F6 | Deterministic calculation (two departments) | Maps + break-even curve; manual sanity check on 3 cells. **Checkpoint:** if net < 0 everywhere, re-plan before scaling |
 | F1–F6 national | Scale the same code to the country | Same criteria at national scale |
