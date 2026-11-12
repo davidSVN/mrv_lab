@@ -3,6 +3,22 @@ PRIVATE_CONTEXT.md
 .env
 .env.*
 !.env.example
+# Personal notes, email drafts (e.g. data-license requests), interview or client material.
+private/
+*.private.*
+# Claude Code local files (personal settings, local memory).
+CLAUDE.local.md
+.claude/settings.local.json
+# Credentials and API key files (e.g. Copernicus CDS key for ERA5-Land).
+.cdsapirc
+.netrc
+*.pem
+*.key
+*.p12
+*.pfx
+credentials*.json
+service-account*.json
+client_secret*.json
 
 # --- Data ---
 # Raw data is gitignored by default (see CLAUDE.md §7).
@@ -29,10 +45,20 @@ venv/
 htmlcov/
 
 # --- Notebooks (jupytext .py is the source of truth) ---
+# Generated .ipynb files can embed outputs (data, paths); never commit them.
+*.ipynb
 .ipynb_checkpoints/
+
+# --- GIS / office side files ---
+*.aux.xml
+*.qgs~
+*.qgz~
+~$*
 
 # --- OS / editors ---
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
+*.swp
+*~
