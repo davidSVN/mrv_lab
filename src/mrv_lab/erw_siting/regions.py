@@ -30,6 +30,10 @@ GEOBOUNDARIES_ADM1_URL = (
     "releaseData/gbOpen/COL/ADM1/geoBoundaries-COL-ADM1.geojson"
 )
 
+#: QC map label layout (metres): margin outside the country and minimum vertical gap.
+LABEL_MARGIN_M = 100_000
+LABEL_GAP_M = 120_000
+
 #: Column holding the department name in geoBoundaries files.
 NAME_COLUMN = "shapeName"
 
@@ -89,9 +93,28 @@ def save_pilot_departments(
     fig, ax = plt.subplots(figsize=(6, 7))
     departments.plot(ax=ax, color=plotting.GREY, edgecolor="white", linewidth=0.4)
     pilot.plot(ax=ax, color=plotting.HIGHLIGHT, edgecolor="white", linewidth=0.8)
-    for _, row in pilot.iterrows():
-        point = row.geometry.representative_point()
-        ax.annotate(row["name"], (point.x, point.y), ha="center", fontsize=8, color="white")
+    # Labels sit in the left/right margin (by side of the country centre), stacked with a
+    # minimum vertical gap and joined by a leader line, so neighbours never overlap.
+    minx, _, maxx, _ = departments.total_bounds
+    centre_x = departments.union_all().centroid.x
+    anchors = [(row["name"], row.geometry.representative_point()) for _, row in pilot.iterrows()]
+    for side in ("left", "right"):
+        group = [a for a in anchors if (a[1].x < centre_x) == (side == "left")]
+        group.sort(key=lambda a: a[1].y, reverse=True)
+        label_x = minx - LABEL_MARGIN_M if side == "left" else maxx + LABEL_MARGIN_M
+        previous_y = float("inf")
+        for name, point in group:
+            label_y = min(point.y, previous_y - LABEL_GAP_M)
+            previous_y = label_y
+            ax.annotate(
+                name,
+                xy=(point.x, point.y),
+                xytext=(label_x, label_y),
+                ha="right" if side == "left" else "left",
+                va="center",
+                fontsize=9,
+                arrowprops={"arrowstyle": "-", "color": "black", "linewidth": 0.6},
+            )
     ax.set_title(f"QC — pilot departments ({WORK_CRS})", fontsize=10)
     ax.set_axis_off()
     fig.savefig(png, dpi=120, bbox_inches="tight")
