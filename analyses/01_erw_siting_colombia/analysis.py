@@ -22,6 +22,7 @@
 from pathlib import Path
 
 from mrv_lab import io
+from mrv_lab.erw_siting import regions
 
 ANALYSIS_DIR = Path(__file__).resolve().parent
 FIGURES_DIR = ANALYSIS_DIR / "figures"
@@ -36,6 +37,16 @@ SEED = 42  # Fix and record in results.json if anything is random (CLAUDE.md §9
 
 # %%
 raw_dir = io.raw_dir()
+
+# %% [markdown]
+# ### F1 — Pilot departments (clipping mask)
+# geoBoundaries COL ADM1 (ODbL, OSM-derived; SOURCES.md D17b), reprojected to EPSG:9377.
+# Used only to clip other layers: not official limits, no areas reported from it.
+
+# %%
+departments = regions.read_departments(regions.fetch_departments())
+pilot = regions.select_pilot_departments(departments)
+pilot_gpkg, pilot_qc_png = regions.save_pilot_departments(pilot, departments)
 
 # %% [markdown]
 # ## Compute
@@ -57,4 +68,8 @@ raw_dir = io.raw_dir()
 
 # %%
 if __name__ == "__main__":
-    print(f"Skeleton OK. Raw data dir: {raw_dir.relative_to(io.repo_root())}")
+    root = io.repo_root()
+    for name, km2 in zip(pilot["name"], regions.area_km2(pilot), strict=True):
+        print(f"{name}: ~{km2:,.0f} km2 (QC only, not official)")
+    print(f"Pilot layer: {pilot_gpkg.relative_to(root)}")
+    print(f"QC map: {pilot_qc_png.relative_to(root)}")

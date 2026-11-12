@@ -22,9 +22,11 @@ WORK_CRS = "EPSG:9377"
 #: Meta + the two Andean candidates; the Andean one is chosen in F2.
 PILOT_DEPARTMENTS: tuple[str, ...] = ("Meta", "Tolima", "Valle del Cauca")
 
-#: geoBoundaries COL ADM1, pinned to commit 9469f09 so the file cannot change under us.
+#: geoBoundaries COL ADM1, pinned to the full commit SHA so the file cannot change under us.
+#: Direct Git LFS media URL (github.com/.../raw/... redirects here).
 GEOBOUNDARIES_ADM1_URL = (
-    "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/"
+    "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/"
+    "9469f09592ced973a3448cf66b6100b741b64c0d/"
     "releaseData/gbOpen/COL/ADM1/geoBoundaries-COL-ADM1.geojson"
 )
 
