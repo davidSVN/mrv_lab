@@ -147,7 +147,7 @@ GeoPackage and a QC map.
 to margins to stop overlap). Second run reuses the cached file. 14 tests pass.
 *Evidence:* `48743bf`, `1be312d`, `e28bef5`.
 
-### Step 2 — Protected areas (RUNAP) 🔄
+### Step 2 — Protected areas (RUNAP) ✅
 
 **What.** `erw_siting/protected_areas.py`: download the RUNAP shapefile, keep name / category /
 condition, repair invalid polygons (keep polygon parts only), reproject to EPSG:9377, intersect with
@@ -172,10 +172,14 @@ condition field `condicion` (REGISTRADA / INSCRITA / CONSTRUCCION).
   it, the checksum check fails and the new version is accepted deliberately (delete file + registry
   entry, re-run).
 
-**Result (pending David's review).** Mask, QC map and QC table written to `data/interim/erw_siting/`
+**Result (approved by David, 2026-11-12).** Mask, QC map and QC table written to `data/interim/erw_siting/`
 (gitignored). First reading of the QC table: national natural parks dominate the excluded area in
 Meta and Tolima; in Valle del Cauca sustainable-use categories weigh more, so D-14 matters most
 there. Numbers stay QC-only until they come from `results.json`. 17 tests pass.
+
+- **D-17 (2026-11-12)** — Revisit whether integrated-management and soil-conservation districts
+  should be fully excluded **only if Valle del Cauca is chosen in F2**, with Decreto 1076 de 2015 as
+  source. If Tolima is chosen, the question has little weight and is left as is.
 
 ### Steps 3–6 ⏳
 
