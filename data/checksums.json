@@ -3,5 +3,10 @@
     "first_recorded": "2026-11-12",
     "sha256": "5e058b9e44eb4c83e4a33ea507c636029d08ddc6c93797f6963de99bf3f7cef2",
     "url": "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/9469f09592ced973a3448cf66b6100b741b64c0d/releaseData/gbOpen/COL/ADM1/geoBoundaries-COL-ADM1.geojson"
+  },
+  "raw/runap/runap_latest.zip": {
+    "first_recorded": "2026-11-12",
+    "sha256": "90f39221a5161561299429f917acf51763d232f5716eaafc80ae05f520b5a4cd",
+    "url": "https://storage.googleapis.com/pnn_geodatabase/runap/latest.zip"
   }
 }

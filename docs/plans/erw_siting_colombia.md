@@ -32,7 +32,7 @@ Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
 | F0b | License rows in `data/SOURCES.md` | ✅ | D1 publication blocked until SGC answers (D-08); D3 dropped (D-09) |
 | F1 · step 0 | Download helper with SHA-256 pinning | ✅ | — |
 | F1 · step 1 | Pilot departments (clipping mask) | ✅ | — |
-| F1 · step 2 | Protected areas (RUNAP, D18) | ❓ | 3 decisions: categories, condition, update policy |
+| F1 · step 2 | Protected areas (RUNAP, D18) | 🔄 | Implemented and run; awaiting David's review of the QC map/table |
 | F1 · step 3 | Agricultural frontier (UPRA, D4) | ⏳ | Exact SIPRA download URL to verify |
 | F1 · step 4 | Soil (SoilGrids, D8) | ⏳ | New dependency `rasterio` (ask) |
 | F1 · step 5 | Land cover (MapBiomas, D6) | ⏳ | — |
@@ -46,7 +46,7 @@ Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
 | F7 | Monte Carlo + sensitivity | ⏳ | — |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 
-Next action: David decides the three RUNAP questions → implement F1 step 2.
+Next action: David reviews the RUNAP QC map and table → close F1 step 2 → explain F1 step 3 (UPRA).
 
 ---
 
@@ -110,7 +110,7 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 | D16 | Rock chemistry | Literature (whole-rock analyses of Colombian basalts; SGC geochemistry if published) | CaO, MgO, Na₂O, K₂O → capture potential | Per article | To search |
 | D17 | Admin boundaries | DANE, Marco Geoestadístico Nacional | Aggregate by municipality / department | Use + transform with citation | ⛔ Unreachable from the cloud session (D-11) |
 | D17b | Admin boundaries (clipping only) | geoBoundaries COL ADM1 (OSM-derived) | Clip layers to pilot departments | ODbL 1.0 | ✅ Downloaded, pinned (D-11) |
-| D18 | Protected areas | RUNAP, Parques Nacionales Naturales (`latest.zip`, linked by PNNC) | Hard exclusion filter | CC BY-SA 4.0 (stricter reading, D-10) | ✅ License + URL verified · ❓ step 2 decisions |
+| D18 | Protected areas | RUNAP, Parques Nacionales Naturales (`latest.zip`, linked by PNNC) | Hard exclusion filter | CC BY-SA 4.0 (stricter reading, D-10) | ✅ Downloaded, pinned · step 2 under review |
 
 Sources already verified in the archived prototype (`archive/erw-3d-viewer-v0`, `data/SOURCES.md`,
 accessed 2026-11-02): SoilGrids, Copernicus DEM, WorldCover, ERA5-Land, CHIRPS. Re-check before reuse.
@@ -228,7 +228,7 @@ data/raw/  data/interim/   # gitignored
 data/processed/            # derived data only where licenses allow
 src/mrv_lab/erw_siting/
   regions.py               # ✅ pilot departments (clipping mask)
-  protected_areas.py       # ❓ RUNAP exclusion mask (step 2)
+  protected_areas.py       # 🔄 RUNAP exclusion mask (step 2, under review)
   registry.py              # parameter schema + loading + unit validation
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # suitable polygons near roads → potential rock sources (ANM dropped, D-09)

@@ -147,24 +147,35 @@ GeoPackage and a QC map.
 to margins to stop overlap). Second run reuses the cached file. 14 tests pass.
 *Evidence:* `48743bf`, `1be312d`, `e28bef5`.
 
-### Step 2 — Protected areas (RUNAP) ❓
+### Step 2 — Protected areas (RUNAP) 🔄
 
-**What.** Download the RUNAP shapefile, clip it to the pilots, build a union exclusion mask, QC map and
-a table of hectares by department × category.
+**What.** `erw_siting/protected_areas.py`: download the RUNAP shapefile, keep name / category /
+condition, repair invalid polygons (keep polygon parts only), reproject to EPSG:9377, intersect with
+the pilot departments (an area crossing a border is split per department), build a per-department
+union mask (overlaps counted once), and save a GeoPackage (`areas`, `mask`), a QC map and a QC table
+of hectares by department × category × condition.
 
 **Facts verified (2026-11-12).** PNNC's portal links
 `https://storage.googleapis.com/pnn_geodatabase/runap/latest.zip` and declares CC BY-SA 4.0. File of
 2026-11-06: 70,264,674 bytes, `runap.shp`, EPSG:4686, 1,952 areas, 14 categories (`ap_categor`),
 condition field `condicion` (REGISTRADA / INSCRITA / CONSTRUCCION).
 
-**Pending decisions (proposed defaults)**
-1. Categories to exclude — proposed: all, and report area per category; refine sustainable-use
-   categories later only with Decreto 1076 de 2015 as source.
-2. Condition — proposed: exclude regardless of condition; report counts.
-3. Updates — proposed: keep the pinned snapshot; a new `latest.zip` triggers a checksum error and is
-   accepted deliberately.
+**Decisions (David, 2026-11-12)**
+- **D-14** — Exclude **all 14 categories**; report hectares per category in the QC table. Some
+  sustainable-use categories (integrated-management districts, soil-conservation districts, private
+  reserves) may allow production in part of their area; refine only with Decreto 1076 de 2015 as
+  source, if their weight justifies it. *Rejected for now:* excluding only strict categories without a
+  sourced rule.
+- **D-15** — Exclude regardless of **condition** (REGISTRADA, INSCRITA, CONSTRUCCION); counts reported.
+  *Why:* the meaning of CONSTRUCCION is not documented here; excluding is the conservative choice.
+- **D-16** — **Update policy:** the downloaded `latest.zip` is pinned by SHA-256. When PNNC overwrites
+  it, the checksum check fails and the new version is accepted deliberately (delete file + registry
+  entry, re-run).
 
-**Result.** Pending.
+**Result (pending David's review).** Mask, QC map and QC table written to `data/interim/erw_siting/`
+(gitignored). First reading of the QC table: national natural parks dominate the excluded area in
+Meta and Tolima; in Valle del Cauca sustainable-use categories weigh more, so D-14 matters most
+there. Numbers stay QC-only until they come from `results.json`. 17 tests pass.
 
 ### Steps 3–6 ⏳
 

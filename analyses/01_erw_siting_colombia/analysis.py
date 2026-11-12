@@ -22,7 +22,7 @@
 from pathlib import Path
 
 from mrv_lab import io
-from mrv_lab.erw_siting import regions
+from mrv_lab.erw_siting import protected_areas, regions
 
 ANALYSIS_DIR = Path(__file__).resolve().parent
 FIGURES_DIR = ANALYSIS_DIR / "figures"
@@ -49,6 +49,19 @@ pilot = regions.select_pilot_departments(departments)
 pilot_gpkg, pilot_qc_png = regions.save_pilot_departments(pilot, departments)
 
 # %% [markdown]
+# ### F1 — Protected areas (exclusion mask)
+# RUNAP, Parques Nacionales Naturales (CC BY-SA 4.0; SOURCES.md D18). All categories and all
+# conditions are excluded; hectares by category are kept in a QC table to judge their weight.
+
+# %%
+runap = protected_areas.read_runap(protected_areas.fetch_runap())
+protected_pilot = protected_areas.clip_to_pilot(runap, pilot)
+protected_mask = protected_areas.exclusion_mask(protected_pilot)
+protected_gpkg, protected_qc_png, protected_qc_csv = protected_areas.save_protected_areas(
+    protected_pilot, protected_mask, pilot
+)
+
+# %% [markdown]
 # ## Compute
 # Units in variable names when ambiguous: `tonnes_tco2e`, `price_usd_per_t`.
 
@@ -73,3 +86,8 @@ if __name__ == "__main__":
         print(f"{name}: ~{km2:,.0f} km2 (QC only, not official)")
     print(f"Pilot layer: {pilot_gpkg.relative_to(root)}")
     print(f"QC map: {pilot_qc_png.relative_to(root)}")
+    for _, row in protected_mask.iterrows():
+        print(f"{row['department']}: ~{row['area_ha']:,.0f} ha protected (QC only)")
+    print(f"Protected areas: {protected_gpkg.relative_to(root)}")
+    print(f"QC map: {protected_qc_png.relative_to(root)}")
+    print(f"QC table: {protected_qc_csv.relative_to(root)}")
