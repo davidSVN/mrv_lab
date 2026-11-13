@@ -218,6 +218,42 @@ will get its own entry here.
 
 ---
 
+## Plan v0.4 — variables review (2026-11-13)
+
+**Purpose.** Check that every variable the method needs has a source, before more downloads.
+
+**Decisions (David, 2026-11-13)**
+- **D-21** — El Niño / La Niña and interannual variability: **future work**, not a new step. A 20+ year
+  rainfall average already includes ENSO years; ENSO matters for project-level forecasting and MRV
+  risk, not for long-term screening. Data exists (CHIRPS since 1981, NOAA ENSO index).
+- **D-22** — **Expand F1 step 6**: rainfall (annual total + number of dry months, both from CHIRPS)
+  and temperature + evapotranspiration (ERA5-Land). The plan's water term (rain − ET, §5.2) had no ET
+  source; new source D19.
+- **D-23** — **F4 registry** adds exchangeable aluminium / base saturation (new source D20, literature or
+  IGAC). It drives soil losses in acidic soils and is not in SoilGrids; expected to stay `missing` or
+  wide-ranged, and is flagged as the weakest assumption.
+- **D-24** — **New step F5a: data model and storage.** Store every per-cell variable in structured
+  tables instead of loose files. Storage engine (GeoPackage vs. PostgreSQL/PostGIS) pending David's
+  decision. Rasters stay as GeoTIFF files; only per-cell values go into tables.
+
+---
+
+## Data gaps and opportunities (Colombia)
+
+Gaps found while building the analysis. Each is a candidate for a later note, post or analysis; claims
+marked *to verify* need a source before publication.
+
+| # | Gap | Where found | Why it matters | Status |
+|---|---|---|---|---|
+| G-01 | Gridded soil data for Colombia (SoilGrids) are model predictions trained on few local soil profiles; uncertainty is likely high. | F1 step 4 | Soil losses (`f_loss`) are the most uncertain term; local soil sampling would cut uncertainty most. | *To verify:* count of WoSIS/SoilGrids training profiles in Colombia |
+| G-02 | No open gridded exchangeable aluminium / base saturation. | Plan v0.4 (D-23) | Key driver of how much rock alkalinity is lost in acidic soils. | Open |
+| G-03 | Official geological map: license of the GDB unclear (memoir CC BY 4.0 vs. SGC general terms). | F0b (D-08) | Blocks publishing derived rock-suitability maps. | Waiting for SGC |
+| G-04 | Mining-title polygons (ANM) published without a license. | F0b (D-09) | Real quarries cannot be used openly; rock sources stay "potential". | Open |
+| G-05 | Official boundaries (DANE MGN) not downloadable from the cloud environment; geoportal unavailable (HTTP 503) during checks. | F1 step 1 (D-11) | Forces non-official boundaries for clipping. | Open |
+| G-06 | UPRA agricultural frontier service does not declare its version date. | F1 step 3 | Results cannot state which frontier version they use. | Open |
+| G-07 | RUNAP condition "CONSTRUCCION" not documented in the data. | F1 step 2 (D-15) | Unclear whether those areas are legally protected yet. | Open |
+| G-08 | No public, peer-reviewed ERW field data from Colombia found (only a conference abstract). | F0a research | Model parameters for the tropics cannot be calibrated locally. | From David's research; *to verify* in T0 |
+
 ## F2–F8 ⏳
 
 Not started. See plan §8 for exit criteria.

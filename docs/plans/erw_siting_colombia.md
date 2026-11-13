@@ -1,6 +1,6 @@
 # Plan — Where does ERW make sense in Colombia? (analysis 01)
 
-Status: v0.3 · Owner: David · Code targets: `src/mrv_lab/erw_siting/` ·
+Status: v0.4 · Owner: David · Code targets: `src/mrv_lab/erw_siting/` ·
 `analyses/01_erw_siting_colombia/` · `config/erw_siting/`
 
 Companion: [`erw_siting_journal.md`](erw_siting_journal.md) explains each step, the decisions and rules
@@ -23,7 +23,8 @@ v0.2 changes vs. v0.1 (agreed with David):
 ## 0. Status
 
 Legend: ✅ done · 🔄 in progress · ❓ decision pending · ⛔ blocked · ⏳ not started.
-Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
+Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. Data sources are D1–D20
+(no hyphen).
 
 | Phase / step | What | Status | Pending / blocker |
 |---|---|---|---|
@@ -36,10 +37,11 @@ Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
 | F1 · step 3 | Agricultural frontier (UPRA, D4) | ✅ | Frontier type choice deferred to F5 (D-18) |
 | F1 · step 4 | Soil (SoilGrids, D8) | ⏳ | New dependency `rasterio` (ask) |
 | F1 · step 5 | Land cover (MapBiomas, D6) | ⏳ | — |
-| F1 · step 6 | Slope, rainfall, temperature (D11, D9, D10) | ⏳ | Re-verify licenses from the archived prototype |
+| F1 · step 6 | Slope (D11); rainfall + dry months (D9); temperature + evapotranspiration (D10, D19) | ⏳ | Re-verify licenses; confirm ERA5-Land evaporation variable (D-22) |
 | F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
-| F4 | Parameter registry with sources | ⏳ | — |
+| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ⏳ | Depends on D1 (D-09) |
+| F5a | Data model and storage: cell tables with every variable (D-24) | ❓ | David: GeoPackage now vs. PostgreSQL/PostGIS |
 | F5 | Grid, masks, routing | ⏳ | Route-validation source to define |
 | F6 | Deterministic calculation, two departments | ⏳ | Checkpoint: re-plan if net < 0 everywhere |
 | F1–F6 national | Scale to the country | ⏳ | — |
@@ -53,6 +55,8 @@ Future (not scheduled, far from now):
 - Processing cache (D-20): today every run re-processes all layers from `data/raw/` (no re-download,
   but e.g. dissolving ~35k UPRA polygons takes minutes). Add a cache that skips re-processing a layer
   when its clean output exists and its raw inputs' SHA-256 are unchanged.
+- ENSO / seasonal variability (D-21): El Niño / La Niña effect on rainfall per zone (CHIRPS since 1981
+  + NOAA ENSO index) for project-level forecasting and MRV risk. Not needed for long-term screening.
 
 ---
 
@@ -108,6 +112,8 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 | D8 | Soil | ISRIC SoilGrids 2.0 (250 m): pH, CEC, clay, SOC, bulk density, Q0.05/Q0.95 | Acidity, lime demand, cation retention | CC BY 4.0 | ✅ License OK · download ⏳ |
 | D9 | Precipitation | CHIRPS v2 | Annual rainfall | Verify | — |
 | D10 | Temperature | ERA5-Land (Copernicus CDS), annual mean 2 m | Dissolution-rate factor | Verify | — |
+| D19 | Evapotranspiration | ERA5-Land evaporation variable (to confirm) or MODIS MOD16 | Water surplus = rain − ET (§5.2) | Verify | **New in v0.4** (D-22) |
+| D20 | Exchangeable Al / base saturation | Literature, IGAC soil studies (not in SoilGrids) | Soil-loss term `f_loss` in acidic soils | Per source | **New in v0.4** (D-23); likely `missing` |
 | D11 | Topography | Copernicus DEM GLO-30 | Slope filter | Verify | — |
 | D12 | Roads | OpenStreetMap (Geofabrik Colombia extract) | Road distance | ODbL (verify) | — |
 | D13 | Official roads (backup) | INVÍAS national road network | Validate OSM primary roads | Verify | — |
@@ -153,7 +159,8 @@ Each cell is assigned the source with the highest `net_ij` (normally the nearest
 2. **Dissolved fraction over the horizon** `f_diss`: literature range by grain size, adjusted by a
    relative climate factor:
    - temperature: Arrhenius correction relative to 25 °C, Eₐ from literature;
-   - water: increasing, saturating factor of rainfall or water surplus (rain − ET).
+   - water: increasing, saturating factor of rainfall or water surplus (rain − ET), with the number of
+     dry months (from CHIRPS monthly) as a seasonality check (D-22).
    This is a **relative index**, not a geochemical model. Documented as such.
 3. **Soil losses** `f_loss`, function of SoilGrids pH and CEC:
    - in acidic soil, part of the cations neutralises acidity (Al³⁺, H⁺) instead of capturing CO₂;
@@ -276,6 +283,7 @@ Status per phase: see §0.
 | F1-mini | Download + clip, Meta + Tolima + Valle del Cauca | Reproducible scripts with checksum; one control figure per layer, reviewed by David |
 | F2 ∥ F4 | Lithology classification · parameter registry | Hand-reviewed unit table · registry tests pass, `missing` list in README |
 | F3 | Rock sources: suitable rock near roads, flagged as potential (ANM dropped, D-09) | Layer with origin per source |
+| F5a | Data model and storage (D-24) | Schema documented; every layer loads into cell tables; queried by SQL |
 | F5 | Grid, masks, routing (two departments) | Validation vs. documented route sample |
 | F6 | Deterministic calculation (two departments) | Maps + break-even curve; manual sanity check on 3 cells. **Checkpoint:** if net < 0 everywhere, re-plan before scaling |
 | F1–F6 national | Scale the same code to the country | Same criteria at national scale |
