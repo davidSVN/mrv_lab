@@ -279,7 +279,14 @@ tiles do not exist), mosaic per department, reproject to EPSG:9377 at 30 m (bili
 with central differences, mask to the outline, and save a slope GeoTIFF per department, a QC map with
 the 8 % / 12 % bands and a QC table with the share of land per band.
 
-**Result.** Pending.
+**Result (first run, 2026-11-13).** 28 land tiles (1.1 GB), slope for the three departments in ~2 min.
+Flat Llanos show speckled "steep" pixels: the DEM is a surface model, so tree and field edges read as
+slope. Test window in the Llanos (~30 × 30 km): share > 12 % = 4.7 % raw vs 0.1 % with a 5×5 mean
+filter (median 1.16 % vs 0.87 %).
+
+- **D-36 (David, 2026-11-13)** — DEM smoothing is an **option**, not the default: `smoothing_px`
+  (None = raw 30 m slope; e.g. 5 = 5×5 mean filter, files suffixed `_smooth5`). Which version feeds the
+  filter is decided later; future work: a switch to compare raw vs smoothed maps interactively.
 
 ---
 

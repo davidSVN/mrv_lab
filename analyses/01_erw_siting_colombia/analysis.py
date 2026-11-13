@@ -28,6 +28,7 @@ from mrv_lab.erw_siting import (
     protected_areas,
     regions,
     soil,
+    terrain,
 )
 
 ANALYSIS_DIR = Path(__file__).resolve().parent
@@ -99,6 +100,20 @@ land_cover_grids = land_cover.clip_land_cover(land_cover.fetch_land_cover(), pil
 land_cover_qc_png, land_cover_qc_csv = land_cover.save_land_cover_qc(land_cover_grids)
 
 # %% [markdown]
+# ### F1 — Slope (Copernicus DEM GLO-30)
+# Licence notice: produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence
+# and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights
+# reserved. Slope kept continuous; threshold chosen in F5 (D-35).
+# Optional DEM smoothing (D-36): None = raw 30 m slope; e.g. 5 = 5x5 mean filter (~150 m).
+
+# %%
+SLOPE_SMOOTHING_PX: int | None = None
+dem_tiles = terrain.fetch_dem(pilot)
+slope_grids = terrain.slope_by_department(dem_tiles, pilot, smoothing_px=SLOPE_SMOOTHING_PX)
+slope_label = f"_smooth{SLOPE_SMOOTHING_PX}" if SLOPE_SMOOTHING_PX else ""
+slope_qc_png, slope_qc_csv = terrain.save_slope_qc(slope_grids, label=slope_label)
+
+# %% [markdown]
 # ## Compute
 # Units in variable names when ambiguous: `tonnes_tco2e`, `price_usd_per_t`.
 
@@ -143,3 +158,6 @@ if __name__ == "__main__":
     for name, ha in agro_ha.items():
         print(f"{name}: ~{ha:,.0f} ha agricultural use in {land_cover.YEAR} (QC only)")
     print(f"QC map: {land_cover_qc_png.relative_to(root)}")
+    print(f"Slope ({len(dem_tiles)} DEM tiles, smoothing={SLOPE_SMOOTHING_PX}):")
+    print(f"QC map: {slope_qc_png.relative_to(root)}")
+    print(f"QC table: {slope_qc_csv.relative_to(root)}")

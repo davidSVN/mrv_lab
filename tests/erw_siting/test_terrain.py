@@ -31,3 +31,23 @@ def test_band_shares_sum_to_one_and_ignore_nan() -> None:
     shares = terrain.band_shares(slope)
     assert shares["0-8%"] + shares["8-12%"] + shares["12-inf%"] == pytest.approx(1.0)
     assert shares["0-8%"] == pytest.approx(3 / 7)
+
+
+def test_optional_smoothing_removes_spike_but_keeps_plane() -> None:
+    x = np.arange(30) * 3.0  # 10 % plane
+    plane = np.tile(x, (30, 1))
+    spiky = plane.copy()
+    spiky[15, 15] += 20.0  # a 20 m "tree" on the plane
+    raw = terrain.slope_percent(spiky, pixel_m=30.0)
+    smooth = terrain.slope_percent(spiky, pixel_m=30.0, smoothing_px=5)
+    assert raw.max() > 40  # the spike looks like a steep slope
+    assert smooth.max() < raw.max()
+    assert np.allclose(terrain.slope_percent(plane, 30.0, smoothing_px=5)[5:-5, 5:-5], 10.0)
+
+
+def test_smoothing_keeps_nan() -> None:
+    z = np.ones((5, 5))
+    z[2, 2] = np.nan
+    out = terrain.smooth_elevation(z, 3)
+    assert np.isnan(out[2, 2])
+    assert np.allclose(out[0, 0], 1.0)

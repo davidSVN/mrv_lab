@@ -58,6 +58,7 @@ Future (not scheduled, far from now):
   when its clean output exists and its raw inputs' SHA-256 are unchanged.
 - Land-use stability (D-32): require agricultural use to persist over several years (e.g. 2020–2024)
   instead of 2024 only.
+- Slope view switch (D-36): interactive toggle between raw and smoothed slope maps; choose which feeds the filter.
 - ENSO / seasonal variability (D-21): El Niño / La Niña effect on rainfall per zone (CHIRPS since 1981
   + NOAA ENSO index) for project-level forecasting and MRV risk. Not needed for long-term screening.
 

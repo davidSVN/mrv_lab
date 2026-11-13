@@ -25,6 +25,7 @@ from matplotlib.colors import ListedColormap
 from rasterio.features import geometry_mask
 from rasterio.merge import merge
 from rasterio.warp import Resampling, calculate_default_transform, reproject, transform_bounds
+from scipy.ndimage import uniform_filter
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
@@ -42,6 +43,11 @@ RESOLUTION_M = 30.0
 SLOPE_BANDS_PCT: tuple[float, ...] = (8.0, 12.0)
 
 PAD_DEG = 0.01
+
+#: Optional DEM smoothing before slope (decision D-36): window size in pixels of a mean filter.
+#: ``None`` (default) = raw 30 m slope. 5 (~150 m) removes most tree/edge noise on flat land
+#: (test window in the Llanos, 2026-11-13: share > 12 % fell from 4.7 % to 0.1 %).
+DEFAULT_SMOOTHING_PX: int | None = None
 
 
 def tile_name(lat_south: int, lon_west: int) -> str:
@@ -84,8 +90,27 @@ def fetch_dem(pilot: gpd.GeoDataFrame, raw_dir: Path | None = None) -> dict[str,
     return paths
 
 
-def slope_percent(elevation_m: np.ndarray, pixel_m: float) -> np.ndarray:
-    """Slope in percent from an elevation grid with square pixels of ``pixel_m`` metres."""
+def smooth_elevation(elevation_m: np.ndarray, window_px: int) -> np.ndarray:
+    """Mean filter of ``window_px`` x ``window_px`` pixels; NaN stays NaN (not spread)."""
+    z = elevation_m.astype("float64")
+    valid = ~np.isnan(z)
+    total = uniform_filter(np.where(valid, z, 0.0), size=window_px, mode="nearest")
+    weight = uniform_filter(valid.astype("float64"), size=window_px, mode="nearest")
+    with np.errstate(invalid="ignore", divide="ignore"):
+        out = total / weight
+    out[~valid] = np.nan
+    return out
+
+
+def slope_percent(
+    elevation_m: np.ndarray, pixel_m: float, smoothing_px: int | None = None
+) -> np.ndarray:
+    """Slope in percent from an elevation grid with square pixels of ``pixel_m`` metres.
+
+    ``smoothing_px`` applies :func:`smooth_elevation` first (optional, decision D-36).
+    """
+    if smoothing_px:
+        elevation_m = smooth_elevation(elevation_m, smoothing_px)
     dz_dy, dz_dx = np.gradient(elevation_m.astype("float64"), pixel_m, pixel_m)
     return (100.0 * np.hypot(dz_dx, dz_dy)).astype("float32")
 
@@ -95,6 +120,7 @@ def slope_for_department(
     geometry,
     crs,
     out_path: Path,  # noqa: ANN001
+    smoothing_px: int | None = DEFAULT_SMOOTHING_PX,
 ) -> Path:
     """Mosaic tiles, reproject to WORK_CRS (30 m, bilinear), compute slope, mask, write GeoTIFF."""
     bounds = _bounds_4326(geometry, crs)
@@ -122,7 +148,7 @@ def slope_for_department(
         dst_nodata=np.nan,
         resampling=Resampling.bilinear,
     )
-    slope = slope_percent(projected, RESOLUTION_M)
+    slope = slope_percent(projected, RESOLUTION_M, smoothing_px)
     outline = gpd.GeoSeries([geometry], crs=crs).to_crs(WORK_CRS)
     slope[geometry_mask(outline.geometry, out_shape=slope.shape, transform=dst_transform)] = np.nan
     out_path.parent.mkdir(parents=True, exist_ok=True)
@@ -145,13 +171,21 @@ def slope_for_department(
 
 
 def slope_by_department(
-    tiles: dict[str, Path], pilot: gpd.GeoDataFrame, out_dir: Path | None = None
+    tiles: dict[str, Path],
+    pilot: gpd.GeoDataFrame,
+    out_dir: Path | None = None,
+    smoothing_px: int | None = DEFAULT_SMOOTHING_PX,
 ) -> dict[str, Path]:
-    """One slope GeoTIFF per pilot department."""
+    """One slope GeoTIFF per pilot department; file names carry the smoothing (``_smooth5``)."""
     out_dir = out_dir or io.interim_dir() / "erw_siting" / "slope"
+    suffix = f"_smooth{smoothing_px}" if smoothing_px else ""
     return {
         row["name"]: slope_for_department(
-            tiles, row.geometry, pilot.crs, out_dir / f"{row['name'].replace(' ', '_')}.tif"
+            tiles,
+            row.geometry,
+            pilot.crs,
+            out_dir / f"{row['name'].replace(' ', '_')}{suffix}.tif",
+            smoothing_px,
         )
         for _, row in pilot.iterrows()
     }
@@ -169,11 +203,13 @@ def band_shares(slope: np.ndarray, bands: tuple[float, ...] = SLOPE_BANDS_PCT) -
     return shares
 
 
-def save_slope_qc(slopes: dict[str, Path], out_dir: Path | None = None) -> tuple[Path, Path]:
+def save_slope_qc(
+    slopes: dict[str, Path], out_dir: Path | None = None, label: str = ""
+) -> tuple[Path, Path]:
     """QC map (slope bands) and QC table (share of land per band, median slope)."""
     out_dir = out_dir or io.interim_dir() / "erw_siting" / "qc"
     out_dir.mkdir(parents=True, exist_ok=True)
-    png, csv = out_dir / "slope_pilot.png", out_dir / "slope_pilot_bands.csv"
+    png, csv = out_dir / f"slope_pilot{label}.png", out_dir / f"slope_pilot{label}_bands.csv"
     rows = []
     names = list(slopes)
     colors = ["#FFFFFF", plotting.HIGHLIGHT, plotting.OKABE_ITO["yellow"], plotting.GREY]
@@ -204,7 +240,7 @@ def save_slope_qc(slopes: dict[str, Path], out_dir: Path | None = None) -> tuple
         ncol=3,
         fontsize=8,
     )
-    fig.suptitle(f"QC — Copernicus DEM slope, pilot departments ({WORK_CRS})", fontsize=10)
+    fig.suptitle(f"QC — Copernicus DEM slope{label}, pilot departments ({WORK_CRS})", fontsize=10)
     fig.savefig(png, dpi=110, bbox_inches="tight")
     plt.close(fig)
     pd.DataFrame(rows).round(3).to_csv(csv, index=False)
