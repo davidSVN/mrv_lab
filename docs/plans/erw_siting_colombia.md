@@ -35,7 +35,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 1 | Pilot departments (clipping mask) | ✅ | — |
 | F1 · step 2 | Protected areas (RUNAP, D18) | ✅ | Revisit sustainable-use categories in Valle only if Valle is chosen in F2 (D-17) |
 | F1 · step 3 | Agricultural frontier (UPRA, D4) | ✅ | Frontier type choice deferred to F5 (D-18) |
-| F1 · step 4 | Soil (SoilGrids, D8) | 🔄 | 135 layers downloaded and processed; awaiting David's review of QC maps/table |
+| F1 · step 4 | Soil (SoilGrids, D8) | ✅ | — |
 | F1 · step 5 | Land cover (MapBiomas, D6) | ⏳ | — |
 | F1 · step 6 | Slope (D11); rainfall + dry months (D9); temperature + evapotranspiration (D10, D19) | ⏳ | Re-verify licenses; confirm ERA5-Land evaporation variable (D-22) |
 | F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
@@ -48,7 +48,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F7 | Monte Carlo + sensitivity | ⏳ | — |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 
-Next action: David reviews the SoilGrids QC maps and table → close F1 step 4 → explain F1 step 5 (MapBiomas).
+Next action: explain F1 step 5 (MapBiomas land cover) and get David's OK.
 
 Future (not scheduled, far from now):
 - Consolidate all layers into a well-structured spatial database with polygon/cell tables (D-19).
@@ -109,7 +109,7 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 | D5 | Crop suitability | UPRA, SIPRA zonings (maize, soy, oil palm, …) | Weight zones by crop | Verify | Exists (checked by David) |
 | D6 | Land cover / use | MapBiomas Colombia, annual GeoTIFF (Collection 3.0, 1985–2024) | Actual current agriculture | CC BY 4.0 | ✅ License OK · download ⏳ |
 | D7 | Land cover (backup) | ESA WorldCover 10 m | Cross-check D6 | Verify | — |
-| D8 | Soil | ISRIC SoilGrids 2.0 (250 m): pH, CEC, clay, SOC, bulk density, Q0.05/Q0.95 | Acidity, lime demand, cation retention | CC BY 4.0 | ✅ Downloaded (native VRT windows, pinned) · step 4 under review |
+| D8 | Soil | ISRIC SoilGrids 2.0 (250 m): pH, CEC, clay, SOC, bulk density, Q0.05/Q0.95 | Acidity, lime demand, cation retention | CC BY 4.0 | ✅ Downloaded (native VRT windows, pinned), 45 grids |
 | D9 | Precipitation | CHIRPS v2 | Annual rainfall | Verify | — |
 | D10 | Temperature | ERA5-Land (Copernicus CDS), annual mean 2 m | Dissolution-rate factor | Verify | — |
 | D19 | Evapotranspiration | ERA5-Land evaporation variable (to confirm) or MODIS MOD16 | Water surplus = rain − ET (§5.2) | Verify | **New in v0.4** (D-22) |
@@ -244,7 +244,7 @@ src/mrv_lab/erw_siting/
   geometry.py              # shared polygon repair helpers
   protected_areas.py       # ✅ RUNAP exclusion mask (step 2)
   agricultural_frontier.py # ✅ UPRA frontier, both types labelled (step 3)
-  soil.py                  # 🔄 SoilGrids 0-30 cm grids (step 4, under review)
+  soil.py                  # ✅ SoilGrids 0-30 cm grids (step 4)
   registry.py              # parameter schema + loading + unit validation
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # suitable polygons near roads → potential rock sources (ANM dropped, D-09)

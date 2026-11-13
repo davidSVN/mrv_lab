@@ -211,7 +211,7 @@ the frontier barely overlaps protected areas in Meta and Tolima; the overlap is 
 Cauca, consistent with sustainable-use districts where UPRA allows farming (links to D-17). Numbers
 stay QC-only. 21 tests pass.
 
-### Step 4 — Soil (SoilGrids 2.0) 🔄
+### Step 4 — Soil (SoilGrids 2.0) ✅
 
 **What.** `erw_siting/soil.py`: for 5 variables × 3 depths × 3 statistics, read a window around each
 pilot department from the native SoilGrids VRT and store it as GeoTIFF (135 files, SHA-256 pinned
@@ -231,7 +231,7 @@ masking to the department outline (45 grids), QC maps (one per variable) and a Q
   first runs at 75/135 layers. Each window read now retries 4 times (5/15/30/60 s) on a fresh handle,
   with GDAL HTTP retries. Rule R-03 unchanged (each file pinned).
 
-**Result (pending David's review).** 135/135 raw layers, 45 processed grids. Pixel counts match the
+**Result (approved by David, 2026-11-13).** 135/135 raw layers, 45 processed grids. Pixel counts match the
 QC department areas (250 m pixels). First reading: Meta is the most acidic and has the lowest CEC
 (typical of the Llanos Oxisols); the Cauca river valley in Valle del Cauca stands out with the
 highest pH. Numbers stay QC-only. 26 tests pass. Model predictions, not measurements (gap G-01).
