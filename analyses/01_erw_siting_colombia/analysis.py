@@ -22,7 +22,7 @@
 from pathlib import Path
 
 from mrv_lab import io
-from mrv_lab.erw_siting import agricultural_frontier, protected_areas, regions
+from mrv_lab.erw_siting import agricultural_frontier, protected_areas, regions, soil
 
 ANALYSIS_DIR = Path(__file__).resolve().parent
 FIGURES_DIR = ANALYSIS_DIR / "figures"
@@ -74,6 +74,16 @@ frontier_gpkg, frontier_qc_png, frontier_qc_csv = agricultural_frontier.save_fro
 )
 
 # %% [markdown]
+# ### F1 — Soil (SoilGrids 2.0)
+# ISRIC SoilGrids 2.0, 250 m (CC BY 4.0; SOURCES.md D8): pH, CEC, clay, SOC, bulk density;
+# 0-30 cm thickness-weighted mean of 0-5/5-15/15-30 cm; mean, Q0.05, Q0.95. Model predictions.
+
+# %%
+soil_raw = soil.fetch_soilgrids(pilot)
+soil_grids = soil.process_soil(soil_raw, pilot)
+soil_qc_pngs, soil_qc_csv = soil.save_soil_qc(soil_grids, pilot)
+
+# %% [markdown]
 # ## Compute
 # Units in variable names when ambiguous: `tonnes_tco2e`, `price_usd_per_t`.
 
@@ -111,3 +121,5 @@ if __name__ == "__main__":
     print(f"Frontier: {frontier_gpkg.relative_to(root)}")
     print(f"QC map: {frontier_qc_png.relative_to(root)}")
     print(f"QC table: {frontier_qc_csv.relative_to(root)}")
+    print(f"Soil: {len(soil_raw)} raw layers, {len(soil_grids)} processed grids")
+    print(f"QC table: {soil_qc_csv.relative_to(root)}")

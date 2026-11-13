@@ -121,18 +121,32 @@ def download_file(
             shutil.copyfileobj(response, fh, _CHUNK_BYTES)
         part.replace(dest)
 
-    actual = sha256_of(dest)
+    register_checksum(dest, url, registry)
+    return dest
+
+
+def register_checksum(path: Path, source: str, registry: Path | None = None) -> str:
+    """Pin ``path``'s SHA-256 in the registry (first time) or check it (later); return the hash.
+
+    Used by :func:`download_file`, and directly for raw files produced by a remote windowed read
+    (e.g. a SoilGrids subset), where ``source`` describes the URL and the window.
+
+    Raises:
+        ChecksumMismatchError: the file differs from the recorded version.
+    """
+    registry = registry or checksums_path()
+    actual = sha256_of(path)
     entries: dict[str, dict[str, str]] = (
         json.loads(registry.read_text(encoding="utf-8")) if registry.exists() else {}
     )
     try:
-        key = dest.resolve().relative_to(registry.resolve().parent).as_posix()
+        key = path.resolve().relative_to(registry.resolve().parent).as_posix()
     except ValueError:
-        key = dest.name
+        key = path.name
 
     recorded = entries.get(key)
     if recorded is None:
-        entries[key] = {"sha256": actual, "url": url, "first_recorded": date.today().isoformat()}
+        entries[key] = {"sha256": actual, "url": source, "first_recorded": date.today().isoformat()}
         registry.parent.mkdir(parents=True, exist_ok=True)
         registry.write_text(json.dumps(entries, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     elif recorded["sha256"] != actual:
@@ -141,4 +155,4 @@ def download_file(
             f"(first recorded {recorded.get('first_recorded', '?')} "
             f"from {recorded.get('url', '?')})."
         )
-    return dest
+    return actual
