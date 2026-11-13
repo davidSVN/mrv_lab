@@ -15,6 +15,8 @@ Processing: depth aggregation, conversion to conventional units, reprojection to
 bilinear) and masking to the department outline; results in ``data/interim/erw_siting/soil/``.
 """
 
+import time
+from collections.abc import Callable
 from pathlib import Path
 
 import geopandas as gpd
@@ -57,7 +59,27 @@ RESOLUTION_M = 250.0
 #: Margin added around each department window, in metres of the native CRS.
 PAD_M = 1_000.0
 
+#: Retries for remote reads: files.isric.org resets connections intermittently (seen 2026-11-13).
+RETRY_DELAYS_S: tuple[float, ...] = (5, 15, 30, 60)
+
+#: GDAL HTTP settings for /vsicurl reads (retries at block level, longer timeouts).
+GDAL_HTTP_ENV = {"GDAL_HTTP_MAX_RETRY": 5, "GDAL_HTTP_RETRY_DELAY": 5, "GDAL_HTTP_TIMEOUT": 120}
+
 Key = tuple[str, str, str]  # (department, variable, statistic)
+
+
+def with_retries[T](
+    func: Callable[[], T],
+    delays_s: tuple[float, ...] = RETRY_DELAYS_S,
+    sleep: Callable[[float], None] = time.sleep,
+) -> T:
+    """Call ``func``; on ``RasterioIOError`` wait and retry once per delay, then re-raise."""
+    for delay in delays_s:
+        try:
+            return func()
+        except rasterio.errors.RasterioIOError:
+            sleep(delay)
+    return func()
 
 
 def layer_url(var: str, depth: str, stat: str) -> str:
@@ -76,22 +98,28 @@ def fetch_soilgrids(
     """
     raw_dir = raw_dir or io.raw_dir() / "soilgrids"
     paths: dict[tuple[str, str, str, str], Path] = {}
-    for var in VARIABLES:
-        for depth in DEPTHS:
-            for stat in STATS:
-                url = layer_url(var, depth, stat)
-                src = None
-                for _, dept in pilot.iterrows():
-                    name = dept["name"]
-                    dest = raw_dir / name.replace(" ", "_") / f"{var}_{depth}_{stat}.tif"
-                    if not dest.exists():
-                        src = src or rasterio.open(f"/vsicurl/{url}")
-                        _write_window(src, pilot.crs, dept.geometry.bounds, dest)
-                    io.register_checksum(dest, f"{url} (window around {name})")
-                    paths[(name, var, depth, stat)] = dest
-                if src is not None:
-                    src.close()
+    with rasterio.Env(**GDAL_HTTP_ENV):
+        for var in VARIABLES:
+            for depth in DEPTHS:
+                for stat in STATS:
+                    url = layer_url(var, depth, stat)
+                    for _, dept in pilot.iterrows():
+                        name = dept["name"]
+                        dest = raw_dir / name.replace(" ", "_") / f"{var}_{depth}_{stat}.tif"
+                        if not dest.exists():
+                            bounds, crs = dept.geometry.bounds, pilot.crs
+                            with_retries(
+                                lambda u=url, b=bounds, c=crs, d=dest: _fetch_window(u, c, b, d)
+                            )
+                        io.register_checksum(dest, f"{url} (window around {name})")
+                        paths[(name, var, depth, stat)] = dest
     return paths
+
+
+def _fetch_window(url: str, bounds_crs, bounds: tuple[float, ...], dest: Path) -> None:  # noqa: ANN001
+    """Open the layer fresh (a failed read can leave a broken handle) and write one window."""
+    with rasterio.open(f"/vsicurl/{url}") as src:
+        _write_window(src, bounds_crs, bounds, dest)
 
 
 def _write_window(src, bounds_crs, bounds: tuple[float, ...], dest: Path) -> None:  # noqa: ANN001

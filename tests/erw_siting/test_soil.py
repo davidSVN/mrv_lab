@@ -47,3 +47,23 @@ def test_to_work_grid_reprojects_and_masks_outside() -> None:
     assert inside.size > 0
     assert np.allclose(inside, 5.0, atol=1e-4)
     assert np.isnan(grid).sum() > 0  # pixels outside the outline are masked
+
+
+def test_with_retries_recovers_then_gives_up() -> None:
+    calls: list[int] = []
+    waits: list[float] = []
+
+    def flaky() -> str:
+        calls.append(1)
+        if len(calls) < 3:
+            raise soil.rasterio.errors.RasterioIOError("reset")
+        return "ok"
+
+    assert soil.with_retries(flaky, delays_s=(1, 2, 3), sleep=waits.append) == "ok"
+    assert waits == [1, 2]
+
+    def always_fails() -> str:
+        raise soil.rasterio.errors.RasterioIOError("reset")
+
+    with pytest.raises(soil.rasterio.errors.RasterioIOError):
+        soil.with_retries(always_fails, delays_s=(1,), sleep=waits.append)
