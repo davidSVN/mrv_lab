@@ -144,6 +144,11 @@
     "sha256": "4bdbe56d6d78c1185c3ff2e11d15513c3961c313bb0b6c0b38d43e322cb3e7d9",
     "url": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_mean.vrt (window around Meta)"
   },
+  "raw/soilgrids/Meta/soc_0-5cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "e1848dd6a6401e9f0db88620c732e276ee1109a164642b3705ccded1fe753d1f",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_mean.vrt (window around Meta)"
+  },
   "raw/soilgrids/Tolima/cec_0-5cm_Q0.05.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "e52113b1cda7406f09589b4f54f7a5d3f2744b0e62a3f38d1e6a1afb0baa458a",
@@ -279,6 +284,11 @@
     "sha256": "488e13d5a99770fc4f9c7c8de7090cb11e6e1ecbc23d09a8f935e9a6fb98853e",
     "url": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_mean.vrt (window around Tolima)"
   },
+  "raw/soilgrids/Tolima/soc_0-5cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "8e07b7aee39e3ccc3394e83eafcbb513a77e57f62a2be60db8714dc4522ace23",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_mean.vrt (window around Tolima)"
+  },
   "raw/soilgrids/Valle_del_Cauca/cec_0-5cm_Q0.05.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "c44842a36e8a3e04c7446f8683d8bfe91d364ddbe9d0dfcfffa139559841cd63",
@@ -344,6 +354,11 @@
     "sha256": "f529493c5386172aa07f24d434e1acc98030d623fbc1b9cc9c29a6f47c42b74b",
     "url": "https://files.isric.org/soilgrids/latest/data/clay/clay_15-30cm_Q0.05.vrt (window around Valle del Cauca)"
   },
+  "raw/soilgrids/Valle_del_Cauca/clay_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "debf90f10442bf5936f75c6f16999b12cbd74166628330b0c57e570295a5eec1",
+    "url": "https://files.isric.org/soilgrids/latest/data/clay/clay_15-30cm_Q0.95.vrt (window around Valle del Cauca)"
+  },
   "raw/soilgrids/Valle_del_Cauca/clay_15-30cm_mean.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "23760576b9d87822a717792825ee72a21b7348118f6d7fee34980cb9a93eff39",
@@ -408,6 +423,11 @@
     "first_recorded": "2026-11-13",
     "sha256": "7e7d0e41777fbe45212b9a87fbb5e25b9ee8b242516c197679c5b6871d712257",
     "url": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_mean.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/soc_0-5cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "56061977652b9e31a3c096f036a8665877327ffb29f87b79ada24d93dcc75602",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_mean.vrt (window around Valle del Cauca)"
   },
   "raw/upra_frontier/frontier_50_000000.geojson": {
     "first_recorded": "2026-11-13",
