@@ -58,6 +58,8 @@ ERA5_VARIABLES: dict[str, str] = {
     "2m_temperature": "t2m",
     "potential_evaporation": "pev",
     "total_evaporation": "e",
+    # Requested too, as a CC BY rainfall alternative to CHPclim (licence unclear); not used yet.
+    "total_precipitation": "tp",
 }
 
 #: Output grids: name -> (unit, resolution in metres used for the reprojected grid).
