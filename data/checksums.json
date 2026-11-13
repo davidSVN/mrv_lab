@@ -139,6 +139,26 @@
     "sha256": "82aeec012e5bd6957045476c509ac03a435a6ce7b9e87dd7b12d262fb15cff3e",
     "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N05_00_W078_00_DEM/Copernicus_DSM_COG_10_N05_00_W078_00_DEM.tif"
   },
+  "raw/era5land/e_1991-2020_monthly.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "0bab2fd4a4f2b4d025952050f1c72c13fe40f12043a12f966298fad990c3a97c",
+    "url": "CDS reanalysis-era5-land-monthly-means e area=[5.52, -77.76, 1.4, -70.87] 1991-2020"
+  },
+  "raw/era5land/pev_1991-2020_monthly.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "35c4514f66f2b3a3c4c09b73ca02997168b23e37d7fb793c154453b3069a24d0",
+    "url": "CDS reanalysis-era5-land-monthly-means pev area=[5.52, -77.76, 1.4, -70.87] 1991-2020"
+  },
+  "raw/era5land/t2m_1991-2020_monthly.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "8383e86f17e20ecf6f63958dc433b16cf0234a82674533cd85407e6a54f618b8",
+    "url": "CDS reanalysis-era5-land-monthly-means t2m area=[5.52, -77.76, 1.4, -70.87] 1991-2020"
+  },
+  "raw/era5land/tp_1991-2020_monthly.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "1cbd9faee728e1a5c9d4bb257c365227332697dde0bf189dc21bebdbe3b8a968",
+    "url": "CDS reanalysis-era5-land-monthly-means tp area=[5.52, -77.76, 1.4, -70.87] 1991-2020"
+  },
   "raw/geoboundaries/geoBoundaries-COL-ADM1.geojson": {
     "first_recorded": "2026-11-12",
     "sha256": "5e058b9e44eb4c83e4a33ea507c636029d08ddc6c93797f6963de99bf3f7cef2",

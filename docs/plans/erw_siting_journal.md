@@ -280,6 +280,14 @@ departments. Numbers stay QC-only. 29 tests pass.
   mountains than station-blended products. ERA5-Land token saved in the session environment (proxy
   injection, header `PRIVATE-TOKEN`); dataset licence (cc-by) accepted by David on 2026-11-13.
 
+### Step 6b — Climate normals (ERA5-Land 1991-2020) 🔄
+
+**Result (first run, 2026-11-13, pending review).** CDS job finished (~43 min queue); 4 variables ×
+360 months on a 0.1° grid, pinned as GeoTIFFs. Plausibility check of the QC table: actual
+evaporation and temperature look reasonable; **potential evaporation looks too high** (several
+thousand mm/yr in the Llanos) and **rainfall looks too high on steep Andean/Pacific slopes**
+(implausible maxima). Not used for any filter yet; options to be decided by David (gap G-10).
+
 ### Step 6a — Slope (Copernicus DEM GLO-30) ✅ (approved by David, 2026-11-13)
 
 **What.** `erw_siting/terrain.py`: download the 1°×1° land tiles covering the pilot departments (ocean
@@ -338,6 +346,7 @@ marked *to verify* need a source before publication.
 | G-07 | RUNAP condition "CONSTRUCCION" not documented in the data. | F1 step 2 (D-15) | Unclear whether those areas are legally protected yet. | Open |
 | G-08 | No public, peer-reviewed ERW field data from Colombia found (only a conference abstract). | F0a research | Model parameters for the tropics cannot be calibrated locally. | From David's research; *to verify* in T0 |
 | G-09 | MapBiomas Colombia (Collection 3.0) has no separate cropland class: crops and pasture share one mosaic class. | F1 step 5 (D-31) | Cannot tell cropland from cattle pasture with open national land-cover data. | Open; ESA WorldCover (D7) as possible cross-check |
+| G-10 | Open gridded climate for Colombia's mountains: ERA5-Land rainfall looks inflated on steep slopes and its potential evaporation looks implausibly high in the pilot; station-blended products have unclear licences (CHPclim). | F1 step 6b | Water-surplus term (rain − ET) is uncertain. | Open |
 
 ## F2 — Lithology (SGC geological map) 🔄
 
