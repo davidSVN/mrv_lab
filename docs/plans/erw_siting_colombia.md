@@ -33,7 +33,7 @@ Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
 | F1 · step 0 | Download helper with SHA-256 pinning | ✅ | — |
 | F1 · step 1 | Pilot departments (clipping mask) | ✅ | — |
 | F1 · step 2 | Protected areas (RUNAP, D18) | ✅ | Revisit sustainable-use categories in Valle only if Valle is chosen in F2 (D-17) |
-| F1 · step 3 | Agricultural frontier (UPRA, D4) | 🔄 | Implemented and run; awaiting David's review of the QC map/table |
+| F1 · step 3 | Agricultural frontier (UPRA, D4) | ✅ | Frontier type choice deferred to F5 (D-18) |
 | F1 · step 4 | Soil (SoilGrids, D8) | ⏳ | New dependency `rasterio` (ask) |
 | F1 · step 5 | Land cover (MapBiomas, D6) | ⏳ | — |
 | F1 · step 6 | Slope, rainfall, temperature (D11, D9, D10) | ⏳ | Re-verify licenses from the archived prototype |
@@ -46,9 +46,13 @@ Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
 | F7 | Monte Carlo + sensitivity | ⏳ | — |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 
-Next action: David reviews the UPRA frontier QC map and table → close F1 step 3 → explain F1 step 4 (SoilGrids).
+Next action: David approves F1 step 4 (SoilGrids) design and the `rasterio` dependency.
 
-Future (not scheduled): consolidate all layers into a well-structured spatial database with polygon tables (D-19).
+Future (not scheduled, far from now):
+- Consolidate all layers into a well-structured spatial database with polygon/cell tables (D-19).
+- Processing cache (D-20): today every run re-processes all layers from `data/raw/` (no re-download,
+  but e.g. dissolving ~35k UPRA polygons takes minutes). Add a cache that skips re-processing a layer
+  when its clean output exists and its raw inputs' SHA-256 are unchanged.
 
 ---
 
@@ -232,7 +236,7 @@ src/mrv_lab/erw_siting/
   regions.py               # ✅ pilot departments (clipping mask)
   geometry.py              # shared polygon repair helpers
   protected_areas.py       # ✅ RUNAP exclusion mask (step 2)
-  agricultural_frontier.py # 🔄 UPRA frontier, both types labelled (step 3)
+  agricultural_frontier.py # ✅ UPRA frontier, both types labelled (step 3)
   registry.py              # parameter schema + loading + unit validation
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # suitable polygons near roads → potential rock sources (ANM dropped, D-09)

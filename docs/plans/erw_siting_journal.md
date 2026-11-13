@@ -181,7 +181,7 @@ there. Numbers stay QC-only until they come from `results.json`. 17 tests pass.
   should be fully excluded **only if Valle del Cauca is chosen in F2**, with Decreto 1076 de 2015 as
   source. If Tolima is chosen, the question has little weight and is left as is.
 
-### Step 3 — Agricultural frontier (UPRA) 🔄
+### Step 3 — Agricultural frontier (UPRA) ✅
 
 **What.** `erw_siting/agricultural_frontier.py`: query the UPRA ArcGIS REST layer per pilot department
 (DANE codes 50, 73, 76) in pages of 2,000 polygons ordered by `objectid`, store each page as a file
@@ -201,8 +201,11 @@ declare a version date. Its inputs include RUNAP 2023 and páramo limits.
   allowed) and both as equal (may include land where farming is prohibited).
 - **D-19 (David, 2026-11-13)** — Future: consolidate the layers into a well-structured spatial
   database with polygon tables. Not scheduled; today each layer is one GeoPackage in `data/interim/`.
+- **D-20 (David, 2026-11-13)** — Future, far from now: processing cache. Every run currently
+  re-processes all layers from `data/raw/` (no re-download). Skip a layer when its clean output exists
+  and its raw inputs' SHA-256 are unchanged. Design together with D-19.
 
-**Result (pending David's review).** Polygon counts per department match the server counts. Raw pages:
+**Result (approved by David, 2026-11-13).** Polygon counts per department match the server counts. Raw pages:
 19 files, ~366 MB (gitignored); first run ~5 minutes. Consistency check against the step-2 RUNAP mask:
 the frontier barely overlaps protected areas in Meta and Tolima; the overlap is larger in Valle del
 Cauca, consistent with sustainable-use districts where UPRA allows farming (links to D-17). Numbers
