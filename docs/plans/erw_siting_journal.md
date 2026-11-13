@@ -236,7 +236,7 @@ QC department areas (250 m pixels). First reading: Meta is the most acidic and h
 (typical of the Llanos Oxisols); the Cauca river valley in Valle del Cauca stands out with the
 highest pH. Numbers stay QC-only. 26 tests pass. Model predictions, not measurements (gap G-01).
 
-### Step 5 — Current land cover (MapBiomas Colombia 2024) 🔄
+### Step 5 — Current land cover (MapBiomas Colombia 2024) ✅
 
 **What.** `erw_siting/land_cover.py`: download the official 2024 national map (Collection 3.0, ~30 m,
 SHA-256 pinned), read a window per department, reproject to EPSG:9377 at 30 m with **nearest
@@ -253,7 +253,7 @@ EPSG:4326, uint8. Official legend PDF: agricultural classes are 9 (forest planta
   keeps its class code.
 - **D-32** — Year **2024 only**; multi-year stability (e.g. 2020–2024) is future work.
 
-**Result (pending David's review).** Department totals match the QC areas of step 1. Agricultural use
+**Result (approved by David, 2026-11-13).** Department totals match the QC areas of step 1. Agricultural use
 dominates the Cauca river valley; palm oil appears in northern Meta; no banana pixels in the pilot
 departments. Numbers stay QC-only. 29 tests pass.
 
