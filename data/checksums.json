@@ -9,6 +9,51 @@
     "sha256": "90f39221a5161561299429f917acf51763d232f5716eaafc80ae05f520b5a4cd",
     "url": "https://storage.googleapis.com/pnn_geodatabase/runap/latest.zip"
   },
+  "raw/soilgrids/Meta/bdod_0-5cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "9d42eea39d69198071419d2ee4e0e365d3eb2e016b95ecb09b2d9814422dbd51",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_Q0.05.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/bdod_0-5cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "b2a170918c79da5b2bdd6af1758841b3fe030007024b7f4f13428ef059786a31",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_Q0.95.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/bdod_0-5cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "6a6d9cf7be00dee4ea18deb520d554369d1eb5784f9427a7d0a6f87a3e165391",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_mean.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/bdod_15-30cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "fe521630f2948c96eda7652076b307e03b9d01b3215856adbe4bbad1426e9f4a",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_Q0.05.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/bdod_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "949ed720c16e57f092aa921de552e4f1f3ffffbacc70ed098267022b17a4acbb",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_Q0.95.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/bdod_15-30cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "8b769a80cbb0aec6ee1cedfb7b614ba0a7e9f4be3699e17a31de0521b5630036",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_mean.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/bdod_5-15cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "cff8da2140e4dc15433f8f59a2ddc0d7ad53ca789d0971e25b8cd87f5f5ea826",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_Q0.05.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/bdod_5-15cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "fa859006ac791fdfa7f3cd673708ce331ab51bf4fb4859bb8ba1bae839cdfdac",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_Q0.95.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/bdod_5-15cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "e65936c7a06a31b3c246535af5474653ddada6e2b1df33789f917bfef02f639b",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_mean.vrt (window around Meta)"
+  },
   "raw/soilgrids/Meta/cec_0-5cm_Q0.05.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "a3b4f901f4569ba6fa1f630e9c51466db7b219524f87f70217f8c743fce2b56f",
@@ -144,10 +189,95 @@
     "sha256": "4bdbe56d6d78c1185c3ff2e11d15513c3961c313bb0b6c0b38d43e322cb3e7d9",
     "url": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_mean.vrt (window around Meta)"
   },
+  "raw/soilgrids/Meta/soc_0-5cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "0f06df677da0685aebd5e0b2027f93e0c305f1b2329588516b6ba57b66e7790e",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_Q0.05.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/soc_0-5cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "7fea855c710fce4a478311c96e31a85dfc6f41977991ea5fab56863eac360080",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_Q0.95.vrt (window around Meta)"
+  },
   "raw/soilgrids/Meta/soc_0-5cm_mean.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "e1848dd6a6401e9f0db88620c732e276ee1109a164642b3705ccded1fe753d1f",
     "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_mean.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/soc_15-30cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "3dee9ce01baa2afaf9ed9c9d02ac5319f865972bff85a85261c789337121a19d",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_Q0.05.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/soc_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "61607a3ab29eec5fd3f5f09d434398b927c67b09de1817a8be0a1e28d6fb2f9f",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_Q0.95.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/soc_15-30cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "c4923735173dd46a04a50880b357659ba65a08fafb00e8c71de7082eadb1bd09",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_mean.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/soc_5-15cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "7b19a6dd5568618cf98ce3725067e4e1b27acd6ed784cb048ca33c016c93a7e7",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_Q0.05.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/soc_5-15cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "e8a47c3bdfcd2fc7b8a727ed7a3b3e9a873e411792b0a9075800e71f634e2fa0",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_Q0.95.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Meta/soc_5-15cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "258b1452a73903ce4b47fb8a9e2b6e512e27267d3a8a52b2174673e854e397ac",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_mean.vrt (window around Meta)"
+  },
+  "raw/soilgrids/Tolima/bdod_0-5cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "2a043c9cf11251ee0fe86c6b738899e4af25677654b14d184a476f5c5c261da8",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_Q0.05.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/bdod_0-5cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "c62e42fdee11dd964df6a1decade2403d3cc1850a721ca304f08fb29c8558a5a",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_Q0.95.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/bdod_0-5cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "da10b2526f0f1087695f138fe343cdb262d81b8cb2a43743d05cf3a0cf6b2cba",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_mean.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/bdod_15-30cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "de429e87a9f62c1d144c6ec5d5ce4e458807ca04b252da4ec3052499211680a1",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_Q0.05.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/bdod_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "3364527a83f14fabab7a40a98c980b2a4e22ce36f3080044fb143cad5cad202b",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_Q0.95.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/bdod_15-30cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "ff91e1b9462fc17dd0ac6d4066aab22e1779f047ef853c4667d54b954bcc71b7",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_mean.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/bdod_5-15cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "c690b84078585e251b36109180a4dd6e5dc41aa634dfa97cd6b2307c039db579",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_Q0.05.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/bdod_5-15cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "6d1dccbd520211fa79718797fa868038b3423dc19c331b5f980eeb5fc003e9ce",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_Q0.95.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/bdod_5-15cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "b5827c44ff8eded4876523d7cd382a41ce928ae87983f30a18c188fa86df16e0",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_mean.vrt (window around Tolima)"
   },
   "raw/soilgrids/Tolima/cec_0-5cm_Q0.05.tif": {
     "first_recorded": "2026-11-13",
@@ -284,10 +414,95 @@
     "sha256": "488e13d5a99770fc4f9c7c8de7090cb11e6e1ecbc23d09a8f935e9a6fb98853e",
     "url": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_mean.vrt (window around Tolima)"
   },
+  "raw/soilgrids/Tolima/soc_0-5cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "67909f7121863a0f82a11d6689b8a5724b01d4afad39011cf800674282e451e8",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_Q0.05.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/soc_0-5cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "d42fc9bbd57ffe40827abf885f0222afc4a329d928d6ada5ca15fdcf0506c423",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_Q0.95.vrt (window around Tolima)"
+  },
   "raw/soilgrids/Tolima/soc_0-5cm_mean.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "8e07b7aee39e3ccc3394e83eafcbb513a77e57f62a2be60db8714dc4522ace23",
     "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_mean.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/soc_15-30cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "1b11880f39c3161eeafeeea5a69fb4fe14b07f7464a29fdba6498a5fdaf3dada",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_Q0.05.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/soc_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "e824f77dab98c20d76fdc3a19e470be4781dd754fb6a09a7f5cc59cdaeee2065",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_Q0.95.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/soc_15-30cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "82f7a074fda810296f6ea9cdee16dddf8135057378fe3d4afe4c22d523d550b8",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_mean.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/soc_5-15cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "0193084431e85e46ab312376d4eb00fbf443a242c557079f70c828ccbfcfd059",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_Q0.05.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/soc_5-15cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "cdb8883f3af53d58136c70421126aaba2a5e55037b9d447ef9ecd3203d18ea13",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_Q0.95.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/soc_5-15cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "c0d790b61150be8615d2b05a3ea8ed9d43c0ff5903893394087db5a73eb68471",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_mean.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_0-5cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "1c818abac8a737ed337005601aa34c59fe0376857f4bdf874f8551d75cd3e8db",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_Q0.05.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_0-5cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "f67af49a7f22cc61769c7be6653dc222372c6f7cd5cd4bc0d1a46ee064f8dc87",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_Q0.95.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_0-5cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "5b6eca8bf0abc7e767b97d0577cb1785c8f94e20d991cd79bad9619d2c9a9175",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_0-5cm_mean.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_15-30cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "e7d3ed7539e1fd2f28ce842dd80b599576aada7e35bc056b7dbdaa73a168d915",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_Q0.05.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "bc41a1c37cf6107213810e21798f76ad336d0c66eb277def02106514a9197e27",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_Q0.95.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_15-30cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "a9a10d1f4bc8030502315e8c6ee7901e5e30a98ced9456dbef66c52844d8c82b",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_15-30cm_mean.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_5-15cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "57046caf5670e131054fc05549777413b8a95db3e83939c09ad1c4e1f9c1ba0f",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_Q0.05.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_5-15cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "17dbc827c536784d594ad20dca72d15f02f8482e312446f4ecd037045a70a523",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_Q0.95.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/bdod_5-15cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "11c7ec27fce572c156b5813d33d62b01f83158f8b3b1305e7700cb42e07c6b3b",
+    "url": "https://files.isric.org/soilgrids/latest/data/bdod/bdod_5-15cm_mean.vrt (window around Valle del Cauca)"
   },
   "raw/soilgrids/Valle_del_Cauca/cec_0-5cm_Q0.05.tif": {
     "first_recorded": "2026-11-13",
@@ -424,10 +639,50 @@
     "sha256": "7e7d0e41777fbe45212b9a87fbb5e25b9ee8b242516c197679c5b6871d712257",
     "url": "https://files.isric.org/soilgrids/latest/data/phh2o/phh2o_5-15cm_mean.vrt (window around Valle del Cauca)"
   },
+  "raw/soilgrids/Valle_del_Cauca/soc_0-5cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "23a005eda61e86daf44744bbc45a2de890642c4443112d48ae6c3663b1c0f446",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_Q0.05.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/soc_0-5cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "3fae5a4e083e353b702a5c44b262ceeb807d5900f5889948995b590e38426d63",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_Q0.95.vrt (window around Valle del Cauca)"
+  },
   "raw/soilgrids/Valle_del_Cauca/soc_0-5cm_mean.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "56061977652b9e31a3c096f036a8665877327ffb29f87b79ada24d93dcc75602",
     "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_0-5cm_mean.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/soc_15-30cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "40dd62406889dd16430f87843f891008a1bbb396bffdcedd881738403dbc7cec",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_Q0.05.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/soc_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "00f7dafb04419b483b5364c14d591f7e9a350a69f71531bc2d9d53712cf4a7af",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_Q0.95.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/soc_15-30cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "1c1bd352750ee15e5beb3d635025b2d58c0ba8429369326fe941cf0ba78c18cb",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_15-30cm_mean.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/soc_5-15cm_Q0.05.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "fb7c3f94eba3171ecd1c4de75fdacd26c2b78f7bfad2d4323a47e4d99a628077",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_Q0.05.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/soc_5-15cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "8bc437af201b481a630a01b843b0b2c84c52103d7381f9ba3c2c73c7fdcd094f",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_Q0.95.vrt (window around Valle del Cauca)"
+  },
+  "raw/soilgrids/Valle_del_Cauca/soc_5-15cm_mean.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "60cc1ce67c59d44dbacf33a896e09741b29d0ebb45db118d04acbef7f64fbdd2",
+    "url": "https://files.isric.org/soilgrids/latest/data/soc/soc_5-15cm_mean.vrt (window around Valle del Cauca)"
   },
   "raw/upra_frontier/frontier_50_000000.geojson": {
     "first_recorded": "2026-11-13",

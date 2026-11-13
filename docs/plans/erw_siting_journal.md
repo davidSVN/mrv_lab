@@ -211,10 +211,34 @@ the frontier barely overlaps protected areas in Meta and Tolima; the overlap is 
 Cauca, consistent with sustainable-use districts where UPRA allows farming (links to D-17). Numbers
 stay QC-only. 21 tests pass.
 
-### Steps 4–6 ⏳
+### Step 4 — Soil (SoilGrids 2.0) 🔄
 
-SoilGrids (D8, needs `rasterio`), MapBiomas (D6), slope / rainfall / temperature (D11, D9, D10). Each
-will get its own entry here.
+**What.** `erw_siting/soil.py`: for 5 variables × 3 depths × 3 statistics, read a window around each
+pilot department from the native SoilGrids VRT and store it as GeoTIFF (135 files, SHA-256 pinned
+through `io.register_checksum`); then per department × variable × statistic: thickness-weighted
+0–30 cm mean, conversion to conventional units, reprojection to EPSG:9377 at 250 m (bilinear),
+masking to the department outline (45 grids), QC maps (one per variable) and a QC summary table.
+
+**Decisions (David, 2026-11-13)**
+- **D-26** — Variables: pH (water), CEC, clay, soil organic carbon, bulk density.
+- **D-27** — Depth 0–30 cm = thickness-weighted mean of 0–5, 5–15, 15–30 cm. For Q0.05 / Q0.95 this is
+  an approximation (a weighted mean of layer quantiles is not the quantile of the 0–30 cm mean).
+- **D-28** — Statistics: mean, Q0.05, Q0.95 (feed uncertainty in F7).
+- **D-29 (technical, 2026-11-13)** — Read the **native VRT** (Interrupted Goode Homolosine, explicit
+  nodata −32768) instead of the WCS, which returns server-resampled EPSG:4326 with no-data as 0; this
+  avoids double resampling. Conversion factors taken from ISRIC's "SoilGrids layers" FAQ.
+- **D-30 (technical, 2026-11-13)** — `files.isric.org` reset connections intermittently and stopped the
+  first runs at 75/135 layers. Each window read now retries 4 times (5/15/30/60 s) on a fresh handle,
+  with GDAL HTTP retries. Rule R-03 unchanged (each file pinned).
+
+**Result (pending David's review).** 135/135 raw layers, 45 processed grids. Pixel counts match the
+QC department areas (250 m pixels). First reading: Meta is the most acidic and has the lowest CEC
+(typical of the Llanos Oxisols); the Cauca river valley in Valle del Cauca stands out with the
+highest pH. Numbers stay QC-only. 26 tests pass. Model predictions, not measurements (gap G-01).
+
+### Steps 5–6 ⏳
+
+MapBiomas (D6); slope, rainfall + dry months, temperature + evapotranspiration (D11, D9, D10, D19).
 
 ---
 
