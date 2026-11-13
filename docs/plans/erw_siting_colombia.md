@@ -41,7 +41,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ⏳ | Depends on D1 (D-09) |
-| F5a | Data model and storage: cell tables with every variable (D-24) | ❓ | David: GeoPackage now vs. PostgreSQL/PostGIS |
+| F5a | Data model and storage: cell tables with every variable (D-24) | ⏳ | GeoPackage now, schema portable to PostGIS later (D-25) |
 | F5 | Grid, masks, routing | ⏳ | Route-validation source to define |
 | F6 | Deterministic calculation, two departments | ⏳ | Checkpoint: re-plan if net < 0 everywhere |
 | F1–F6 national | Scale to the country | ⏳ | — |

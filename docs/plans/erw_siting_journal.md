@@ -235,6 +235,10 @@ will get its own entry here.
 - **D-24** — **New step F5a: data model and storage.** Store every per-cell variable in structured
   tables instead of loose files. Storage engine (GeoPackage vs. PostgreSQL/PostGIS) pending David's
   decision. Rasters stay as GeoTIFF files; only per-cell values go into tables.
+- **D-25** — Storage engine: **GeoPackage now** (SQLite with spatial support: real SQL, one file, no
+  server, works in CI and QGIS). Schema designed to move to **PostgreSQL + PostGIS later** with one
+  `ogr2ogr` load, if a dashboard, web app or concurrent writers appear. *Rejected for now:* PostGIS from
+  the start (server, credentials and CI service break the one-command reproduction).
 
 ---
 
