@@ -37,7 +37,8 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 3 | Agricultural frontier (UPRA, D4) | ✅ | Frontier type choice deferred to F5 (D-18) |
 | F1 · step 4 | Soil (SoilGrids, D8) | ✅ | — |
 | F1 · step 5 | Land cover (MapBiomas 2024, D6) | ✅ | Cropland vs pasture not separable (G-09) |
-| F1 · step 6 | Slope (D11); rainfall + dry months (D9); temperature + evapotranspiration (D10, D19) | ⏳ | Re-verify licenses; confirm ERA5-Land evaporation variable (D-22) |
+| F1 · step 6a | Slope from Copernicus DEM (D11) | 🔄 | Downloading tiles; threshold chosen in F5 (D-35) |
+| F1 · step 6b | Rainfall + dry months (CHPclim v2, D9); temperature + evapotranspiration (D10, D19) | ❓ | David: create Copernicus CDS account for ERA5-Land, or use CHC alternatives (D-34) |
 | F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ⏳ | Depends on D1 (D-09) |
@@ -48,7 +49,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F7 | Monte Carlo + sensitivity | ⏳ | — |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 
-Next action: explain F1 step 6 (slope, rainfall, temperature, evapotranspiration) and get David's OK.
+Next action: finish F1 step 6a (slope) and show QC; David decides the ERA5-Land account for 6b.
 
 Future (not scheduled, far from now):
 - Consolidate all layers into a well-structured spatial database with polygon/cell tables (D-19).

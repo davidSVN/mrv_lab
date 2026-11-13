@@ -257,9 +257,29 @@ EPSG:4326, uint8. Official legend PDF: agricultural classes are 9 (forest planta
 dominates the Cauca river valley; palm oil appears in northern Meta; no banana pixels in the pilot
 departments. Numbers stay QC-only. 29 tests pass.
 
-### Step 6 ⏳
+### Step 6 — Slope and climate (split into 6a and 6b)
 
-Slope, rainfall + dry months, temperature + evapotranspiration (D11, D9, D10, D19).
+**Decisions (David, 2026-11-13)**
+- **D-33** — Split step 6: **6a slope** (Copernicus DEM) and **6b climate**, each with its own review.
+- **D-34** — Rainfall from **CHPclim v2** (Climate Hazards Center monthly climatology, 12 maps; period
+  to verify in its documentation); the 30-year CHIRPS monthly series is kept for ENSO work (D-21).
+  Temperature and evapotranspiration: **ERA5-Land** recommended (monthly means, CC BY, "January 1950 to
+  present", updated monthly with a 2–3 month delay per its CDS page, checked 2026-11-13). David saw a
+  "no longer updated" notice on a Copernicus page; the dataset page shows no such notice (likely the
+  legacy CDS retired in 2024 — to confirm with the URL). A long-term average does not need recent
+  months anyway. Needs a free CDS account + API key (secure credential form). Alternative without key:
+  CHC CHTclim (temperature; variable to verify) and Hobbins RefET (marked "experimental" by CHC).
+- **D-35** — Slope kept as a **continuous percentage**; the threshold (8 % or 12 %) is fixed in F5 with
+  a cited source. The DEM is a surface model (trees, buildings); forests are removed by land cover.
+
+### Step 6a — Slope (Copernicus DEM GLO-30) 🔄
+
+**What.** `erw_siting/terrain.py`: download the 1°×1° land tiles covering the pilot departments (ocean
+tiles do not exist), mosaic per department, reproject to EPSG:9377 at 30 m (bilinear), compute slope
+with central differences, mask to the outline, and save a slope GeoTIFF per department, a QC map with
+the 8 % / 12 % bands and a QC table with the share of land per band.
+
+**Result.** Pending.
 
 ---
 
