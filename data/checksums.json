@@ -154,6 +154,11 @@
     "sha256": "90f39221a5161561299429f917acf51763d232f5716eaafc80ae05f520b5a4cd",
     "url": "https://storage.googleapis.com/pnn_geodatabase/runap/latest.zip"
   },
+  "raw/sgc/mgc2023.gdb.zip": {
+    "first_recorded": "2026-11-13",
+    "sha256": "e7b0e9733dc92a72d33e1578d92717774e2a43d6bc67f23e9ad567931db39167",
+    "url": "https://www2.sgc.gov.co/MGC/Documents/MGC_2023/mgc2023.gdb.zip"
+  },
   "raw/soilgrids/Meta/bdod_0-5cm_Q0.05.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "9d42eea39d69198071419d2ee4e0e365d3eb2e016b95ecb09b2d9814422dbd51",

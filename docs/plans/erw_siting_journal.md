@@ -339,6 +339,37 @@ marked *to verify* need a source before publication.
 | G-08 | No public, peer-reviewed ERW field data from Colombia found (only a conference abstract). | F0a research | Model parameters for the tropics cannot be calibrated locally. | From David's research; *to verify* in T0 |
 | G-09 | MapBiomas Colombia (Collection 3.0) has no separate cropland class: crops and pasture share one mosaic class. | F1 step 5 (D-31) | Cannot tell cropland from cattle pasture with open national land-cover data. | Open; ESA WorldCover (D7) as possible cross-check |
 
+## F2 — Lithology (SGC geological map) 🔄
+
+**Purpose.** Locate rock suitable for ERW (mafic and ultramafic) on the SGC Mapa Geológico de
+Colombia 2023. Internal use only: derived tables, maps and numbers are not published (git, posts)
+until SGC answers in writing (D-08); code and rules are public.
+
+**What.** `erw_siting/lithology.py`: download the File GDB (pinned), read the units layer `UC`
+(3,218 polygons, 194 units, EPSG:4686 → 9377), list the rock types named in each description,
+propose a class with written rules (main rock vs. minor mention vs. interbedded), let David review it
+in `data/interim/erw_siting/geology/lithology_review.csv` (created once, never overwritten), and save
+the classified units, a unit table, a QC map and a QC table (all gitignored).
+
+**Decisions (David, 2026-11-13)**
+- **D-38** — Keep **all three pilot departments** (Meta, Tolima, Valle del Cauca); D-05's "choose one
+  Andean department" is withdrawn: the data are already processed, and comparing departments is
+  valuable. Distances are computed **per cell, by road, in F5** (they drive transport emissions and,
+  later, cost), not as a department summary. New future research question: how rock-source location
+  per department changes emissions relative to removal.
+- **D-39** — The table keeps **all 194 units**, with a `rock_types` column, so a future rock catalogue
+  (F4 properties) can select units by rock type.
+- **D-40** — Classes: **Apta** (mafic/ultramafic main rock), **Mixta** (interbedded or mixed, unknown
+  proportion), **No apta**. Mixta does **not** count as rock supply by default; kept for a sensitivity
+  scenario. Ultramafic units flagged (possible Ni/Cr).
+- **D-41** — Rules in git; the unit table and review file (they contain SGC text) stay in
+  `data/interim/` until SGC authorises publication.
+
+**Result (pending David's review).** Rule-based proposal produced for all units; results kept
+internal (D-08). One unit has no description in the source (classified No apta). 50 tests pass.
+
+---
+
 ## F2–F8 ⏳
 
 Not started. See plan §8 for exit criteria.

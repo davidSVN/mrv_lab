@@ -39,7 +39,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 5 | Land cover (MapBiomas 2024, D6) | ✅ | Cropland vs pasture not separable (G-09) |
 | F1 · step 6a | Slope from Copernicus DEM (D11) | ✅ | Raw default, optional smoothing (D-36); threshold in F5 (D-35) |
 | F1 · step 6b | Rainfall + dry months, temperature, evapotranspiration — all ERA5-Land (D9, D10, D19) | 🔄 | CDS request queued (D-37) |
-| F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
+| F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | 🔄 | David's manual review of the unit table; results internal until SGC answers (D-08) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ⏳ | Depends on D1 (D-09) |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ⏳ | GeoPackage now, schema portable to PostGIS later (D-25) |
@@ -58,6 +58,9 @@ Future (not scheduled, far from now):
   when its clean output exists and its raw inputs' SHA-256 are unchanged.
 - Land-use stability (D-32): require agricultural use to persist over several years (e.g. 2020–2024)
   instead of 2024 only.
+- Research question (D-38): how the location of rock sources in each department changes transport
+  emissions relative to removal, and how departments compare.
+- Rock catalogue (D-39): select any rock type, with properties from F4, and re-run the analysis.
 - Slope view switch (D-36): interactive toggle between raw and smoothed slope maps; choose which feeds the filter.
 - ENSO / seasonal variability (D-21): El Niño / La Niña effect on rainfall per zone (CHIRPS since 1981
   + NOAA ENSO index) for project-level forecasting and MRV risk. Not needed for long-term screening.
@@ -215,9 +218,8 @@ Any composite score must be transparent, with weights in `config/` and a sensiti
 
 ### 5.7 Scales
 
-- **Vertical slice first (decided):** Meta + one Andean department, full chain F1–F6. The Andean
-  department (Tolima or Valle del Cauca) is chosen in F2: the one with more suitable rock near farmland
-  according to the SGC geological map (D1).
+- **Vertical slice (decided, D-38):** Meta + Tolima + Valle del Cauca, full chain F1–F6. No Andean
+  department is dropped: data for all three are already processed.
 - Then national 1 km grid inside the agricultural frontier.
 - Regional comparison: Llanos (Meta), an Andean valley, and the Caribbean region.
 
