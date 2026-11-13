@@ -261,7 +261,7 @@ departments. Numbers stay QC-only. 29 tests pass.
 
 **Decisions (David, 2026-11-13)**
 - **D-33** — Split step 6: **6a slope** (Copernicus DEM) and **6b climate**, each with its own review.
-- **D-34** — Rainfall from **CHPclim v2** (Climate Hazards Center monthly climatology, 12 maps; period
+- **D-34** — *(rainfall part superseded by D-37)* Rainfall from **CHPclim v2** (Climate Hazards Center monthly climatology, 12 maps; period
   to verify in its documentation); the 30-year CHIRPS monthly series is kept for ENSO work (D-21).
   Temperature and evapotranspiration: **ERA5-Land** recommended (monthly means, CC BY, "January 1950 to
   present", updated monthly with a 2–3 month delay per its CDS page, checked 2026-11-13). David saw a
@@ -271,6 +271,14 @@ departments. Numbers stay QC-only. 29 tests pass.
   CHC CHTclim (temperature; variable to verify) and Hobbins RefET (marked "experimental" by CHC).
 - **D-35** — Slope kept as a **continuous percentage**; the threshold (8 % or 12 %) is fixed in F5 with
   a cited source. The DEM is a surface model (trees, buildings); forests are removed by land cover.
+
+- **D-37 (David, 2026-11-13)** — **All climate from ERA5-Land**, including rainfall (total
+  precipitation). CHPclim has no published licence (checked the product page and the CHC data page:
+  only a generic "All Rights Reserved" site footer); it was briefly started without the licence check
+  (breach of R-04), stopped before any file was saved, and dropped. *Why:* fewer blockers, no third
+  parties to contact, one consistent CC BY source. *Cost:* ~9 km reanalysis rainfall is less accurate in
+  mountains than station-blended products. ERA5-Land token saved in the session environment (proxy
+  injection, header `PRIVATE-TOKEN`); dataset licence (cc-by) accepted by David on 2026-11-13.
 
 ### Step 6a — Slope (Copernicus DEM GLO-30) 🔄
 

@@ -37,8 +37,8 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 3 | Agricultural frontier (UPRA, D4) | ✅ | Frontier type choice deferred to F5 (D-18) |
 | F1 · step 4 | Soil (SoilGrids, D8) | ✅ | — |
 | F1 · step 5 | Land cover (MapBiomas 2024, D6) | ✅ | Cropland vs pasture not separable (G-09) |
-| F1 · step 6a | Slope from Copernicus DEM (D11) | 🔄 | Downloading tiles; threshold chosen in F5 (D-35) |
-| F1 · step 6b | Rainfall + dry months (CHPclim v2, D9); temperature + evapotranspiration (D10, D19) | ❓ | David: create Copernicus CDS account for ERA5-Land, or use CHC alternatives (D-34) |
+| F1 · step 6a | Slope from Copernicus DEM (D11) | 🔄 | Done (raw default, optional smoothing D-36); awaiting David's approval; threshold in F5 (D-35) |
+| F1 · step 6b | Rainfall + dry months, temperature, evapotranspiration — all ERA5-Land (D9, D10, D19) | 🔄 | CDS request queued (D-37) |
 | F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ⏳ | Depends on D1 (D-09) |
@@ -49,7 +49,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F7 | Monte Carlo + sensitivity | ⏳ | — |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 
-Next action: finish F1 step 6a (slope) and show QC; David decides the ERA5-Land account for 6b.
+Next action: ERA5-Land download completes → compute climate indicators, QC → David reviews 6a and 6b.
 
 Future (not scheduled, far from now):
 - Consolidate all layers into a well-structured spatial database with polygon/cell tables (D-19).
@@ -114,7 +114,7 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 | D6 | Land cover / use | MapBiomas Colombia, annual GeoTIFF (Collection 3.0, 1985–2024) | Actual current agriculture | CC BY 4.0 | ✅ Downloaded 2024 map (pinned); classes 21/35/74 = agricultural use (D-31) |
 | D7 | Land cover (backup) | ESA WorldCover 10 m | Cross-check D6 | Verify | — |
 | D8 | Soil | ISRIC SoilGrids 2.0 (250 m): pH, CEC, clay, SOC, bulk density, Q0.05/Q0.95 | Acidity, lime demand, cation retention | CC BY 4.0 | ✅ Downloaded (native VRT windows, pinned), 45 grids |
-| D9 | Precipitation | CHIRPS v2 | Annual rainfall | Verify | — |
+| D9 | Precipitation | ERA5-Land total precipitation (CHPclim dropped: no licence, D-37) | Annual rainfall, dry months | CC BY 4.0 | 🔄 CDS request queued |
 | D10 | Temperature | ERA5-Land (Copernicus CDS), annual mean 2 m | Dissolution-rate factor | Verify | — |
 | D19 | Evapotranspiration | ERA5-Land evaporation variable (to confirm) or MODIS MOD16 | Water surplus = rain − ET (§5.2) | Verify | **New in v0.4** (D-22) |
 | D20 | Exchangeable Al / base saturation | Literature, IGAC soil studies (not in SoilGrids) | Soil-loss term `f_loss` in acidic soils | Per source | **New in v0.4** (D-23); likely `missing` |

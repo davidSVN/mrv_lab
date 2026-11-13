@@ -38,3 +38,13 @@ def test_era5_indicators_units_and_sign() -> None:
     assert out["t2m_mean_c"][0, 0] == pytest.approx(27.0)
     assert out["pet_annual_mm"][0, 0] == pytest.approx(4.0 * days_per_year)
     assert out["et_annual_mm"][0, 0] == pytest.approx(3.0 * days_per_year)
+
+
+def test_monthly_climatology_from_era5_precipitation() -> None:
+    n = len(climate.YEARS) * 12
+    tp = np.full((n, 1, 1), 0.005)  # 5 mm/day every month
+    clim = climate.monthly_climatology_mm(tp)
+    assert clim.shape == (12, 1, 1)
+    assert clim[0, 0, 0] == pytest.approx(5.0 * 31)  # January
+    february_days = (28 * 22 + 29 * 8) / 30  # 8 leap years in 1991-2020
+    assert clim[1, 0, 0] == pytest.approx(5.0 * february_days)
