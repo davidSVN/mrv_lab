@@ -37,7 +37,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 3 | Agricultural frontier (UPRA, D4) | ✅ | Frontier type choice deferred to F5 (D-18) |
 | F1 · step 4 | Soil (SoilGrids, D8) | ✅ | — |
 | F1 · step 5 | Land cover (MapBiomas 2024, D6) | ✅ | Cropland vs pasture not separable (G-09) |
-| F1 · step 6a | Slope from Copernicus DEM (D11) | 🔄 | Done (raw default, optional smoothing D-36); awaiting David's approval; threshold in F5 (D-35) |
+| F1 · step 6a | Slope from Copernicus DEM (D11) | ✅ | Raw default, optional smoothing (D-36); threshold in F5 (D-35) |
 | F1 · step 6b | Rainfall + dry months, temperature, evapotranspiration — all ERA5-Land (D9, D10, D19) | 🔄 | CDS request queued (D-37) |
 | F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |

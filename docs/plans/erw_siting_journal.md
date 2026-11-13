@@ -280,7 +280,7 @@ departments. Numbers stay QC-only. 29 tests pass.
   mountains than station-blended products. ERA5-Land token saved in the session environment (proxy
   injection, header `PRIVATE-TOKEN`); dataset licence (cc-by) accepted by David on 2026-11-13.
 
-### Step 6a — Slope (Copernicus DEM GLO-30) 🔄
+### Step 6a — Slope (Copernicus DEM GLO-30) ✅ (approved by David, 2026-11-13)
 
 **What.** `erw_siting/terrain.py`: download the 1°×1° land tiles covering the pilot departments (ocean
 tiles do not exist), mosaic per department, reproject to EPSG:9377 at 30 m (bilinear), compute slope
