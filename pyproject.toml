@@ -7,6 +7,7 @@ license = "MIT"
 license-files = ["LICENSE"]
 requires-python = ">=3.12,<3.13"
 dependencies = [
+    "cdsapi>=0.7",
     "geopandas>=1.0",
     "jupytext>=1.16",
     "matplotlib>=3.9",
