@@ -74,6 +74,11 @@
     "sha256": "d3801390a66ef453244ce1956fccea85cc8c24dc13e2945edf6e53a35d6f21bb",
     "url": "https://files.isric.org/soilgrids/latest/data/clay/clay_15-30cm_Q0.05.vrt (window around Meta)"
   },
+  "raw/soilgrids/Meta/clay_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "dd7a7d8aed454dd0091cfc28a44f6b12cf6d5c4ca2e76daf125b0d9f918a7766",
+    "url": "https://files.isric.org/soilgrids/latest/data/clay/clay_15-30cm_Q0.95.vrt (window around Meta)"
+  },
   "raw/soilgrids/Meta/clay_15-30cm_mean.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "0ebbdaa997e5d91ee307127b5be0bb2e6152bce2bdc7dbe8ab667e2e31ac597a",
@@ -203,6 +208,11 @@
     "first_recorded": "2026-11-13",
     "sha256": "e0be6cf3d6ceb08b1ba612709c5b4e13fa63e62aa0fe900b5813e143c940bec4",
     "url": "https://files.isric.org/soilgrids/latest/data/clay/clay_15-30cm_Q0.05.vrt (window around Tolima)"
+  },
+  "raw/soilgrids/Tolima/clay_15-30cm_Q0.95.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "e785c4e8489667bd1d562593f222c946fa351be8e0c655d7f3c37edbdfde8f77",
+    "url": "https://files.isric.org/soilgrids/latest/data/clay/clay_15-30cm_Q0.95.vrt (window around Tolima)"
   },
   "raw/soilgrids/Tolima/clay_15-30cm_mean.tif": {
     "first_recorded": "2026-11-13",
