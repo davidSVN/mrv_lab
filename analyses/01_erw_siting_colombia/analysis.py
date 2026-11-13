@@ -22,7 +22,7 @@
 from pathlib import Path
 
 from mrv_lab import io
-from mrv_lab.erw_siting import protected_areas, regions
+from mrv_lab.erw_siting import agricultural_frontier, protected_areas, regions
 
 ANALYSIS_DIR = Path(__file__).resolve().parent
 FIGURES_DIR = ANALYSIS_DIR / "figures"
@@ -62,6 +62,18 @@ protected_gpkg, protected_qc_png, protected_qc_csv = protected_areas.save_protec
 )
 
 # %% [markdown]
+# ### F1 — Agricultural frontier (UPRA)
+# UPRA frontier (MADR Res. 261/2018; CC BY-SA 4.0; SOURCES.md D4), paged REST download.
+# Both types kept and labelled ("No condicionada" / "Condicionada"); the choice is made in F5.
+
+# %%
+frontier = agricultural_frontier.read_frontier(agricultural_frontier.fetch_frontier())
+frontier_mask = agricultural_frontier.frontier_mask(frontier)
+frontier_gpkg, frontier_qc_png, frontier_qc_csv = agricultural_frontier.save_frontier(
+    frontier_mask, pilot
+)
+
+# %% [markdown]
 # ## Compute
 # Units in variable names when ambiguous: `tonnes_tco2e`, `price_usd_per_t`.
 
@@ -91,3 +103,11 @@ if __name__ == "__main__":
     print(f"Protected areas: {protected_gpkg.relative_to(root)}")
     print(f"QC map: {protected_qc_png.relative_to(root)}")
     print(f"QC table: {protected_qc_csv.relative_to(root)}")
+    for _, row in frontier_mask.iterrows():
+        print(
+            f"{row['department']} | {row['frontier_type']}: "
+            f"{row['n_polygons']:,} polygons, ~{row['area_ha']:,.0f} ha (QC only)"
+        )
+    print(f"Frontier: {frontier_gpkg.relative_to(root)}")
+    print(f"QC map: {frontier_qc_png.relative_to(root)}")
+    print(f"QC table: {frontier_qc_csv.relative_to(root)}")

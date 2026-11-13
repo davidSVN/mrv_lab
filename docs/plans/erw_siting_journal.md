@@ -181,10 +181,37 @@ there. Numbers stay QC-only until they come from `results.json`. 17 tests pass.
   should be fully excluded **only if Valle del Cauca is chosen in F2**, with Decreto 1076 de 2015 as
   source. If Tolima is chosen, the question has little weight and is left as is.
 
-### Steps 3–6 ⏳
+### Step 3 — Agricultural frontier (UPRA) 🔄
 
-UPRA agricultural frontier (D4), SoilGrids (D8, needs `rasterio`), MapBiomas (D6), slope / rainfall /
-temperature (D11, D9, D10). Each will get its own entry here.
+**What.** `erw_siting/agricultural_frontier.py`: query the UPRA ArcGIS REST layer per pilot department
+(DANE codes 50, 73, 76) in pages of 2,000 polygons ordered by `objectid`, store each page as a file
+pinned by SHA-256, merge pages (dropping duplicate `objectid`), repair polygons, reproject to
+EPSG:9377, dissolve per department × frontier type, and save a GeoPackage, a QC map and a QC table.
+Shared polygon-repair code moved to `erw_siting/geometry.py` (also used by step 2).
+
+**Facts verified (2026-11-13).** Layer "Frontera agrícola y frontera agrícola condicionada"
+(MADR Resolución 261 de 2018), 465,583 polygons nationally, two types: *No condicionada* (suitable for
+farming by law) and *Condicionada* (farming may be permitted, restricted or prohibited by law).
+Repeated requests return byte-identical pages, so per-page checksums are stable. The service does not
+declare a version date. Its inputs include RUNAP 2023 and páramo limits.
+
+**Decisions**
+- **D-18 (David, 2026-11-13)** — Keep **both frontier types, labelled**; decide in F5 which counts as
+  candidate land, with numbers. *Rejected:* only "No condicionada" (may exclude land where farming is
+  allowed) and both as equal (may include land where farming is prohibited).
+- **D-19 (David, 2026-11-13)** — Future: consolidate the layers into a well-structured spatial
+  database with polygon tables. Not scheduled; today each layer is one GeoPackage in `data/interim/`.
+
+**Result (pending David's review).** Polygon counts per department match the server counts. Raw pages:
+19 files, ~366 MB (gitignored); first run ~5 minutes. Consistency check against the step-2 RUNAP mask:
+the frontier barely overlaps protected areas in Meta and Tolima; the overlap is larger in Valle del
+Cauca, consistent with sustainable-use districts where UPRA allows farming (links to D-17). Numbers
+stay QC-only. 21 tests pass.
+
+### Steps 4–6 ⏳
+
+SoilGrids (D8, needs `rasterio`), MapBiomas (D6), slope / rainfall / temperature (D11, D9, D10). Each
+will get its own entry here.
 
 ---
 

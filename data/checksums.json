@@ -8,5 +8,100 @@
     "first_recorded": "2026-11-12",
     "sha256": "90f39221a5161561299429f917acf51763d232f5716eaafc80ae05f520b5a4cd",
     "url": "https://storage.googleapis.com/pnn_geodatabase/runap/latest.zip"
+  },
+  "raw/upra_frontier/frontier_50_000000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "fa0b58d2aa6c5404bcf234e735a88afba98a7f9b126266a8d0569b121f7c068f",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2750%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=0&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_50_002000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "b02713e79a876889c1ae2b9578c3eaa739bfb55e8b27b9242e33d4821ff3d02c",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2750%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=2000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_50_004000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "07ef28a7ec21ebe1e6bc476a603993fb0119f44b4adddc3c93ff6ac769f858c8",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2750%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=4000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_50_006000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "4d64631eb0236e8c9d41c5f0714b0752616a425b3d17aeb75c0c6c86f66a7ed0",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2750%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=6000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_50_008000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "c184db7508d684fa2fe3bba35bbe61a6db35e404b537b58efd4253f8fb950dd3",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2750%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=8000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_000000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "be6566558eae40418012f05b07cee928b5a4b58cbaec14fb52577f1f0e5bdfec",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=0&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_002000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "6ca7f4a38c229ff889d576198f51e22a4f58a587f55b4d077a47e7bf28cdf0b4",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=2000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_004000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "1b6ddbfd80554b5b58505c3ef62e48c26ac012a4b9490b7e13fa94e79fd66dad",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=4000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_006000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "2c7aef90965d73fde22dfa6ce169a6834532f3b3e46bdf02107035ccd5900921",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=6000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_008000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "0b3519dfd5d8bbe9557e5367d5b9ceb9e401d34dc43a8312ca49f13973a9ccba",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=8000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_010000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "0e39dcb8e0bec98aa73463f0d8ac169588c3337493b7a9bcb9d0b0bcb10bc4c3",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=10000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_012000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "c7e16c1fcf4d31d1bb7ccf840ea05585b3b6acd7b5aca4f9544c0d7f5f217e69",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=12000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_014000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "36508f1d9bee28230cae2dc9fcb519ca34b3b437534064020bfccb75f1499046",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=14000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_73_016000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "0c21eb6a03535c5a3f60d7eada2f936bca8b45deccd8c12129a3fec2215425f7",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2773%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=16000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_76_000000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "78ddc7a13ec6128070cf94f4be9c9705630f416fe718ff1185e5ff3915b48787",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2776%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=0&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_76_002000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "503d4b3dcb6b669e19268c72ad9296e3395acdd021f258cde29e965ef54ec280",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2776%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=2000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_76_004000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "fd58b57157665b9e1f7e9a59cf9c2858ab568ee58c1cd8c25caa1deb063db6e3",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2776%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=4000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_76_006000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "657dee02826d59a14a73ba5b53fb1c19efe668d70115bf9d03da7d58a38fd11c",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2776%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=6000&resultRecordCount=2000&outSR=4326&f=geojson"
+  },
+  "raw/upra_frontier/frontier_76_008000.geojson": {
+    "first_recorded": "2026-11-13",
+    "sha256": "f1b41f56eca350b4d8067152a60b361f085aa2a3e737b7dabdb09055b0d9e831",
+    "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2776%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=8000&resultRecordCount=2000&outSR=4326&f=geojson"
   }
 }

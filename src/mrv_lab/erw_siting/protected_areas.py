@@ -13,13 +13,12 @@ from pathlib import Path
 import geopandas as gpd
 import matplotlib
 import pandas as pd
-from shapely.geometry import GeometryCollection, MultiPolygon, Polygon
-from shapely.geometry.base import BaseGeometry
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from mrv_lab import io, plotting  # noqa: E402
+from mrv_lab.erw_siting.geometry import repair_polygons  # noqa: E402
 from mrv_lab.erw_siting.regions import WORK_CRS  # noqa: E402
 
 #: Official download linked by the PNNC open-data portal; overwritten upstream on each update.
@@ -36,24 +35,11 @@ def fetch_runap() -> Path:
     return io.download_file(RUNAP_URL, io.raw_dir() / "runap" / "runap_latest.zip")
 
 
-def _polygonal(geom: BaseGeometry) -> BaseGeometry:
-    """Keep only the polygon parts of a geometry (``make_valid`` can return lines or points too)."""
-    if isinstance(geom, Polygon | MultiPolygon):
-        return geom
-    if isinstance(geom, GeometryCollection):
-        parts = [g for g in geom.geoms if isinstance(g, Polygon | MultiPolygon)]
-        polys = [p for g in parts for p in (g.geoms if isinstance(g, MultiPolygon) else [g])]
-        return MultiPolygon(polys) if polys else Polygon()
-    return Polygon()
-
-
 def read_runap(path: Path) -> gpd.GeoDataFrame:
     """Read RUNAP: keep name/category/condition, repair polygons, reproject to WORK_CRS."""
     gdf = gpd.read_file(path)
     gdf = gdf[[*COLUMNS, "geometry"]].rename(columns=COLUMNS)
-    gdf["geometry"] = gdf.geometry.make_valid().map(_polygonal)
-    gdf = gdf[~gdf.geometry.is_empty]
-    return gdf.to_crs(WORK_CRS)
+    return repair_polygons(gdf).to_crs(WORK_CRS)
 
 
 def clip_to_pilot(areas: gpd.GeoDataFrame, pilot: gpd.GeoDataFrame) -> gpd.GeoDataFrame:

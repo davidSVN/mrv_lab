@@ -33,7 +33,7 @@ Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
 | F1 · step 0 | Download helper with SHA-256 pinning | ✅ | — |
 | F1 · step 1 | Pilot departments (clipping mask) | ✅ | — |
 | F1 · step 2 | Protected areas (RUNAP, D18) | ✅ | Revisit sustainable-use categories in Valle only if Valle is chosen in F2 (D-17) |
-| F1 · step 3 | Agricultural frontier (UPRA, D4) | ⏳ | Exact SIPRA download URL to verify |
+| F1 · step 3 | Agricultural frontier (UPRA, D4) | 🔄 | Implemented and run; awaiting David's review of the QC map/table |
 | F1 · step 4 | Soil (SoilGrids, D8) | ⏳ | New dependency `rasterio` (ask) |
 | F1 · step 5 | Land cover (MapBiomas, D6) | ⏳ | — |
 | F1 · step 6 | Slope, rainfall, temperature (D11, D9, D10) | ⏳ | Re-verify licenses from the archived prototype |
@@ -46,7 +46,9 @@ Decision IDs (D-xx) and rules (R-xx) are explained in the journal.
 | F7 | Monte Carlo + sensitivity | ⏳ | — |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 
-Next action: explain F1 step 3 (UPRA agricultural frontier) and get David's OK.
+Next action: David reviews the UPRA frontier QC map and table → close F1 step 3 → explain F1 step 4 (SoilGrids).
+
+Future (not scheduled): consolidate all layers into a well-structured spatial database with polygon tables (D-19).
 
 ---
 
@@ -95,7 +97,7 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 | D1 | Geology (lithological units) | Servicio Geológico Colombiano (SGC): Mapa Geológico de Colombia 2023, 1:1,500,000. https://www2.sgc.gov.co/MGC/Paginas/mgc_1_5M2023.aspx | Mafic/ultramafic polygons | Conflicting (memoir CC BY 4.0 vs. SGC general terms) | ⛔ Internal use only; publish after SGC answers (D-08) |
 | D2 | Geology, finer | SGC: Atlas Geológico de Colombia 2023, 1:500,000 (via MIIG) | Refine polygons in candidate zones | Verify | Exists (checked by David) |
 | D3 | Mining titles (real quarries) | Agencia Nacional de Minería (ANM): AnnA Minería geoservices | Quarries with valid title for construction material / rock | No license found for polygons | Dropped in v0.1 (D-09) |
-| D4 | Agricultural frontier | UPRA, SIPRA (https://sipra.upra.gov.co) | Mask: where agriculture is allowed | CC BY-SA 4.0 (stricter reading, D-10) | ✅ License OK · download ⏳ |
+| D4 | Agricultural frontier | UPRA, SIPRA (https://sipra.upra.gov.co) | Mask: where agriculture is allowed | CC BY-SA 4.0 (stricter reading, D-10) | ✅ Downloaded (paged REST, pinned) · both types kept (D-18) |
 | D5 | Crop suitability | UPRA, SIPRA zonings (maize, soy, oil palm, …) | Weight zones by crop | Verify | Exists (checked by David) |
 | D6 | Land cover / use | MapBiomas Colombia, annual GeoTIFF (Collection 3.0, 1985–2024) | Actual current agriculture | CC BY 4.0 | ✅ License OK · download ⏳ |
 | D7 | Land cover (backup) | ESA WorldCover 10 m | Cross-check D6 | Verify | — |
@@ -228,7 +230,9 @@ data/raw/  data/interim/   # gitignored
 data/processed/            # derived data only where licenses allow
 src/mrv_lab/erw_siting/
   regions.py               # ✅ pilot departments (clipping mask)
+  geometry.py              # shared polygon repair helpers
   protected_areas.py       # ✅ RUNAP exclusion mask (step 2)
+  agricultural_frontier.py # 🔄 UPRA frontier, both types labelled (step 3)
   registry.py              # parameter schema + loading + unit validation
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # suitable polygons near roads → potential rock sources (ANM dropped, D-09)
