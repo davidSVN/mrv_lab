@@ -36,7 +36,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 2 | Protected areas (RUNAP, D18) | ✅ | Revisit sustainable-use categories in Valle only if Valle is chosen in F2 (D-17) |
 | F1 · step 3 | Agricultural frontier (UPRA, D4) | ✅ | Frontier type choice deferred to F5 (D-18) |
 | F1 · step 4 | Soil (SoilGrids, D8) | ✅ | — |
-| F1 · step 5 | Land cover (MapBiomas, D6) | ⏳ | — |
+| F1 · step 5 | Land cover (MapBiomas 2024, D6) | 🔄 | Implemented and run; awaiting David's review of QC map/table |
 | F1 · step 6 | Slope (D11); rainfall + dry months (D9); temperature + evapotranspiration (D10, D19) | ⏳ | Re-verify licenses; confirm ERA5-Land evaporation variable (D-22) |
 | F2 | Lithology: suitable rock; choose the Andean department | ⏳ | D1 usable internally; publishing blocked (D-08) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
@@ -48,13 +48,15 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F7 | Monte Carlo + sensitivity | ⏳ | — |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 
-Next action: explain F1 step 5 (MapBiomas land cover) and get David's OK.
+Next action: David reviews the MapBiomas QC map and table → close F1 step 5 → explain F1 step 6 (slope, climate).
 
 Future (not scheduled, far from now):
 - Consolidate all layers into a well-structured spatial database with polygon/cell tables (D-19).
 - Processing cache (D-20): today every run re-processes all layers from `data/raw/` (no re-download,
   but e.g. dissolving ~35k UPRA polygons takes minutes). Add a cache that skips re-processing a layer
   when its clean output exists and its raw inputs' SHA-256 are unchanged.
+- Land-use stability (D-32): require agricultural use to persist over several years (e.g. 2020–2024)
+  instead of 2024 only.
 - ENSO / seasonal variability (D-21): El Niño / La Niña effect on rainfall per zone (CHIRPS since 1981
   + NOAA ENSO index) for project-level forecasting and MRV risk. Not needed for long-term screening.
 
@@ -107,7 +109,7 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 | D3 | Mining titles (real quarries) | Agencia Nacional de Minería (ANM): AnnA Minería geoservices | Quarries with valid title for construction material / rock | No license found for polygons | Dropped in v0.1 (D-09) |
 | D4 | Agricultural frontier | UPRA, SIPRA (https://sipra.upra.gov.co) | Mask: where agriculture is allowed | CC BY-SA 4.0 (stricter reading, D-10) | ✅ Downloaded (paged REST, pinned) · both types kept (D-18) |
 | D5 | Crop suitability | UPRA, SIPRA zonings (maize, soy, oil palm, …) | Weight zones by crop | Verify | Exists (checked by David) |
-| D6 | Land cover / use | MapBiomas Colombia, annual GeoTIFF (Collection 3.0, 1985–2024) | Actual current agriculture | CC BY 4.0 | ✅ License OK · download ⏳ |
+| D6 | Land cover / use | MapBiomas Colombia, annual GeoTIFF (Collection 3.0, 1985–2024) | Actual current agriculture | CC BY 4.0 | ✅ Downloaded 2024 map (pinned); classes 21/35/74 = agricultural use (D-31) |
 | D7 | Land cover (backup) | ESA WorldCover 10 m | Cross-check D6 | Verify | — |
 | D8 | Soil | ISRIC SoilGrids 2.0 (250 m): pH, CEC, clay, SOC, bulk density, Q0.05/Q0.95 | Acidity, lime demand, cation retention | CC BY 4.0 | ✅ Downloaded (native VRT windows, pinned), 45 grids |
 | D9 | Precipitation | CHIRPS v2 | Annual rainfall | Verify | — |
@@ -245,6 +247,7 @@ src/mrv_lab/erw_siting/
   protected_areas.py       # ✅ RUNAP exclusion mask (step 2)
   agricultural_frontier.py # ✅ UPRA frontier, both types labelled (step 3)
   soil.py                  # ✅ SoilGrids 0-30 cm grids (step 4)
+  land_cover.py            # 🔄 MapBiomas 2024 classes + agricultural use (step 5, under review)
   registry.py              # parameter schema + loading + unit validation
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # suitable polygons near roads → potential rock sources (ANM dropped, D-09)

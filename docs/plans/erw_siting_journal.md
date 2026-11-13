@@ -236,9 +236,30 @@ QC department areas (250 m pixels). First reading: Meta is the most acidic and h
 (typical of the Llanos Oxisols); the Cauca river valley in Valle del Cauca stands out with the
 highest pH. Numbers stay QC-only. 26 tests pass. Model predictions, not measurements (gap G-01).
 
-### Steps 5–6 ⏳
+### Step 5 — Current land cover (MapBiomas Colombia 2024) 🔄
 
-MapBiomas (D6); slope, rainfall + dry months, temperature + evapotranspiration (D11, D9, D10, D19).
+**What.** `erw_siting/land_cover.py`: download the official 2024 national map (Collection 3.0, ~30 m,
+SHA-256 pinned), read a window per department, reproject to EPSG:9377 at 30 m with **nearest
+neighbour** (categorical data), mask to the department outline, and save one class raster per
+department, a QC map (agricultural classes highlighted) and a QC table of hectares per class.
+
+**Facts verified (2026-11-13).** File linked from the official download page (Google Drive), 95 MB,
+EPSG:4326, uint8. Official legend PDF: agricultural classes are 9 (forest plantation), 35 (palm oil),
+74 (banana, beta) and 21 (mosaic of agriculture **and** pasture). There is no separate cropland class.
+
+**Decisions (David, 2026-11-13)**
+- **D-31** — Agricultural use = classes **21 + 35 + 74**; forest plantation (9) excluded (trees, not
+  annually managed soil). ERW can also be applied on pasture, so the mosaic class is kept. Every pixel
+  keeps its class code.
+- **D-32** — Year **2024 only**; multi-year stability (e.g. 2020–2024) is future work.
+
+**Result (pending David's review).** Department totals match the QC areas of step 1. Agricultural use
+dominates the Cauca river valley; palm oil appears in northern Meta; no banana pixels in the pilot
+departments. Numbers stay QC-only. 29 tests pass.
+
+### Step 6 ⏳
+
+Slope, rainfall + dry months, temperature + evapotranspiration (D11, D9, D10, D19).
 
 ---
 
@@ -281,6 +302,7 @@ marked *to verify* need a source before publication.
 | G-06 | UPRA agricultural frontier service does not declare its version date. | F1 step 3 | Results cannot state which frontier version they use. | Open |
 | G-07 | RUNAP condition "CONSTRUCCION" not documented in the data. | F1 step 2 (D-15) | Unclear whether those areas are legally protected yet. | Open |
 | G-08 | No public, peer-reviewed ERW field data from Colombia found (only a conference abstract). | F0a research | Model parameters for the tropics cannot be calibrated locally. | From David's research; *to verify* in T0 |
+| G-09 | MapBiomas Colombia (Collection 3.0) has no separate cropland class: crops and pasture share one mosaic class. | F1 step 5 (D-31) | Cannot tell cropland from cattle pasture with open national land-cover data. | Open; ESA WorldCover (D7) as possible cross-check |
 
 ## F2–F8 ⏳
 

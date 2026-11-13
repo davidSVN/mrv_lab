@@ -22,7 +22,13 @@
 from pathlib import Path
 
 from mrv_lab import io
-from mrv_lab.erw_siting import agricultural_frontier, protected_areas, regions, soil
+from mrv_lab.erw_siting import (
+    agricultural_frontier,
+    land_cover,
+    protected_areas,
+    regions,
+    soil,
+)
 
 ANALYSIS_DIR = Path(__file__).resolve().parent
 FIGURES_DIR = ANALYSIS_DIR / "figures"
@@ -84,6 +90,15 @@ soil_grids = soil.process_soil(soil_raw, pilot)
 soil_qc_pngs, soil_qc_csv = soil.save_soil_qc(soil_grids, pilot)
 
 # %% [markdown]
+# ### F1 — Current land cover (MapBiomas Colombia, Collection 3.0, 2024)
+# CC BY 4.0 (SOURCES.md D6). Agricultural use = classes 21 (mosaic of agriculture and pasture),
+# 35 (palm oil), 74 (banana); every pixel keeps its class code. Nearest-neighbour reprojection.
+
+# %%
+land_cover_grids = land_cover.clip_land_cover(land_cover.fetch_land_cover(), pilot)
+land_cover_qc_png, land_cover_qc_csv = land_cover.save_land_cover_qc(land_cover_grids)
+
+# %% [markdown]
 # ## Compute
 # Units in variable names when ambiguous: `tonnes_tco2e`, `price_usd_per_t`.
 
@@ -123,3 +138,8 @@ if __name__ == "__main__":
     print(f"QC table: {frontier_qc_csv.relative_to(root)}")
     print(f"Soil: {len(soil_raw)} raw layers, {len(soil_grids)} processed grids")
     print(f"QC table: {soil_qc_csv.relative_to(root)}")
+    lc_table = land_cover.land_cover_summary(land_cover_grids)
+    agro_ha = lc_table[lc_table["agricultural_use"]].groupby("department")["area_ha"].sum()
+    for name, ha in agro_ha.items():
+        print(f"{name}: ~{ha:,.0f} ha agricultural use in {land_cover.YEAR} (QC only)")
+    print(f"QC map: {land_cover_qc_png.relative_to(root)}")

@@ -4,6 +4,11 @@
     "sha256": "5e058b9e44eb4c83e4a33ea507c636029d08ddc6c93797f6963de99bf3f7cef2",
     "url": "https://media.githubusercontent.com/media/wmgeolab/geoBoundaries/9469f09592ced973a3448cf66b6100b741b64c0d/releaseData/gbOpen/COL/ADM1/geoBoundaries-COL-ADM1.geojson"
   },
+  "raw/mapbiomas/INTEGRACION-COLOMBIA-COL3-2024.tif": {
+    "first_recorded": "2026-11-13",
+    "sha256": "2a8ebb8a7086d15567d4ddbfb2d27e77fcc178023da8e59a0d7ac11d444d8dca",
+    "url": "https://drive.usercontent.google.com/download?id=1eF0Pdj8HtKh3zvMULmOp1S-q-eFcpyd0&export=download&confirm=t"
+  },
   "raw/runap/runap_latest.zip": {
     "first_recorded": "2026-11-12",
     "sha256": "90f39221a5161561299429f917acf51763d232f5716eaafc80ae05f520b5a4cd",
