@@ -45,6 +45,10 @@ SPATIAL_TABLES: dict[str, tuple[str, dict[str, str]]] = {
             "rock_source_id": "str",
             "unit_code": "int64",
             "origin": "str",  # "potential" in v0.1 (D-09: no licensed quarry polygons)
+            "final_class": "str",  # Apta | Mixta (Mixta excluded by default, D-40)
+            "road_class": "str",  # OSM highway class of the access road
+            "access_km": "float64",  # distance from the road point to the rock (D-46)
+            "ultramafic": "int64",  # 0/1 (Ni/Cr alert)
         },
     ),
 }
@@ -206,3 +210,28 @@ def list_tables(path: Path | None = None) -> list[str]:
     with sqlite3.connect(path or database_path()) as con:
         rows = con.execute("SELECT table_name FROM gpkg_contents ORDER BY table_name").fetchall()
     return [r[0] for r in rows]
+
+
+def write_rock_tables(
+    units_table: pd.DataFrame, sources: gpd.GeoDataFrame, path: Path | None = None
+) -> None:
+    """Replace the rows of ``rock_units`` and ``rock_sources`` (F3 outputs)."""
+    path = path or database_path()
+    rows = [
+        (int(r.unit_code), r.symbol, r.final_class, r.rock_types, int(bool(r.ultramafic)))
+        for r in units_table.itertuples()
+        if pd.notna(r.unit_code)
+    ]
+    with connect(path) as con:
+        con.execute("DELETE FROM rock_units")
+        con.executemany("INSERT INTO rock_units VALUES (?, ?, ?, ?, ?)", rows)
+    columns = list(SPATIAL_TABLES["rock_sources"][1])
+    # Spatial table: rewritten as a whole through OGR (GeoPackage triggers, see ``connect``).
+    gpd.GeoDataFrame(sources[[*columns, "geometry"]], crs=WORK_CRS).to_file(
+        path, layer="rock_sources", driver="GPKG", mode="w"
+    )
+    with sqlite3.connect(path) as con:
+        con.execute(
+            "CREATE UNIQUE INDEX IF NOT EXISTS ux_rock_sources_rock_source_id "
+            "ON rock_sources (rock_source_id)"
+        )

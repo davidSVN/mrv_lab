@@ -1969,6 +1969,11 @@
     "sha256": "2a8ebb8a7086d15567d4ddbfb2d27e77fcc178023da8e59a0d7ac11d444d8dca",
     "url": "https://drive.usercontent.google.com/download?id=1eF0Pdj8HtKh3zvMULmOp1S-q-eFcpyd0&export=download&confirm=t"
   },
+  "raw/osm/hotosm_col_roads_osm_gpkg.zip": {
+    "first_recorded": "2026-11-14",
+    "sha256": "da47570e21f524a899b5f3753f53b62f00599ad4a0862f9878ea437484d2b1b5",
+    "url": "https://production-raw-data-api.s3.amazonaws.com/ISO3/COL/roads/hotosm_col_roads_osm_gpkg.zip"
+  },
   "raw/runap/runap_latest.zip": {
     "first_recorded": "2026-11-12",
     "sha256": "90f39221a5161561299429f917acf51763d232f5716eaafc80ae05f520b5a4cd",

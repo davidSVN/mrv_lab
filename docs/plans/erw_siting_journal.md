@@ -394,6 +394,28 @@ internal (D-08). One unit has no description in the source (classified No apta).
 
 ---
 
+## F3 — Potential rock sources 🔄
+
+**Purpose.** Points where a truck could load suitable rock: the origin of every road distance in F5.
+
+**What.** `erw_siting/quarries.py`: national OSM roads (HOT export, ODbL), truck classes only; road
+stretches within 5 km of Apta (then Mixta) rock are sampled every 500 m; each point gets its nearest
+unit, exact access distance and road class; then at most one point per 5 × 5 km grid square is kept
+(the one closest to the rock). Points and units are written to `rock_sources` and `rock_units` in
+the GeoPackage (gitignored, SGC-derived).
+
+**Decisions (David, 2026-11-14)**
+- **D-46** — Truck road classes: motorway, trunk, primary, secondary, tertiary (+ links) and
+  unclassified; no residential, service, track or path. Access distance up to **5 km** (David: 5 km
+  rather than the proposed 1 km), recorded per point as `access_km`. Density one point per 5 km.
+  Mixta points kept, flagged, excluded by default. 1 km / 5 km are modelling assumptions → F7.
+- First implementation placed at least one point per OSM segment (OSM splits roads into many short
+  segments) and produced 53,711 points; fixed to one point per 5 × 5 km square.
+
+**Result (pending David's review).** Results internal (D-08). Some suitable rock (e.g. on the Pacific
+slope) has no truck road within 5 km and gets no source; an island source has no road link to the
+mainland and will be dropped by routing in F5. 59 tests pass.
+
 ## F5a — Data model (GeoPackage) ✅ (approved by David, 2026-11-14)
 
 **Purpose.** One database where every 1 km cell carries every variable and every result, so the
