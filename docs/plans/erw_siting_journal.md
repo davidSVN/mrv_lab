@@ -288,6 +288,11 @@ evaporation and temperature look reasonable; **potential evaporation looks too h
 thousand mm/yr in the Llanos) and **rainfall looks too high on steep Andean/Pacific slopes**
 (implausible maxima). Not used for any filter yet; options to be decided by David (gap G-10).
 
+- **D-42 (David, 2026-11-14)** — Rainfall from **CHIRPS v2.0** monthly 1991-2020 (public domain,
+  station-blended incl. IDEAM) instead of ERA5-Land rainfall; **drop ERA5-Land potential evaporation**
+  and use **rainfall − actual evaporation** (ERA5-Land `e`) as the water term. Supersedes the rainfall
+  part of D-37. ERA5-Land `tp` and `pev` stay downloaded, unused.
+
 ### Step 6a — Slope (Copernicus DEM GLO-30) ✅ (approved by David, 2026-11-13)
 
 **What.** `erw_siting/terrain.py`: download the 1°×1° land tiles covering the pilot departments (ocean

@@ -48,3 +48,13 @@ def test_monthly_climatology_from_era5_precipitation() -> None:
     assert clim[0, 0, 0] == pytest.approx(5.0 * 31)  # January
     february_days = (28 * 22 + 29 * 8) / 30  # 8 leap years in 1991-2020
     assert clim[1, 0, 0] == pytest.approx(5.0 * february_days)
+
+
+def test_chirps_climatology_masks_nodata_and_averages_years() -> None:
+    n = len(climate.YEARS) * 12
+    stack = np.full((n, 1, 2), 100.0, dtype="float32")
+    stack[:, 0, 1] = climate.CHIRPS_NODATA
+    clim = climate.chirps_climatology(stack)
+    assert clim.shape == (12, 1, 2)
+    assert np.allclose(clim[:, 0, 0], 100.0)
+    assert np.isnan(clim[:, 0, 1]).all()

@@ -1,12 +1,14 @@
 """Climate normals 1991-2020 for the pilot departments (plan §5.2, F1 step 6b).
 
-Single source (decision D-37): ERA5-Land monthly averaged reanalysis 1991-2020, 0.1°, CC BY 4.0
-(data/SOURCES.md rows D9, D10, D19), via the Copernicus Climate Data Store API (``cdsapi``; the
-access token is injected by the session proxy, never stored in the repo). CHPclim was dropped: no
-published licence.
+Rainfall (decision D-42): CHIRPS v2.0 monthly 1991-2020, 0.05°, public domain ("CHIRPS data is in
+the public domain as registered with Creative Commons", NOAA ERDDAP licence attribute), blends
+satellite and station data (incl. IDEAM). Derived: annual rainfall (mm/yr) and dry months (mean
+monthly rainfall < ``DRY_MONTH_MM``). ERA5-Land rainfall was inflated on steep slopes (gap G-10).
 
-Derived indicators: annual rainfall (mm/yr), dry months (mean monthly rainfall < ``DRY_MONTH_MM``),
-mean 2 m temperature (°C), potential and actual evaporation (mm/yr, positive = water lost).
+Temperature and actual evaporation: ERA5-Land monthly averaged reanalysis 1991-2020, 0.1°,
+CC BY 4.0, via the Copernicus Climate Data Store API (``cdsapi``; token injected by the session
+proxy). ERA5-Land potential evaporation is downloaded but not used: implausibly high in the pilot
+(D-42). The water term for F5 is rainfall − actual evaporation.
 
 ERA5-Land monthly means of accumulated variables are in "m of water equivalent per day" (ERA5-Land
 data documentation, ECMWF). ECMWF fluxes are positive downwards, so evaporation is stored negative;
@@ -24,12 +26,14 @@ import pandas as pd
 import rasterio
 from rasterio.features import geometry_mask
 from rasterio.warp import Resampling, calculate_default_transform, reproject, transform_bounds
+from rasterio.windows import from_bounds
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from mrv_lab import io  # noqa: E402
 from mrv_lab.erw_siting.regions import WORK_CRS  # noqa: E402
+from mrv_lab.erw_siting.soil import with_retries  # noqa: E402
 
 YEARS = tuple(range(1991, 2021))
 PAD_DEG = 0.2
@@ -37,6 +41,17 @@ PAD_DEG = 0.2
 #: Dry month = mean rainfall below 60 mm: the Köppen-Geiger tropical threshold as used by
 #: Peel, Finlayson & McMahon (2007), Hydrol. Earth Syst. Sci. 11, 1633-1644 (Af: Pdry >= 60 mm).
 DRY_MONTH_MM = 60.0
+
+# --- CHIRPS v2.0 -------------------------------------------------------------------------------
+
+#: Monthly COGs, mm/month, nodata -9999 (checked 2026-11-14). Read with the GTiff driver
+#: (GDAL does not recognise the ``.cog`` extension by itself).
+CHIRPS_URL = (
+    "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/"
+    "chirps-v2.0.{year}.{month:02d}.cog"
+)
+CHIRPS_NODATA = -9999.0
+GDAL_HTTP_ENV = {"GDAL_HTTP_MAX_RETRY": 5, "GDAL_HTTP_RETRY_DELAY": 5, "GDAL_HTTP_TIMEOUT": 120}
 
 # --- ERA5-Land ------------------------------------------------------------------------------
 
@@ -53,10 +68,9 @@ ERA5_VARIABLES: dict[str, str] = {
 
 #: Output grids: name -> (unit, resolution in metres used for the reprojected grid).
 OUTPUTS: dict[str, tuple[str, float]] = {
-    "rain_annual_mm": ("mm/yr", 10_000.0),
-    "dry_months": ("months/yr", 10_000.0),
+    "rain_annual_mm": ("mm/yr", 5_000.0),
+    "dry_months": ("months/yr", 5_000.0),
     "t2m_mean_c": ("°C", 10_000.0),
-    "pet_annual_mm": ("mm/yr", 10_000.0),
     "et_annual_mm": ("mm/yr", 10_000.0),
 }
 
@@ -65,6 +79,52 @@ def pilot_bounds_4326(pilot: gpd.GeoDataFrame) -> tuple[float, float, float, flo
     """(west, south, east, north) in degrees around all pilot departments, padded."""
     west, south, east, north = transform_bounds(pilot.crs, "EPSG:4326", *pilot.total_bounds)
     return west - PAD_DEG, south - PAD_DEG, east + PAD_DEG, north + PAD_DEG
+
+
+def fetch_chirps(pilot: gpd.GeoDataFrame, raw_dir: Path | None = None) -> list[Path]:
+    """Read the pilot window of every monthly map 1991-2020 (360 files), SHA-256 pinned."""
+    raw_dir = raw_dir or io.raw_dir() / "chirps"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    bounds = pilot_bounds_4326(pilot)
+    paths = []
+    with rasterio.Env(**GDAL_HTTP_ENV):
+        for year in YEARS:
+            for month in range(1, 13):
+                url = CHIRPS_URL.format(year=year, month=month)
+                dest = raw_dir / f"chirps_{year}_{month:02d}.tif"
+                if not dest.exists():
+                    with_retries(lambda u=url, d=dest: _write_chirps_window(u, bounds, d))
+                io.register_checksum(dest, f"{url} (window {tuple(round(b, 2) for b in bounds)})")
+                paths.append(dest)
+    return paths
+
+
+def _write_chirps_window(url: str, bounds: tuple[float, ...], dest: Path) -> None:
+    with rasterio.open(f"/vsicurl/{url}", driver="GTiff") as src:
+        window = from_bounds(*bounds, transform=src.transform).round_offsets().round_lengths()
+        data = src.read(1, window=window)
+        profile = {
+            "driver": "GTiff",
+            "dtype": data.dtype,
+            "count": 1,
+            "height": data.shape[0],
+            "width": data.shape[1],
+            "crs": src.crs,
+            "transform": src.window_transform(window),
+            "nodata": CHIRPS_NODATA,
+            "compress": "deflate",
+        }
+    part = dest.with_name(dest.name + ".part")
+    with rasterio.open(part, "w", **profile) as out:
+        out.write(data, 1)
+    part.replace(dest)
+
+
+def chirps_climatology(stack_mm: np.ndarray) -> np.ndarray:
+    """Mean rainfall per calendar month (mm/month), shape (12, rows, cols), from monthly maps."""
+    stack = stack_mm.astype("float64")
+    stack[stack == CHIRPS_NODATA] = np.nan
+    return stack.reshape(len(YEARS), 12, *stack.shape[1:]).mean(axis=0)
 
 
 def rainfall_indicators(monthly_mm: np.ndarray, dry_month_mm: float = DRY_MONTH_MM) -> dict:
@@ -217,11 +277,19 @@ def to_work_grid(
 
 def process_climate(
     era5: dict[str, Path],
+    chirps: list[Path],
     pilot: gpd.GeoDataFrame,
     out_dir: Path | None = None,
 ) -> dict[tuple[str, str], Path]:
-    """Compute the five indicators and write one GeoTIFF per (department, indicator)."""
+    """Compute the indicators and write one GeoTIFF per (department, indicator)."""
     out_dir = out_dir or io.interim_dir() / "erw_siting" / "climate"
+    with rasterio.open(chirps[0]) as src:
+        rain_tf, rain_crs = src.transform, src.crs
+    stack = np.stack([rasterio.open(p).read(1) for p in chirps])
+    grids = {
+        name: (grid, rain_tf, rain_crs)
+        for name, grid in rainfall_indicators(chirps_climatology(stack)).items()
+    }
     stacks = {}
     for short, path in era5.items():
         with rasterio.open(path) as src:
@@ -229,12 +297,9 @@ def process_climate(
             era_tf, era_crs = src.transform, src.crs
     if np.nanmean(stacks["e"]) > 0:
         raise ValueError("ERA5-Land evaporation is positive on average: sign convention changed?")
-    grids = {
-        name: (grid, era_tf, era_crs)
-        for name, grid in rainfall_indicators(monthly_climatology_mm(stacks["tp"])).items()
-    }
-    for name, grid in era5_indicators(stacks["t2m"], stacks["pev"], stacks["e"]).items():
-        grids[name] = (grid, era_tf, era_crs)
+    era = era5_indicators(stacks["t2m"], stacks["pev"], stacks["e"])
+    for name in ("t2m_mean_c", "et_annual_mm"):
+        grids[name] = (era[name], era_tf, era_crs)
 
     outputs: dict[tuple[str, str], Path] = {}
     for _, dept in pilot.iterrows():
