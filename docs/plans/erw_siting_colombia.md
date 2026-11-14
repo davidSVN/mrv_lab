@@ -39,7 +39,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 5 | Land cover (MapBiomas 2024, D6) | ✅ | Cropland vs pasture not separable (G-09) |
 | F1 · step 6a | Slope from Copernicus DEM (D11) | ✅ | Raw default, optional smoothing (D-36); threshold in F5 (D-35) |
 | F1 · step 6b | Rainfall + dry months (CHIRPS), temperature + actual evaporation (ERA5-Land) | 🔄 | Done (360 CHIRPS months); awaiting David's review |
-| F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | 🔄 | David's manual review of the unit table; results internal until SGC answers (D-08) |
+| F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ⏳ | Depends on D1 (D-09) |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ⏳ | GeoPackage now, schema portable to PostGIS later (D-25) |

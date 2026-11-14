@@ -357,7 +357,7 @@ marked *to verify* need a source before publication.
 | G-09 | MapBiomas Colombia (Collection 3.0) has no separate cropland class: crops and pasture share one mosaic class. | F1 step 5 (D-31) | Cannot tell cropland from cattle pasture with open national land-cover data. | Open; ESA WorldCover (D7) as possible cross-check |
 | G-10 | Open gridded climate for Colombia's mountains: ERA5-Land rainfall looks inflated on steep slopes and its potential evaporation looks implausibly high in the pilot; station-blended products have unclear licences (CHPclim). | F1 step 6b | Water-surplus term (rain − ET) is uncertain. | Open |
 
-## F2 — Lithology (SGC geological map) 🔄
+## F2 — Lithology (SGC geological map) ✅
 
 **Purpose.** Locate rock suitable for ERW (mafic and ultramafic) on the SGC Mapa Geológico de
 Colombia 2023. Internal use only: derived tables, maps and numbers are not published (git, posts)
@@ -383,8 +383,14 @@ the classified units, a unit table, a QC map and a QC table (all gitignored).
 - **D-41** — Rules in git; the unit table and review file (they contain SGC text) stay in
   `data/interim/` until SGC authorises publication.
 
-**Result (pending David's review).** Rule-based proposal produced for all units; results kept
-internal (D-08). One unit has no description in the source (classified No apta). 50 tests pass.
+**Result (approved by David, 2026-11-14).** Rule-based proposal produced for all units; results kept
+internal (D-08). One unit has no description in the source (classified No apta).
+
+- **D-43 (David, 2026-11-14)** — Manual review done: the proposed classes are accepted as they are
+  (no `review_class` overrides); comments, if any, are handled later. Any citation of these results
+  must cite the source map: Gómez, J., Montes, N.E. & Marín, E. (comps.) 2023, *Mapa Geológico de
+  Colombia 2023*, escala 1:1.500.000, Servicio Geológico Colombiano (SOURCES.md D1), plus the
+  classification rules in `src/mrv_lab/erw_siting/lithology.py`.
 
 ---
 
