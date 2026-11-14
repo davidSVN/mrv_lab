@@ -234,6 +234,1571 @@
     "sha256": "c232ec983ba538b4a09c05ac0f66579cd5480f50f1555111e1be57d27d399d3c",
     "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1994.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
   },
+  "raw/chirps/chirps_1994_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "73f01cf896f8437d123a0bc4f55d9518b8134cf02646e73f8255a4b972e80010",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1994.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "083f4369b66a6a1eb76dd8eeed6cc60f9b12a6bd2da8966961551f9de7122929",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "31a0f66b8fe7168da4c7dbd16c360d9139ec98e440c153cc6edd87e5f1ebc68e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d00be35d03ff7c73e01f1a43f16a90c7f10f782e92785d6a8d57193362ebb34e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "5411fca96af6450268c8cc8164d4023b8b789f8d8d268b47814c8b53afb2e571",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "76492822db35b39bb4f539fac6fcac9974d5c79829eadda2364d15a34a715bbe",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f1253a41e3f33bb652e6cca4f340787ba713aa90c0c038b6a810e991624aa34f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ad474fc259b09e527d47984574c8152264c6c5a1a5bf2e72c3389fc7da2b5c1b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9cff5cf029f8e4ab35c863d22336ac9f2e848e9c0bb0c50799d97ccd96412034",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4b6eb1b2e55ad9773b803b8bd318d889ff9917697906f282d6486138a8b02585",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c97a5cc514ed8cc8f052e9253f2657756bd71cb06aa3bf955d616cacbf745192",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c9488134da166a003546c81710b73917695516e076eeb87b06c9ed70a9de1c37",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1995_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9e5f6e1fa27d0f9b368d18383c67b9e874abb00efed62adec919c9da34c0f713",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1995.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4969bbf1ef0774fc80b709157719a54e81f8ace5393294aa3bea6e59fc5b5a40",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a907a872841c693300e0528924e31e3c58954983faffc3cedf929e603f25cfc8",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "85fe701182c324abe47b803430c645d98032f58602b75343ccf484e95af3e335",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3c4ffcbe7f078cff79d2cfd694347a891fb7c1e2116cb551484bd0b2420c9bf8",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "249e9e44e3f2c7a0e25ea4da385d012d95eb613a4c875c949d3d5abe58d03684",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c763b1c61d650dee27e5912292be3ce2c780b7cc7932162db0e1507df36c9411",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f101831c2bb5e08315e8a5eb3df99bbad9c4407e2a6e5aed805577402f81006a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a932c22d79964ca79f672a8db23b517a25aecb6b68eb1660c7c43bf8b064f166",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "5141f049444202e6db921ff55092f1e787873519b309ddf6003aa59b89971a62",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "8ba6f7f7d1c191a2ba625fc652dd38baf3ad694f57f83748fc697d3364ef8f84",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "0191c12b70c5de138e44768001266d73a846f35c0a771e82663beb71641be1bd",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1996_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3db852718e7bda9f84e05de5606c27b81b4eade509a732724196cda223ff779c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1996.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e2644093db84676190dba7dc1a0d0c642db138356c4bf5b7e5fa754b590f4b75",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c3c6226d7f5f8607c49f7229a4a95fa32e20cee4deb8147f058ce771cc6c90cf",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3117d2772f31ee2d15b633dc1fd73452109c2b1ba88787cf0b0bde9803c30527",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d2b8cabf198fe6ca2f451187315a18f26c6c11ae1d3515a2db2e05abb47d03a2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "950fafcaea741bcb5e3a1a466a8c4859af1114f56791eeb02b3ade874f2d24fa",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a10741afb96c1342ab9e99014fd87b932f76d8ca1c1d61c43c1da40a7751db08",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "83d50b278659fb3c88fd71d43a74f13c495a9a33360454221dde5856dc766fb0",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "00d7512b85d3ddae1645f6feb08bce70440daae4180b5ec1978760573a33de55",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "199ed8529183699a07d1f2f717994130c606ea11f9e510569be6595ce67bee78",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "70f2df7d516f13a96073c4b0c2083d1da3eddde83b83366898e463a0d7c499a4",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "646984e1815b295dc37eb41570cf7c1614187a45f7e8cf31ffff221fdc755e77",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1997_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "824e035fa771043db7960a1ca835ec579ced4f8e3fb09b0634ad4373d805df2f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1997.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b5edbcfe05e1c3b7c1973ce538f7e345c398daab719b8025710de4cf2d3d5fb4",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "7037509df86ec45beb561344e637737bac2c9fbe928fa00f2368c4b17468ce65",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "dc40d094823d3c44758798c9f992ff3b9319a6a8b70e0b28af2e3cd146848a3c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3a6aa8e228d8ce5dbd18f81264b0bc985d2c926437ed82de6cfbd81598099de4",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "36a864f0c88349ce2bed36332490cf4bfa55072f854cc96f78c95c14f52679b9",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "5d2c75d5b048fa1f100708e02e480a18471afc006e230a0c384c217d59ec6ad1",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "902b9e51e3bc0b6a0a727934666ea143ae8f4ad392c478fd7bb3b6988a17156d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1e9b6868af1bd0cde8ef06e2b1a2bb71257cd74939faa83ce8b00ba6f84c8197",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "de1fa3d771404f61631fd20625d76e34c67a033652e318449d46c90536b3d8a3",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "cec4c9e8a379a853ca0995cccacd4fdb642ec32f1adc5cccd9ea88fcf15dc96d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "43ae0a5368f6d84e5b4157ceada35a518c8f234375068d276ae363cac68b014c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1998_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e18172cec8a9ec14afadac1ebdedc3a14b046179cb756bb9fcb9d885df549408",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1998.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "83b5390e1948346c53b8c3ef84e613666e9a244f13594b64812adb429abd53dc",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "68e910f54dda1a696ed18eba48746802597801e9c603f6ab095bd0fffc3361d0",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "766ba628dea3e1a25887dd6ddc481232e0988ed09ee0d1fb2d31c2685d3c17af",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "057b9dcc7022c3d68e2e55c83c05d9456164142ecdb2863727c21ccf8a2c1a49",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "441d87a84ab72c32611bf70056df89777243c058a83d65a9e76638ad7a24b31f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "091adc56f9d0ababde72e1d153af4bee5280bb6ae93e93cae6a7a250de1940f6",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c95fdae78c2a81e419f74ee1e310d21a6dc7131e4b862d73e2f29b0bd4685e5b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "6538503c17f206cb35ee5d94aa872929fbccadfd17fe9ca7749506d827f01cac",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "dc9576b212db97ea3ebd23e7ea60e230bfaf2ec079bced383ac03b9854a095fa",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "98f39f1f50ca697fbc38ecedf770b1b8c618c681f917dfaad3ba73a94e6424da",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "fb5e7eefda7fa5667b3072d5fc1ec646a1c72dd951aba85bb12b54cdc9658aa3",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_1999_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4853f1d7f3a072dd0b0a83b6e9a012258952a38e69cd161aeb4168b78ae50f91",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.1999.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "19ae5eb14940e975e724a15a233b3f8b5740856bdd70188fa80bbab06c58842e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "8ed5641d855b4a3d7e283cb4d742eb914fc7fe481695a8a9c4934d358e9271cd",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "34364ec25f2519e942b063964af83bc71c2238a44f7d9290b1d15a52b6599a65",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "88e506d3491014dc0e2783d7617cd9c3a6f332c9fe851ceb8e9e2f9d6063d252",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "2d29708b1790aee87d5fe05643b355096b7061ef48ea2a3a769f330727a32a1e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "0f6f191c2b40b4c105c3c1a4075c7652c308809cba471e2648abcf3b5f5dadb0",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "14ac35d2ed927bc91a6940b3439f8e136e8c26ddc1db02dc3e717b2bfa0738f7",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "de5632451488f919fe0818c063c5e4f38f5d71e1bad183a896f47aadee433690",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "863a1711a341b81d2b137370f05c25d0971e98aeb7e26a26c94aadb24aa40177",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "89a8b4ca3f28849485b3c8c2b5b35b550c0ad082a377942a66741724f449a50b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1850680cee978ca568f1bad928551fe3f4343812f027e17df221b6f10feb9775",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2000_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "0fd67f6d44910d1466cc7557c2fa86202980f64f121fa53bca60ee536deb1f71",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2000.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "fd7f84294e1e3c88a5a546bf581e6bdc302a7a05f4c403b34d100f654902f872",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c6e7388ce9b30c5e077f2187464ba95baa6a3c0422e8ff80108d9bc02d7a3210",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "54a08aaf06e59769a8170a7debdce61df3cb795e4bfbdbc30207a232acb230df",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "49b06c7e0becdffa664821bcf79a9dfafd6c2738c1c3880959ac9d40966bb404",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b3d5ac86c52727e5349c9aeefe6860f591094eed30526055273ece5229db9e6c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f8a2817eb63d2ea670edc70e51eca029125e929eb1519e8cee2fca4c82907632",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3af468eab2890d9363aaf1b45a82e62651e93b7c2da6c4076b9119094fa08f67",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ea9c4b297d00ed8ae73a75037024316197f6de350fc892d80184d47136ab2458",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f5ab589ffed29cdac216a93aa9b1bd865306c05db66b5c57ade24207f1975953",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "604c9f73b4ad9ee459bdfd7bcadb8bad921942c3903e2f56703c0e6653d3eae1",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "600198a36c26ae6d90a4b9c576a23c5b1ddb8b53cc5ee40c2e36ea142507b4db",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2001_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "cfc1b5e570783c906732b2d8f96054359a6bcda3560998a90557c2f8459e9ab2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2001.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4f2e3995fdcf2be39900917f7506154752d8613e78f53aff72f636ba26e953cf",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4c568c1efd98b0eb6be3148fca496d90649107338e3e509ad47c3c274ce1cddf",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a3dccd6b8e237e69b810c9b38052e91631da7ec5a21dc0ecf50e3bbb30edaed2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "7f40885548cbacc36aaaa64315f198e81e6e7b0ccb3c8cac667d4853108fc29f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e7503212cdd55dd80c1a73c31ba278c9da54dfd97eea5e12f60900a23fca154c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "313aff05bd2e31766b0e3dee68149ccea9a726db1ed3c286d5bd610e4a0f89ce",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "cf6ab1267d61af58637444248f58d7a0fdbaa1de3a8053eebbe2b547d6e161e5",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a27ea6a8888186177616fa3167cc79bc017db1076bfdcc028b4beba27db26cd9",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1c75151214e1105a540fb69a41ef72a942725bed9945145d4e1a80f93b51870a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "78baee825961da5fc39aae3c69a7c93e16c1f9414b8184508a0740d9677bc80d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "56e0874ef04c2d08dbff3782671d57b01f84889c8ae418c5e829570c43de3f15",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2002_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "64d24914428518cc1877eb33dfc2b975ee8b1a37efe4794e73d9eef3e45b1d4c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2002.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3a9e2cf9ac75bb1e87dcf72a31ac1de5140c64cbe3fa46c48840d8c2d221423b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f3a5ea4b0440d442ba08343ecc9e53e22aa2772e1e50ffa7245d95417c5dd298",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "96ae078373d75b2b6853d26b8b548196d5630684bcb0b2d77109ccf877cbab3c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "48a6eb040aa7369f04b9a70dd6993ae580effab0530cb57795cda185ed9e584f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c6a4e7c34a2e22163f2790f77fb005052b5bbad18c1b4a9341a4774c700b223c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "80dd5d5324213fdd65cec67d411d72e5121fac1082395183d665469e4ea9e538",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4417555f338da2308c79d6ad53c56409be05dc1dffbc8f85053bd18e374cd30e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "79ab94b56846c40b2247a87843c3027ff74fc375ab2c8b135a451e189aa24437",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "70f7b62bec0befabb0cd5d80fa90ccf8283c26edfb31d89f6b8f25e402289f2d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "74115ba82dc44932e33bb657844fdbe8aa06f79c762c7a0ff9d4564c0d2de4d6",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a644e490aab15684ef65e3f0acf03fc9816707b584f8325f6d1dccb39124930c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2003_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "60809bea945fea0b0151414fe0353ce9a96a457a8ca3d6332ef2180df3a6be9f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2003.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "29fe3aa79cea14485d1717187e9f7d3ac1468b7f4e2439fac032ec543ca1d79e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d6d390b0ad496dcba53ebf35ce226f8876297e437303cefb486277dad3a021e3",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "8c5317f9fea211de6ab850caa06ba472c249a654633454409ae3ce4896001d92",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9ee578951020d7a90cd4f7cd1b6ff160ab8cf810c5c59c61f885c7199099981f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "18b0d7d07ed007792992f23d7c88ca3df36d97c3b24a08df567d94dc76c6e2de",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "2295b05f9b703881df01ebca4282e6b7577f89cbad0cce754bc070ce36798aa2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "959baa4554c45da9f44f7b1f8741f9dfa2bfecb84ad20d77f16416527a0414ce",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "466591f525964565fceee5bbe850f3171e42e77cdefd3589ab2dd9a9383f8dc1",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e9d9ab4a78c7a2bfdc2cc8eb8642c81804acfe2a5ea435998623000e10421dad",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "694012f7294adfe7876c12d5012212855b89ff2d28215fd4f8d886eb37beb9c6",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3202ce3306109ca7a15a87412e73d2ab55a7445b74b56f712b5425efdb62023f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2004_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "36fa90cc78dc288493aba4a14db3570a942d8c562cff5a710108d587a5850c30",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2004.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4a9ef61b049eb08018f91a2f0c9ec66d3821d365fc7334afd8d62d69c1f5e92b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "605a6ad6bccaa39f777e818497757e872bcc5c8415e51397ec165174e07f508e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3093cf1572db433548889c052dd174d79c5ec54b2a50959a80faf187d7173602",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b06b23f2a5beae6d29cec98417fca2f1fbab0ed10da53a49f92368fa3845bfa2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "71ba37225587f4c0eddbcd3764c1de6b39821928849c10ddb365331be4465786",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "664ec6a2359723d8970942e1ba2c3843446e41d42add2412dff28a209f9f9f64",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "0946630e941d63244edb7a1d7dcedae0545aa4b8ff14d5bf98a848bbfbefb17d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4c5db90f7ec67aa7098fe6dd976efeabf88f86df87ae2e75b2b831d64200b9bb",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "adf42e370b3447a8f39dc58bae394af1a1fe4200642e7cab441826f2bc6c0a2b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "bf948f8cb626b2309da7da1ff90578d41edf87fba4a937871b24ef695b08e532",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "6363dfbcf2d1f4c4fa2fc4d78a7dc0add7326f66a98ab2c6cb5dd4873fada56b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2005_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "0a9ed89067e28658182bdcf006bc231221db8f18de998ad7f097eca003d4c521",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2005.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "bbe36b4696a1df3d73cb35f9cfe24deaeffd6dc4d60c79864e826eaf48200051",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "42f91b5342277755581d3a3d292efc2bdf867a976ef07e5efde4a299eac40a4f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ac017877feca51590a5fd522fe4dea9171762e175d1918b61faed5a49fc170a8",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a55624ca8657ac854f6212ca16bbc72c543ef599a467bebf8c0945fe87c49f63",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e47c934233fd7c9e692a6a8b8358d2872faf239ee53e7f2723f352899bf92623",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3b4a0011ba1f0c8ff4aeefc23b74ddbf46c429b5f2a7ac7204ec66c55ac7012d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ef9e4d2c1c7ca3304f94e08480560630af8926cba533337e93b51ee21ef43fbf",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b10d3de1d5aa76644cac1e19003708e5b503f1ce043dfc1e5b7d8128f824f15e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "778b33cc6b612f576321e8d372a492550ce82fcb147f711da9d7b6fed1e6aa33",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ab5c0efdbef147e9d9439e05b5a161b407a0a373d6657428476cb67f6625b4b2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a71872f85203057511891f4362e5df16db322ef498c11a1c09c8762781893043",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2006_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "384ef4435ddba277890d935be5f424f200608901ba27c6ea49539de080d716a8",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2006.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f5bf4085d25693bdd7f256d7acff45d2ff8866377bde17579dbe426c2120cf5d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "18d840a2d4e9322a4847ade04d8559629c306a6c7a22f58ae811774cbea82fd9",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "13864734189c2d409159b7915f3ec797ec9724d91afdff05d9051681dcdd5d57",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ecbff4341eb686962d655995fdf907a35fe1dfd5d293319c5245c097a0033354",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "5df1493259ecfd7ab4f6cc8a80515540f4fb0ff5f5d050cb1b031e9b037c0416",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e9979e5e95abaa04f5cce0615d37f19ec111f00717e476f1f9d9a2e5d6d770c7",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "330e6f08c1c768140f791d902ee87f7203209b312f0c5ad6bd474ef0eb7013cb",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "795a03a840758da46de4566cdda0ca09ee704b77c5f2a5f73b36f8a1a4e0e035",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f538590f8ee9da8cca3bd521e6f0623191e2006f9df651fbe65ea3c1fa0d1869",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "2bbfba20b519d3ce9ceac2ee10901e340504dc9624be1cb981cc6dd07c80092e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "56869a5bc4dba72054c78436412e26a02efe0a925c298c17c35d5b5b4a6579e7",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2007_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4d554268665022000da4c875750d6d3c491ad80edc93b7f23129544bcebad188",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2007.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "8f3c95a935b175d036cd8b74ff10503caa3df5a206274f50813de9f2cd28bd26",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "10601d69bf6f50f4bd3bdf5dba854929645903bdff8729132541d9af027c0dc5",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "729e68c9832bc46c434b1f14b03e90a6de56e541b449077fc967d9653272d320",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "18ef110a1a6c8cedf32699db3a8620b58c358c70b182cefbd7afbdeecaeeba8e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b9be9f6f0b06375dad9607c280bc1217d262636022189c3d928004d8529c25e7",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a84c2fd61ed7e2aef4a49d49fa9348c1294165433686bf44b697e0a4fd665b78",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f640069d180c03da2ea9f7d0579c5b6e650e89c1d2d8a92b1a9abd853dd38dca",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1dff1e0e6fa6e6277a4d4617b493bbe1e5fbe6d5b5bc8a5dc42fc272d92ae021",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "73b07905ebf689ecea14ebb84b702d8a1c397b94279cbc06cd23d0840dc4ddd2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "084c7c497625120926f2555fb016e109483a9d01d80b00c81d157d2e2a175085",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b9c06e3afa46b4edec092e0c56ecda016b007cad829cb880c30a01c244176ae2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2008_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "fc1cfcfe9899fb836199140ea7fb0a50bb3f1bbd23696bc2bda1c63357b0dbdd",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2008.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "bfae49d26b202f47de1f9e23ca1c4ad36736308ffeb2ff06d29b977e0ece029b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "6ae828e6293cb1340becfba8d175cb13a134455e29df575dea4af1695456233a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ff4903368a6552cf54ef381b034d72d6b45c3b26903c7c83cfb4f2bed396a4b6",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a58b622b4ddb63c619d5f42eac24193f8c50bcc9c2462e2c6fbea8db96c5319a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "8a4926a06d51aaf1e7d6f9e6549bf9531078c385ae56080dd55b34c36270a611",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "49ae09fe7a70455f94f8cb0af776281cf512702649b34664ec06bb94a10fee5b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f568264c7ab7650cff8cd8dcb7978726aec30ebea9ea6b71a3dc4ec614ff931d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "04aca273f233b37ec7512b02c59b38a5bb8fd7c68dd271156d9c5bc9e04672f1",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "6684e2cd52c8ff9ca8d8dd09522cef2f759b91711aeb81c8b071ab87c81bd2dd",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9700d578a82111aaea718be53b9ca961c808b44996c978d6c7893b9006aeb198",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "cd2af661261836c4e96d655b9c24ce4a135e7b737e262fa7b88fa098930baa48",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2009_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "916030c3488b2e59cd47c74893f1f40b27520365a002b0daada12904416f5fa7",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2009.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c76c0d0894bfa1e0a06a8ea12ea333055cf6cc7138700c884f840c56861e727b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e6487e96113de84b72bab765884a45948e161c192b42ff64002d3496313dfc82",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a062bdd5aa2dd1f32bcf8994f9dcaf9f6e2b459a9be250ef969e0efbd24eb5eb",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b8869da845704069a2d76d077e27604a7a6da1960dbde2fadfd3af61f77c7231",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3ecc28bac88c2a0c0481c2f3ba9f3d48c1a459d945b0902e28ab08c2bed7cfae",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "2d7088acf50d4ed0eeff652639944a3a4a3a54a3bf8b85c0c321da3c7f629df2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a09517075de64ea6ad1f536d90d9361cf0c169554d05ce49e65ec1949bf4bcc3",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a40ba5ad348b29abfa1b453c158855b63178b5e35b051346165d9e561eb7a9ab",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "5cacc408af3cc7a91aef26b96469ef3269b2283d3fcafb5a55559f1495965690",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4f214f1f74343b22de79adac19eeb5446d9e87cdb15c8b2081bd0d06283e05f3",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d252b1d6452565eef7a3703f8648d6ac77776ac2934d9d583edd3abb88b90ba5",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2010_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a29075706014b751e1356b3928df68372208590e58915d280afe65e1351e0e73",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2010.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "0b34eebac88cf31af792053998ad9191cc2b1e3999ee9faafefd6e109c06abd1",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "2de250c7385cadff3774f31ee2b4c5cb4a71618df27cf1c704cd322c845996c8",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9bade8684fe8b7ecba27a862465e21a4da9110a5f7ac2970dc19419e93886c65",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4ab961cd62547c0c703c535f68df0463b77ddd0be2260eae3023730b021e7a00",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d27207f9017d847a1b70a33c266fcb44245dc9b73d2a2d703aaa10cada5949f2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "7a87e071caca1379d6003ba3dbef01894b7fa6c010bddb6fb5344983083d5129",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a2eae8cfa40a1547d91f15e0585f054496c713b03c834c574088400c111133fe",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "56d06b1d454e41f7530ef534de629e9737255fad8826b48de7acb7e111a1e458",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f5dc03a5976ca58d3be6d490318ba6af8f1d2e83cab685dcad70c86d0b169bbf",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e41d2d28c9c60e8d9c335c13fb99ed3b0db69ae5b9dba0ebb7509c8a18807c5a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "0375b7e6a2d240253d169a0fbd27aaecc2a6481cb08beec1dd15aa3d8e637bbd",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2011_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3069bf3560d8da112cb10643a78586cbcf74ecaafd39acedee87e637421ce409",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2011.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a9eb8340d8fa3b73ada73f55630b06b3bb8ef5e04154ee30ac3e142b846b885e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "16bc9cb5029c7895eb57ab8d69f87adc398f372a54e7776eacd33b0b2042edff",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3930f9c30cedb391868b57360b730dbfe0747a16a901a1c237fe42e3f44e4ab2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "079c0c1c27dcfc4429a9f32d6fc9622cc6a50e836eadeced06d191179f4bc876",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9283c2d05f204c4fff8b54dbfd4ce864eb0deac40ddbdfd2814badb3e7fc1416",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a1a1337c862b9d48f67757fcd3c3eb00b7ccf193724ccfba90267776bc9d9200",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "6cbbb0c78e4b4512f436a3bf005f362c650480c4f44f3459167cf876aa53c129",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "67233967800199a74ac8e5e0edecf892540983512864500541eed4e28b279aed",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "0e2377dce5fddf1f43914963d0bdf60c0aaf49900d4f1360ac00ebfc470c9e6f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "df0ea8271f277aaaa429d30fa3971312f1081a569f13b6c77fdb2352993213ba",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "53cb06d5a3383e16a9b120191c1478221f9b39a15c79fac5dc13288f5887949f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2012_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1dad0f6766a5dcf53afac66ba9092e4e9bacf54f6d5ca75053e7c25354f8bb71",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2012.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "39fa75e24d0d3de9c153f39c7da760c1a4cc7ad6be7b0f16fbc8f2cf807fae88",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c5a56e578b42dbce6e665049d302832b4707c302acc3cc770bd0323292f83733",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "916d811a10179dbf8a2ed7dc1c25f9e8dc70e099bdc4fccb1c58d0a9b44c13d9",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f07c05de516da8d10bd40bdc724ae19266c0509f544054f89434339a03383564",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "8c6b544f9b129c12ceae4cfd8f00c92551b9499ad5beac518e42a82bb00d9d4b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "faa0d3a051c4aa1a483d0ca8be3307346a13d9d826afb291266f979d4deae507",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "56c5e97d3aa091613fb8fb9c9fa0b723dfa209d51db5b626de2c84b967e6fb99",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "740164dbc4fb79a98a03fb1382175edce6809759cbd6c1bb67abec94bfc34419",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ede12c27b418509ebde06f9f774059d0d7d5779afe97d390b5025f9af172fbb3",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d933fdad3748d02e37eda2193dda0050997f18455b484936edc1bbd1e5e98038",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "aede021e2940628180a611e774334de84299b9aabe77adc5d7d8ecdb992df2d5",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2013_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e6504c9e80b102ac8ae143ffcf6542ee465dcbca1f1889b52ba3e0708fd43020",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2013.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "6fbe06b08e870940934b27447f182b4f7f5fd221968c6aaff346033204990861",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e0957de4f8ab36926d3dbf3bfdcb8be95067897c5a03252d78528772fc9aed1f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ee49df603218579e7e554888db111a2269a27892c3b0d06e8677101453677d9b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "22609e43c22a70373d6c08eb6e5d9fe0237863024a25846ad4cbc5777818fe72",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a3786f71fc333dd3f5cd137f075b157f4b36247f6ba95b3de7f3e95672094b1c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "867090077574783bf53ae73ce588c7e4da71ace0b058be4fb4e186a1b3641167",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9095f2c8eb1dffb1fae65198e3143a9e50c6cdbe38bfb9b8ae3044fec54ea11b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "20b86d7a6d12576325576f9f0db5b4a298787c451c9bdbf7b8e7d2f942d08ad4",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "a36193dc4b836b9d10c83a088f20e63b17718d818f18f5d40706d662010830a6",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ba344727e46b553fb7f99b830d8248e4c5386bade30dd0bb40a40370ed39e42b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "704cb528981ba2e68831ef254ce7e1845228a6e280cf185c4643e41eba73566c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2014_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9babb6b48a15a2a0d5271cf7479432de1563f0f6315fa63db89cb7cf0fcc85f7",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2014.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "63b6eadad6b755d72e1a96a17a44bbe58a84bb4f026b8348e69503a284e982fd",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b47764e1831189982ef94ef161283ad89e5db549b4d5674ad45e748387607373",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4c198ad5825cf5c5041fcaa847cc9126acb907819ce31c6e2eb514e5e61bf3fa",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "9aeb959bdcdb9a86df5664e4f013f73876c3f2da1355cb9ccc699be691796688",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "345e2ae5c2baec43dac76088b559faea5511b2fd0ea5a9131e445d6dbe8b145e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "7931f3ab92f7cdf446a7726ae0502e6f4a09e4fc03022e08b96b3e35dbaaa790",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "57ed9f3edabbd51bf395c905c54a69288d4bfa9f2713eb894551b2a2e9aa8d39",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "7b578ddd2e5999caa4cf77b7d6042180e71ce780fffabf9d0bae40e2033cb26c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3242e9b3b949ff7f324c4aaf379d6723483204bd87acfda16f2601e7a2b190a7",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1bc07069ae8347cd37279c2caeab09c72a518cc044b2f54efb37246108d328ce",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1fd4e5e69528846978e9320d7fd9aa332d597759bf4142f3683bdb0ecb7cf32b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2015_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "92358673669639b7840fa65f5779e64b64757eafa3e08f794394e394c5f477e1",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2015.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "cd65233347d0c43918e5dabf58fb0b7c326428feba739d0572d9e70a3e3e00ac",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c42b9b27f5d1c94093874fe6c2ed672fc49c7f8638852a805faf5f32dd526e65",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "eec2619d39ce55e005b22e9b45aca9b49b73e124eb98b8cfd49e0df8481bca02",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4e2a2365b65505cf42a706b2c2bee37a377e84be517db2994d84771470d7d803",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "7f873315ad3c45ea8f8e0a7d39041c284f2ae45a824e3de32319b558c968534c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "17aaf62a072a80c1ede59dffccdaa322362d58d298d4cd48f4413437dd56ec75",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "f82018c156e3ea1237f1568eb2ef321d4fc466ce3fa94a4a923cde02e8535385",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "54f227d31925c139d8c77d62966dd08c53015ff854b6e3805371f8d583094aac",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e5d88af30d42747706ee738d01551d12e75dca48e4774b93cb4b81469b1ad24e",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1702d3bf0d76b808bdae299a669712fbb1b311ed701bd4d75e2d91ad45a0906b",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "200c23022ea3c1f0661260662e50f0fe7485e890d5ede215e9c42db0ff2c5649",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2016_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "809e11f79073123f159dc0b7d23621b8dd5618eeb442be44454bfe8518cac4a0",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2016.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3556ac4b46faeb354c8c7cb5d5c1d2fd021ac81ca852695124aaf4afcd212ca3",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "55b6abce466e49b14f7124a8b96d7e119a10cdae7989d66fa95aba7cc03cb296",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e59bf1c9ef03134f07a776c009da95f46d8550d9bdfbfe8652ad890043b58a4d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "18b695d206f6e379bb87fa1b3f21538367fc1e0999088bad06c5bf2caa528c29",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ea48d3f00cb2e296bdd5be2d2b2b6ddc2fc43ce594fe939b2a289648c728d57d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "b7f418364e6f0ab0cf9b143157878869984e945df9522271960791f4ac123a8a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "46fc8c283ccaa0fbb0386e578c6344e0228b63120b515aa3c13bdd8bc4905599",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "fa0d671ef8eab297b2c9c89afe5f5ceeaa2ae3de07cbe5e12ea660dbcfd1d620",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "2dbbd0cc97a9b877eb34c1ce095a8f391332c3dba92872642956b1dcccd27ec7",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "249cc5d5a5d8b3917653d69fd45d492562caa8852ce91b8eca7ede6c787ffe8d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ac591377d3779da9be04ed068177584c25337df4d560e15fb150f724e6c2c8ed",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2017_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "059683328e326b03a497c79f136191395e57855881584eb487a5081d76bc75cc",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2017.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "5b61b73753c715e85e586e861a5fcf04026abb89297abb967dc177d9d7cfa659",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "846335de2ed860028f5afac9cbb16a1c88cecf5da6f9b512616f8a9bf6eb1c32",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "4121d293b9bfe338dc4978e4a61f1a540635b629ffd863d3e687747770128e69",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "e619e3a3b63d552b4655c6d187421c5485cc2f447ab4f3cd695aec97aa284286",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "76a12e8c80085be07e3301b290e793cc8b5a31b8f9bf5f85c23f2d00290aed14",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "ceee712b93636be31ab0b72e0c4ee7dc3e61b3e53d11350a50988d7bea56fb62",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "737326b41b19d08aafbeca78add9595de1704716c86af6435a3fa3b1e7b1e089",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "edfde021bc4d0136d956e9a6862615db92d4af6c0f5dc9aa587bcd69ce6fc050",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "56129c18665ca50844474c559064f9d26808762b88c60ccb55cdfff1258bfe3f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "370d8bc17b135e611f15c798a3a07766b52692087fed86ed4607912c0afdb939",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "739ff2815c8832cd1ee7888ab48ca6d774568bf9b174127c8886a6a6ae193cd2",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2018_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d4edf2bba4e5e1ca570faa77c5ff85ffc72f1417fb46799b55d6f6ebf4edd7c1",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2018.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c71ea205ff3895d5733ff63834bf1fcebab30ae07e27e585a78ea03159004188",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "69267ebe5a1658b35fa26c86e38776d6f82806b7c6f39f6e992b89c84ee90e21",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "979fa95655b90b09d4578c21dfcda5ab158e81330d5b3f77758a7cca87be883f",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "35da511f0eb3f647caa0bfdaa51ec7c761bcae40519b2a13bdacd4cb8ca6eac8",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "62230b240db492d809dd6176d5d0785f8a1cebf9f129f7cbdf8919adaf10f892",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "29a2f83310b414ffcfd5bb4144820d032f19af6c87bdf8f331322ed1eeb67cfe",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "373b7844c7c24b87ddc80d25eeb2c0b8c745d545500a1cfddef2a4066bd5ba1d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "96a706062cbd932f2d171d6daae56821d50793b3e2fd154785f188b40507a35a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "41a9666c6df0c4dd4d09a11e4b567d93a8af6b1b46a457f30a32ba16b03120d9",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "548e10df5bdebcaae59b43c187440a2e511936aa7fd6975bb8b0d7ac0c91393a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d7ee639ebcc4ec656d484d5f1deb8c5986c323a63155baa1f047cb789e56c48a",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2019_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "c677969f84d3317f9c31695f9a3967917425fd19769e6bb473fc0d5454f57592",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2019.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_01.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "fb4b545e3665d0d8814a17004d472c6be34662c6440742a5f578ab812e227fa6",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.01.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_02.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "99f64b7926d44294f709f8b45f9f71a6c1ac0f362e9f94a4ab1a63efd0f22f55",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.02.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_03.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "7267d5b7e33fdcdbaa16ed795044dfa86e4ad8fe8b976856b65dacb9af1ad06d",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.03.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_04.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "96f9da77f74d8136feaf281c721114d1601616a8deebc576e568dec8c2dcb359",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.04.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_05.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "015947dc48dd1dd2f76afd62ab7b999e5ff499ad9e70f6a41347e755014ceb61",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.05.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_06.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "d6ae5daac4e58104e160d8189081a99084626bfdc97e8c8295eb1a5214bc8f14",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.06.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_07.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "3af2204a3df920032b36dd46c93fd936d95851f54edd3f1cac74b0abbc973ec5",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.07.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_08.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "1dc9c7efdd2829c0cc6d571b3ba1d0c5f51be0adf12e1078f6c0b8f72c407064",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.08.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_09.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "35df5e92858f1ed9fb47e8ef9be40cab72231b62aaa425c86961fb6217d61c6c",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.09.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_10.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "2a096d3839db1174f24b2d1b84d2909f8c162302d30f3f683f1b6688b1976087",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.10.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_11.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "010acbb0774c00f652b42d36f3358e92cc53ef8f48bd68d418ac05cfd9adff74",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.11.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
+  "raw/chirps/chirps_2020_12.tif": {
+    "first_recorded": "2026-11-14",
+    "sha256": "5bfa533c298a5e5e1033b9f2587218d52f3e0451da5e6bdb5f5a33f8122697cb",
+    "url": "https://data.chc.ucsb.edu/products/CHIRPS/v2.0/global_monthly/cogs/chirps-v2.0.2020.12.cog (window (-77.76, 1.4, -70.87, 5.52))"
+  },
   "raw/copernicus_dem/Copernicus_DSM_COG_10_N01_00_W072_00_DEM.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "dc3292c7d3cc4609e6060382f6f440233eb3561228851b6262306e91dcaf39a0",

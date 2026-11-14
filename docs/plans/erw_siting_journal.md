@@ -293,6 +293,10 @@ thousand mm/yr in the Llanos) and **rainfall looks too high on steep Andean/Paci
   and use **rainfall − actual evaporation** (ERA5-Land `e`) as the water term. Supersedes the rainfall
   part of D-37. ERA5-Land `tp` and `pev` stay downloaded, unused.
 
+**Result with CHIRPS (2026-11-14, pending review).** 360 monthly windows pinned. Rainfall maxima now
+physically plausible (Pacific slope of Valle highest, as expected); dry months up to ~4 in the inter-
+Andean valleys. Temperature and actual evaporation unchanged. Numbers QC-only.
+
 ### Step 6a — Slope (Copernicus DEM GLO-30) ✅ (approved by David, 2026-11-13)
 
 **What.** `erw_siting/terrain.py`: download the 1°×1° land tiles covering the pilot departments (ocean
