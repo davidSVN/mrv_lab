@@ -394,6 +394,36 @@ internal (D-08). One unit has no description in the source (classified No apta).
 
 ---
 
+## F5a — Data model (GeoPackage) 🔄
+
+**Purpose.** One database where every 1 km cell carries every variable and every result, so the
+analysis is SQL queries instead of loose files.
+
+**Architecture.** Sources → `data/raw/` (pinned) → clean layers in `data/interim/` → **GeoPackage
+`erw_siting.gpkg`** (SQLite with spatial support: real tables, keys, spatial indexes, no server) →
+analysis, `results.json`, figures → later **PostgreSQL + PostGIS** with the same schema (F9).
+
+**What.** `erw_siting/database.py` creates the empty GeoPackage: spatial tables `cells` (1 km
+polygons) and `rock_sources` (points), and attribute tables `sources`, `cell_filters`, `cell_values`
+(long: cell × variable × statistic), `rock_units`, `cell_routes`, `runs`, `cell_results`. Portable
+SQL types, primary and foreign keys, SRID 9377, units in column names. Never overwrites an existing
+file unless asked. Spatial tables are written through geopandas/OGR (GeoPackage triggers).
+
+**Decisions (David, 2026-11-14)**
+- **D-44** — GeoPackage now; new phase **F9: migration to PostGIS** when a dashboard / web app,
+  several writers or national scale require it. 1 km cells; long table for soil and climate; border
+  cells assigned to the department with most area; database gitignored, schema versioned.
+- **D-45** — `cell_results` holds the explanation, not only the answer: candidate flag and excluding
+  filter; CDR chain (max, dissolved fraction, soil losses, gross); emissions (grinding, transport,
+  spreading); rock source and road km; break-even distance and margin; net removal per ha P5/P50/P95
+  and probability of net > 0; lime demand (agronomic axis); ultramafic-source flag; data-quality
+  flags. Out of scope on purpose: money costs, yield/nutrients, per-cell sensitivity, ENSO,
+  municipality (F8). Totals per department are SQL queries, not stored.
+
+**Result.** Empty database created with the 9 tables; 56 tests pass.
+
+---
+
 ## F2–F8 ⏳
 
 Not started. See plan §8 for exit criteria.
