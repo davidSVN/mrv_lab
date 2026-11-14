@@ -394,7 +394,7 @@ internal (D-08). One unit has no description in the source (classified No apta).
 
 ---
 
-## F5a — Data model (GeoPackage) 🔄
+## F5a — Data model (GeoPackage) ✅ (approved by David, 2026-11-14)
 
 **Purpose.** One database where every 1 km cell carries every variable and every result, so the
 analysis is SQL queries instead of loose files.

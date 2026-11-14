@@ -42,7 +42,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ⏳ | Depends on D1 (D-09) |
-| F5a | Data model and storage: cell tables with every variable (D-24) | 🔄 | Schema implemented (9 tables, `database.py`); awaiting David's review (D-44, D-45) |
+| F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 9-table GeoPackage schema (D-44, D-45) |
 | F5 | Grid, masks, routing | ⏳ | Route-validation source to define |
 | F6 | Deterministic calculation, two departments | ⏳ | Checkpoint: re-plan if net < 0 everywhere |
 | F1–F6 national | Scale to the country | ⏳ | — |
@@ -249,7 +249,7 @@ data/processed/            # derived data only where licenses allow
 src/mrv_lab/erw_siting/
   regions.py               # ✅ pilot departments (clipping mask)
   geometry.py              # shared polygon repair helpers
-  database.py              # 🔄 GeoPackage schema: 9 tables, PostGIS-portable (F5a)
+  database.py              # ✅ GeoPackage schema: 9 tables, PostGIS-portable (F5a)
   protected_areas.py       # ✅ RUNAP exclusion mask (step 2)
   agricultural_frontier.py # ✅ UPRA frontier, both types labelled (step 3)
   soil.py                  # ✅ SoilGrids 0-30 cm grids (step 4)
