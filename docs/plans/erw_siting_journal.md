@@ -107,7 +107,7 @@ emissions matter.
 
 ---
 
-## F1 — Data download and clipping (Meta, Tolima, Valle del Cauca) 🔄
+## F1 — Data download and clipping (Meta, Tolima, Valle del Cauca) ✅
 
 **Purpose.** Have every licensed layer on disk, clipped to the pilot departments, pinned by checksum,
 with a QC map David reviews.
@@ -280,7 +280,7 @@ departments. Numbers stay QC-only. 29 tests pass.
   mountains than station-blended products. ERA5-Land token saved in the session environment (proxy
   injection, header `PRIVATE-TOKEN`); dataset licence (cc-by) accepted by David on 2026-11-13.
 
-### Step 6b — Climate normals (ERA5-Land 1991-2020) 🔄
+### Step 6b — Climate normals (CHIRPS + ERA5-Land, 1991-2020) ✅ (approved by David, 2026-11-14)
 
 **Result (first run, 2026-11-13, pending review).** CDS job finished (~43 min queue); 4 variables ×
 360 months on a 0.1° grid, pinned as GeoTIFFs. Plausibility check of the QC table: actual
