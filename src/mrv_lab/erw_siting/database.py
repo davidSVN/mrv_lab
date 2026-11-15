@@ -101,10 +101,12 @@ ATTRIBUTE_TABLES: dict[str, str] = {
     "cell_routes": """
         CREATE TABLE cell_routes (
             cell_id TEXT NOT NULL REFERENCES cells (cell_id),
-            rock_source_id TEXT NOT NULL REFERENCES rock_sources (rock_source_id),
-            road_km REAL,
+            scenario TEXT NOT NULL,              -- apta (base) | apta_mixta (sensitivity)
+            rock_source_id TEXT REFERENCES rock_sources (rock_source_id),  -- NULL: unreachable
+            road_km REAL,                        -- last mile + network + source access (D-47)
             straight_km REAL,
-            PRIMARY KEY (cell_id, rock_source_id)
+            last_mile_km REAL,                   -- cell centre to nearest road node
+            PRIMARY KEY (cell_id, scenario)
         )""",
     "runs": """
         CREATE TABLE runs (
@@ -234,4 +236,27 @@ def write_rock_tables(
         con.execute(
             "CREATE UNIQUE INDEX IF NOT EXISTS ux_rock_sources_rock_source_id "
             "ON rock_sources (rock_source_id)"
+        )
+
+
+def write_cells(cells: gpd.GeoDataFrame, path: Path | None = None) -> None:
+    """Rewrite the ``cells`` layer (through OGR) and its unique key."""
+    path = path or database_path()
+    columns = list(SPATIAL_TABLES["cells"][1])
+    gpd.GeoDataFrame(cells[[*columns, "geometry"]], crs=WORK_CRS).to_file(
+        path, layer="cells", driver="GPKG", mode="w"
+    )
+    with sqlite3.connect(path) as con:
+        con.execute("CREATE UNIQUE INDEX IF NOT EXISTS ux_cells_cell_id ON cells (cell_id)")
+
+
+def write_table(name: str, frame: pd.DataFrame, path: Path | None = None) -> None:
+    """Replace all rows of an attribute table with ``frame`` (columns must match the schema)."""
+    path = path or database_path()
+    records = frame.astype(object).where(frame.notna(), None).itertuples(index=False, name=None)
+    placeholders = ", ".join("?" for _ in frame.columns)
+    with connect(path) as con:
+        con.execute(f"DELETE FROM {name}")
+        con.executemany(
+            f"INSERT INTO {name} ({', '.join(frame.columns)}) VALUES ({placeholders})", records
         )
