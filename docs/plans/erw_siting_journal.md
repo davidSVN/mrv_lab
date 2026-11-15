@@ -394,7 +394,7 @@ internal (D-08). One unit has no description in the source (classified No apta).
 
 ---
 
-## F3 — Potential rock sources 🔄
+## F3 — Potential rock sources ✅ (approved by David, 2026-11-15)
 
 **Purpose.** Points where a truck could load suitable rock: the origin of every road distance in F5.
 
