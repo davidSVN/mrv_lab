@@ -42,7 +42,9 @@ def test_road_distance_follows_the_road(graph: r.RoadGraph) -> None:
     c1 = table.iloc[0]
     assert c1["road_km"] == pytest.approx(0.1 + 20 + 0.5)  # last mile + 20 km road + access
     assert c1["straight_km"] == pytest.approx(np.hypot(10.1, 10.0), rel=1e-6)
-    assert np.isnan(table.iloc[1]["road_km"])  # disconnected road: unreachable
+    c2 = table.iloc[1]  # near an isolated road: snaps to the main network instead
+    assert c2["last_mile_km"] == pytest.approx(np.hypot(80.5, 80.0), rel=1e-3)
+    assert np.isfinite(c2["road_km"])
     route = graph.path(pred, nodes[0])
     assert route.length == pytest.approx(20_000)
 

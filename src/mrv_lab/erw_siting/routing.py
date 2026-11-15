@@ -8,14 +8,16 @@ distance to any source and which source it is.
 Distance of a cell (D-47): ``road_km`` = cell-to-road link (straight, "last mile") + network
 distance + the source's access distance to the rock (``access_km``, F3). Distance only, no
 travel time.
-Two scenarios: ``apta`` (base) and ``apta_mixta`` (sensitivity, D-40). Unreachable cells get NaN.
+Cells and sources snap to the largest connected road component (isolated fragments are skipped;
+the extra straight distance counts as last mile). Two scenarios: ``apta`` (base) and
+``apta_mixta`` (sensitivity, D-40). Unreachable cells get NaN.
 """
 
 import geopandas as gpd
 import numpy as np
 import pandas as pd
 from scipy.sparse import coo_matrix
-from scipy.sparse.csgraph import dijkstra
+from scipy.sparse.csgraph import connected_components, dijkstra
 from scipy.spatial import cKDTree
 from shapely.geometry import LineString
 
@@ -47,12 +49,16 @@ class RoadGraph:
         self.matrix = coo_matrix(
             (np.r_[length, length], (np.r_[a, b], np.r_[b, a])), shape=(n, n)
         ).tocsr()
-        self.tree = cKDTree(self.xy)
+        # Truck-road subsets leave isolated fragments (linked to the main network only through
+        # excluded classes). Cells and sources snap to the largest component only (D-47).
+        _, labels = connected_components(self.matrix, directed=False)
+        self.main_nodes = np.flatnonzero(labels == np.bincount(labels).argmax())
+        self.tree = cKDTree(self.xy[self.main_nodes])
 
     def snap(self, x: np.ndarray, y: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
         """Nearest node and straight distance (m) for each point."""
-        dist, node = self.tree.query(np.column_stack([x, y]))
-        return node, dist
+        dist, idx = self.tree.query(np.column_stack([x, y]))
+        return self.main_nodes[idx], dist
 
     def path(self, predecessors: np.ndarray, node: int) -> LineString | None:
         """Road geometry from ``node`` back to its source."""

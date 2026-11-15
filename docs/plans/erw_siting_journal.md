@@ -446,6 +446,31 @@ file unless asked. Spatial tables are written through geopandas/OGR (GeoPackage 
 
 ---
 
+## F5 — Cell grid, filters, values and road routing 🔄
+
+**What.** `grid.py` builds 132,264 cells of 1 km² (Meta 86,422; Tolima 24,603; Valle 21,239) and
+fills `cell_filters` and `cell_values` (2.5 M rows). `routing.py` builds the truck-road graph
+(6.4 M nodes) and runs one multi-source Dijkstra per scenario; `cells_pipeline.py` writes
+`cell_routes` (2 scenarios) and the QC maps (distance with 20 example routes, influence areas).
+
+**Decisions (David, 2026-11-15)**
+- **D-47** — Route every cell; `scipy` (no new dependency); distance only; `road_km` = last mile
+  (cell → road, straight) + network + source access (`access_km`); two scenarios (`apta`,
+  `apta_mixta`); validate ~20 routes against a documented distance source (still missing). QC maps
+  of distance and influence areas plus 20 drawn example routes.
+- Schema change: `cell_routes` keyed by (cell_id, scenario), with `last_mile_km`.
+- Fix after the first run: the truck-road subset splits into 4,352 components (the largest holds
+  91 % of nodes; the rest connect only through excluded road classes). 10–20 % of cells were
+  unreachable. Cells and sources now snap to the largest component only; the extra distance is
+  recorded as last mile (mean 6.2 km, max 79 km). All cells reachable after the fix.
+
+**Result (pending David's review).** Results internal (D-08: rock sources derive from SGC). First
+reading: Meta depends on a very small suitable unit near its western edge, so its distances are
+sensitive to that single unit; Tolima gets much closer rock only in the Apta+Mixta scenario.
+Road/straight-line ratio (median) between 1.5 and 2.1. 64 tests pass.
+
+---
+
 ## F2–F8 ⏳
 
 Not started. See plan §8 for exit criteria.
