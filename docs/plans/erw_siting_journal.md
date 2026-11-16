@@ -648,6 +648,32 @@ application group; recommendation: 10 base, 30 in F7.
 
 ---
 
+## Study guide for David (requested 2026-11-16) ⏳
+
+**What.** At the end, a study guide in Spanish (private page, not in the repo) explaining every
+chemical and technical term and every formula used, with the analysis's own numbers as worked
+examples and where each lives in the code. Terms are collected here as they appear.
+
+**Term backlog**
+- Rocks and minerals: mafic / ultramafic / felsic; basalt, gabbro, picrite, dolerite; dunite,
+  peridotite, harzburgite, lherzolite; serpentinite and serpentinization; olivine (forsterite),
+  pyroxene (augite, diopside), plagioclase (labradorite), basaltic glass; oceanic plateau (CCOP);
+  SGC unit codes (K2-Vm, K2-Pm, K2-Pu…); Apta / Mixta / No apta.
+- Chemistry: oxides and wt%; LOI, dry basis vs rock as quarried; mole and molar mass; cations
+  (monovalent Na⁺ K⁺, divalent Ca²⁺ Mg²⁺) and charge; alkalinity; bicarbonate vs carbonate;
+  η (CO₂ per mole of charge), ω = 2η, R_CO2 (theoretical capture per tonne); Lewis Eq. 5 vs Eq. 4
+  (the 0.5ω issue); ocean vs soil carbonate pathway.
+- Weathering: dissolution; specific surface area (SSA); weathering rate WR and log10 units;
+  Arrhenius law, activation energy, reference temperature; dissolved fraction f_diss; constant
+  surface vs shrinking core; pH and acid soils.
+- Soil: pH, CEC, exchangeable Al, base saturation, f_loss, lime demand; Ni / Cr and asbestos risks.
+- Grinding and logistics: P80 / F80, Bond's law and work index; t·km, SFC / SFC*, empty return;
+  diesel factor (FECOC); grid factor (inventory vs CDM, combined margin OM / BM).
+- Accounting and statistics: CDR, ERW, MRV, LCA, net removal, break-even distance; median, range,
+  triangular distribution, Monte Carlo, sensitivity.
+
+---
+
 ## F2–F8 ⏳
 
 Not started. See plan §8 for exit criteria.

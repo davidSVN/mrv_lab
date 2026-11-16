@@ -49,6 +49,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F7 | Monte Carlo + sensitivity | ⏳ | Includes recent-climate run (1996-2025) and Meta single-source dependency (84 % of cells from one source) |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
+| Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
 | F10 | Scenario dashboard: change parameters, pick rock type, compare scenarios | ⏳ | After F7, on PostGIS (F9); uses `scenarios` tables; routes precomputed per rock type; only `base` is citable (D-50) |
 
 Next action: F4 — rock (D-49), emissions (D-51) and weathering (D-52) done; continue with soil →
