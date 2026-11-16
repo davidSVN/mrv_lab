@@ -13,14 +13,12 @@ fails. Derived parameters are computed here, so the registry values are reproduc
 - spreading: Lefebvre 2019 diesel per tonne of rock / FECOC diesel density.
 """
 
-import html
 import math
-import re
 from pathlib import Path
 
 import pandas as pd
 
-from mrv_lab import io
+from mrv_lab.erw_siting import literature
 
 US_GALLON_L = 3.785411784  # NIST definition of the US liquid gallon
 CRUSHED_FEED_UM = 5_000  # F80 after crushing (Lefebvre 2019: comminution to 5 mm)
@@ -126,30 +124,17 @@ SOURCES["upme_freight_baseline"]["checks"] = [
 
 def download() -> dict[str, Path]:
     """Download every source to ``data/raw/emission_factors/`` (SHA-256 pinned)."""
-    folder = io.raw_dir() / "emission_factors"
-    paths = {}
-    for key, src in SOURCES.items():
-        suffix = ".htm" if src["url"].endswith(".htm") else ".pdf"
-        paths[key] = io.download_file(src["url"], folder / f"{key}{suffix}", timeout_s=300)
-    return paths
+    return literature.download(SOURCES, "emission_factors")
 
 
 def source_text(path: Path) -> str:
-    """Plain text of a downloaded source (PDF layout text, or HTML without tags)."""
-    if path.suffix == ".htm":
-        raw = path.read_bytes().decode("utf-8", errors="replace")
-        return html.unescape(re.sub(r"<[^>]+>", " ", raw))
-    return io.pdf_text(path, layout=True) + "\n" + io.pdf_text(path, layout=False)
+    """Plain text of a downloaded source."""
+    return literature.source_text(path)
 
 
 def verify(texts: dict[str, str]) -> list[str]:
     """Every transcribed number must appear in its source text."""
-    return [
-        f"{key}: pattern not found: {pattern}"
-        for key, src in SOURCES.items()
-        for pattern in src["checks"]
-        if not re.search(pattern, texts[key])
-    ]
+    return literature.verify(SOURCES, texts)
 
 
 def bond_kwh_per_t(work_index_kwh_per_t: float, p80_um: float, f80_um: float) -> float:

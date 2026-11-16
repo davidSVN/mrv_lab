@@ -17,7 +17,8 @@ DEM GLO-30 (D11), CHIRPS v2.0 (D9), ERA5-Land (D10, D19), SGC Mapa Geológico 20
 until SGC confirms publication), OpenStreetMap roads via HOT/HDX (D12), geoBoundaries (D17b), rock chemistry from Kerr et al. 2002 and García-Casco et al. 2020 (D16; only
 aggregates in `config/erw_siting/parameters/rock.yaml`), emission factors from UPME (SIN factor,
 FECOC, freight baseline), SICE-TAC via ANDI, Lefebvre et al. 2019 and Ruan et al. 2026 (D14, D15,
-D21–D24; values quoted in `lca.yaml`).
+D21–D24; values quoted in `lca.yaml`), weathering kinetics from Strefler et al. 2018 and
+Palandri & Kharaka 2004 (D25, D26; `weathering.yaml`).
 Nothing raw is redistributed here.
 
 ## Method

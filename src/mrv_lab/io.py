@@ -83,6 +83,14 @@ def sha256_of(path: Path) -> str:
     return digest.hexdigest()
 
 
+#: Generic client name (some servers refuse Python's default agent); no personal data.
+USER_AGENT = "Mozilla/5.0 (compatible; research-data-downloader)"
+
+
+class NotAPdfError(RuntimeError):
+    """A ``.pdf`` download returned something else (e.g. a bot-check page); nothing is saved."""
+
+
 def download_file(
     url: str,
     dest: Path,
@@ -118,8 +126,12 @@ def download_file(
 
     if not dest.exists():
         part = dest.with_name(dest.name + ".part")
-        with urllib.request.urlopen(url, timeout=timeout_s) as response, part.open("wb") as fh:
+        request = urllib.request.Request(url, headers={"User-Agent": USER_AGENT})
+        with urllib.request.urlopen(request, timeout=timeout_s) as response, part.open("wb") as fh:
             shutil.copyfileobj(response, fh, _CHUNK_BYTES)
+        if dest.suffix.lower() == ".pdf" and not part.read_bytes()[:5].startswith(b"%PDF"):
+            part.unlink()
+            raise NotAPdfError(f"{url} did not return a PDF (bot check or error page?)")
         part.replace(dest)
 
     register_checksum(dest, url, registry)

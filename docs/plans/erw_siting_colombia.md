@@ -41,7 +41,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 6b | Rainfall + dry months (CHIRPS), temperature + actual evaporation (ERA5-Land) | ✅ | 1991-2020 normals; recent-climate sensitivity (1996-2025) later in F7 |
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
-| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Rock ✅ (D-49), emissions ✅ and grain classes 1000/100/10 µm ✅ (D-51): 23/34 ok. Next: weathering, soil, application/capture (D-48) |
+| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Rock ✅ (D-49), emissions + grain ✅ (D-51), weathering kinetics ✅ (D-52): 32/38 ok. Next: soil, application/capture (D-48) |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 12-table GeoPackage schema (D-44, D-45); + parameters / scenarios / scenario_parameters (D-50) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, three pilot departments | ⏳ | Needs F4 values; checkpoint: re-plan if net < 0 everywhere. Run with Opus (David, 2026-11-16) |
@@ -51,7 +51,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 | F10 | Scenario dashboard: change parameters, pick rock type, compare scenarios | ⏳ | After F7, on PostGIS (F9); uses `scenarios` tables; routes precomputed per rock type; only `base` is citable (D-50) |
 
-Next action: F4 — rock (D-49) and emissions (D-51) done; continue with weathering → soil →
+Next action: F4 — rock (D-49), emissions (D-51) and weathering (D-52) done; continue with soil →
 application/capture in this chat, each group reviewed by David. Then F6.
 
 **Resume point (2026-11-16).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
@@ -173,12 +173,13 @@ Each cell is assigned the source with the highest `net_ij` (normally the nearest
 1. **Theoretical maximum** from the cation-based capture-potential formula. The exact formula, molar
    masses, unit convention (oxide wt% → requires /100) and η are taken **from the cited source**
    (e.g. Renforth 2012) and tested against a worked example from that source.
-2. **Dissolved fraction over the horizon** `f_diss`: literature range by grain size, adjusted by a
-   relative climate factor:
-   - temperature: Arrhenius correction relative to 25 °C, Eₐ from literature;
-   - water: increasing, saturating factor of rainfall or water surplus (rain − ET), with the number of
-     dry months (from CHIRPS monthly) as a seasonality check (D-22).
-   This is a **relative index**, not a geochemical model. Documented as such.
+2. **Dissolved fraction over the horizon** `f_diss`, computed per cell (D-52):
+   `f_diss = min(1, SSA(P80) × WR × M × s/yr × years × Arrhenius(T_cell))` (Strefler et al. 2018,
+   Eq. 2; SSA = 69.18·P80^−1.24 m²/g; WR at pH 7 and 25 °C; Eₐ from Palandri & Kharaka 2004).
+   - temperature: Arrhenius correction relative to 25 °C (ERA5-Land mean temperature of the cell);
+   - water: **no factor** (no sourced function found); dry months (CHIRPS) reported as a flag (D-52);
+   - pH: not in the rate (WR at pH 7); soil acidity enters through `f_loss`.
+   Lab-based rates with a three-order range: a **relative index**, not a geochemical model.
 3. **Soil losses** `f_loss`, function of SoilGrids pH and CEC:
    - in acidic soil, part of the cations neutralises acidity (Al³⁺, H⁺) instead of capturing CO₂;
    - part is retained on the exchange complex.
@@ -266,6 +267,8 @@ src/mrv_lab/erw_siting/
   registry.py              # 🔄 YAML parameter registry + validator (F4)
   rock_chemistry.py        # ✅ rock oxides recomputed from source tables (F4, D-49)
   emission_factors.py      # ✅ lca factors checked against sources, Bond grinding (F4, D-51)
+  weathering.py            # ✅ dissolved fraction per cell: Strefler Eq. 2 + Arrhenius (F4, D-52)
+  literature.py            # ✅ download, pin and check numbers quoted from documents
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # ✅ suitable rock near truck roads → potential sources (F3, D-46)
   grid.py                  # ✅ 1 km grid, cell filters and values (F5)

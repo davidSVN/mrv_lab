@@ -37,6 +37,7 @@ from mrv_lab.erw_siting import (
     rock_chemistry,
     soil,
     terrain,
+    weathering,
 )
 
 ANALYSIS_DIR = Path(__file__).resolve().parent
@@ -190,6 +191,13 @@ lca_problems = emission_factors.verify(ef_texts) + registry.check_values(
 )
 if lca_problems:
     raise ValueError(f"lca.yaml differs from the sources: {lca_problems}")
+
+# weathering group: kinetics checked against Strefler 2018 and Palandri & Kharaka 2004 (D-52).
+weathering_problems = weathering.verify(weathering.texts()) + registry.check_values(
+    parameters, weathering.registry_values()
+)
+if weathering_problems:
+    raise ValueError(f"weathering.yaml differs from the sources: {weathering_problems}")
 
 # %%
 # Registry -> GeoPackage: `parameters` (read-only copy) + the citable `base` scenario (D-50).

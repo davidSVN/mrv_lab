@@ -21,7 +21,7 @@ Where the work stands, for the next session (F4 and F6 in this chat, David 2026-
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: rock (D-49) and emissions + grain classes (D-51) done, 23/34 ok; weathering, soil, application/capture pending | F6 deterministic calculation (needs F4), F7, F8, F9 |
+| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: rock (D-49), emissions + grain (D-51), weathering (D-52) done, 32/38 ok; soil, application/capture pending | F6 deterministic calculation (needs F4), F7, F8, F9 |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -607,6 +607,44 @@ depends on hydrology (El Niño); empty-return ratio from the tractor-trailer mod
 truck; spreading from one Brazilian study without range.
 
 **Refactor.** `io.pdf_text` and `registry.check_values` shared by the rock and lca groups.
+
+### Weathering group ✅ (approved by David, 2026-11-16)
+
+**What.** The 5 placeholders (`f_diss_coarse/medium/fine`, one activation energy, reference
+temperature) could not hold a fixed `f_diss`: it depends on cell temperature, rock type and horizon.
+Replaced by 9 kinetic parameters; `erw_siting/weathering.py` computes `f_diss` per cell:
+`min(1, SSA(P80) × WR × M × 3.155e7 s/yr × years × exp(−Eₐ/R (1/T − 1/T_ref)))` (Strefler et al. 2018,
+Eq. 2). Quoted numbers checked against the sources (10 regex checks); shared helpers in
+`erw_siting/literature.py`.
+
+| Parameter | Value | Range | Source |
+|---|---|---|---|
+| ssa_coef_m2_per_g / ssa_exponent | 69.18 / −1.24 | — | Strefler 2018 (SSA fit, SI B) |
+| log10_wr_basalt_mol_m2_s | −10.53 | −12.63 to −9.55 | Strefler 2018, pH 7, 25 °C |
+| log10_wr_ultramafic_mol_m2_s | −9.86 | −9.95 to −9.77 | Strefler 2018 (dunite) |
+| molar_mass_basalt / _ultramafic (g/mol) | 125 / 140.7 | — | Strefler 2018 |
+| activation_energy_kj_per_mol_basalt | 45.2 | 40.6–78.0 | Palandri & Kharaka 2004: labradorite neutral (range diopside–augite) |
+| activation_energy_kj_per_mol_ultramafic | 79.0 | — | Palandri & Kharaka 2004: forsterite neutral |
+| reference_temperature_c | 25 | — | Definition (temperature of both sources' rates) |
+
+Basalt at 25 °C after 10 years: coarse 0.015, medium 0.27, fine 1.0 (30 years: 0.046 / 0.80 / 1.0).
+At 20 °C the rate is 73 % of the 25 °C rate; at 15 °C, 53 %.
+
+**Decisions (David, 2026-11-16)**
+- **D-52** — (1) `f_diss` is computed per cell from kinetic parameters, not stored as fixed values.
+  (2) No water factor (no sourced function; Strefler restricts to humid regions); dry months from
+  CHIRPS are a flag only; plan §5.2 updated. (3) Basalt activation energy = labradorite, neutral
+  mechanism (plagioclase dominates; WR is at pH 7). Gabbro uses basalt kinetics (proxy).
+
+**Fix.** `io.download_file` now sends a generic User-Agent (USGS refuses Python's default) and
+refuses a `.pdf` download that is not a PDF (IOP served a bot-check page that had been pinned;
+removed before commit). Test added.
+
+**Limitations.** WR spans three orders of magnitude and is lab-based (abiotic field rates may be
+~100× lower); constant-surface model overestimates long horizons; no pH term (acid soils would
+dissolve faster); ultramafic rate is for fresh dunite (pilot ultramafics are serpentinized); gabbro
+is crystalline and likely slower than the basalt proxy. Horizon (10 vs 30 years) decided in the
+application group; recommendation: 10 base, 30 in F7.
 
 ---
 
