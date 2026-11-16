@@ -446,7 +446,7 @@ file unless asked. Spatial tables are written through geopandas/OGR (GeoPackage 
 
 ---
 
-## F5 — Cell grid, filters, values and road routing 🔄
+## F5 — Cell grid, filters, values and road routing ✅ (approved by David, 2026-11-16)
 
 **What.** `grid.py` builds 132,264 cells of 1 km² (Meta 86,422; Tolima 24,603; Valle 21,239) and
 fills `cell_filters` and `cell_values` (2.5 M rows). `routing.py` builds the truck-road graph
@@ -467,7 +467,9 @@ fills `cell_filters` and `cell_values` (2.5 M rows). `routing.py` builds the tru
 **Result (pending David's review).** Results internal (D-08: rock sources derive from SGC). First
 reading: Meta depends on a very small suitable unit near its western edge, so its distances are
 sensitive to that single unit; Tolima gets much closer rock only in the Apta+Mixta scenario.
-Road/straight-line ratio (median) between 1.5 and 2.1. 64 tests pass.
+Road/straight-line ratio (median) between 1.5 and 2.1. 64 tests pass. Influence areas: 84 % of Meta's
+cells are supplied by one source (single-point dependency) → F7 sensitivity item; David declined an
+immediate test.
 
 ---
 

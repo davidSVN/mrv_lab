@@ -43,14 +43,14 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 9-table GeoPackage schema (D-44, D-45) |
-| F5 | Grid, masks, routing | 🔄 | 132,264 cells filled and routed; awaiting David's review; route validation source still missing (D-47) |
+| F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, two departments | ⏳ | Checkpoint: re-plan if net < 0 everywhere |
 | F1–F6 national | Scale to the country | ⏳ | — |
-| F7 | Monte Carlo + sensitivity | ⏳ | Includes recent-climate run (1996-2025) |
+| F7 | Monte Carlo + sensitivity | ⏳ | Includes recent-climate run (1996-2025) and Meta single-source dependency (84 % of cells from one source) |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 
-Next action: David reviews F5 → F4 (parameter registry) before F6.
+Next action: explain and agree F4 (parameter registry) before F6.
 
 Future (not scheduled, far from now):
 - Consolidate all layers into a well-structured spatial database with polygon/cell tables (D-19).
@@ -257,10 +257,10 @@ src/mrv_lab/erw_siting/
   registry.py              # parameter schema + loading + unit validation
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # ✅ suitable rock near truck roads → potential sources (F3, D-46)
-  grid.py                  # 🔄 1 km grid, cell filters and values (F5)
-  cells_pipeline.py        # 🔄 F5 orchestration + QC
+  grid.py                  # ✅ 1 km grid, cell filters and values (F5)
+  cells_pipeline.py        # ✅ F5 orchestration + QC
   potential.py             # §5.2
-  routing.py               # 🔄 road graph + multi-source Dijkstra (F5)
+  routing.py               # ✅ road graph + multi-source Dijkstra (F5)
   siting.py                # §5.5
   report.py                # figures, tables, results.json
 analyses/01_erw_siting_colombia/
