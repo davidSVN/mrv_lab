@@ -1,126 +1,304 @@
 # Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
 # a parameter without a verified source stays status: missing.
+# Rock values are recomputed by erw_siting.rock_chemistry; analysis.py fails on any mismatch.
 group: rock
-description: Whole-rock chemistry of suitable rock types (wt% oxides). Plan §5.2 step
-  1; source D16 (literature).
+description: Whole-rock chemistry of suitable rock types (wt% oxides of the rock as quarried). Plan §5.2
+  step 1; source D16. Values computed from the source tables by src/mrv_lab/erw_siting/rock_chemistry.py
+  (D-49).
 parameters:
 - id: cao_wt_pct_basalt
-  name: CAO content of basalt
-  value: null
+  name: CaO content of basalt
+  value: 10.48
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 7.28
+      mode: 10.48
+      max: 12.06
+  range:
+  - 7.28
+  - 12.06
+  source:
+    citation: 'Kerr, A.C., Tarney, J., Kempton, P.D., Spadea, P., Nivia, A., Marriner, G.F. & Duncan,
+      R.A. (2002). Pervasive mantle plume head heterogeneity: Evidence from the late Cretaceous Caribbean-Colombian
+      oceanic plateau. Journal of Geophysical Research 107(B7), 2140'
+    doi_or_url: doi:10.1029/2001JB000790
+    locator: Table 1 (major elements, wt%, dry basis; LOI row)
+  quality: literature
+  status: ok
+  notes: Median of 11 basalts (MgO <= 12 wt%) of the Caribbean-Colombian oceanic plateau, SW Colombia
+    (Central Cordillera), same plateau as SGC unit K2-Vm. Dry-basis oxides converted to rock as quarried
+    with (1 - LOI/100). Sampling biased to picrite localities; not from the Western Cordillera of Valle.
+    Na, K mobile in altered lavas. Computed by erw_siting.rock_chemistry (D-49).
 - id: mgo_wt_pct_basalt
-  name: MGO content of basalt
-  value: null
+  name: MgO content of basalt
+  value: 9.2
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 7.09
+      mode: 9.2
+      max: 11.2
+  range:
+  - 7.09
+  - 11.2
+  source:
+    citation: 'Kerr, A.C., Tarney, J., Kempton, P.D., Spadea, P., Nivia, A., Marriner, G.F. & Duncan,
+      R.A. (2002). Pervasive mantle plume head heterogeneity: Evidence from the late Cretaceous Caribbean-Colombian
+      oceanic plateau. Journal of Geophysical Research 107(B7), 2140'
+    doi_or_url: doi:10.1029/2001JB000790
+    locator: Table 1 (major elements, wt%, dry basis; LOI row)
+  quality: literature
+  status: ok
+  notes: Median of 11 basalts (MgO <= 12 wt%) of the Caribbean-Colombian oceanic plateau, SW Colombia
+    (Central Cordillera), same plateau as SGC unit K2-Vm. Dry-basis oxides converted to rock as quarried
+    with (1 - LOI/100). Sampling biased to picrite localities; not from the Western Cordillera of Valle.
+    Na, K mobile in altered lavas. Computed by erw_siting.rock_chemistry (D-49).
 - id: na2o_wt_pct_basalt
-  name: NA2O content of basalt
-  value: null
+  name: Na2O content of basalt
+  value: 2.14
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 1.46
+      mode: 2.14
+      max: 3.97
+  range:
+  - 1.46
+  - 3.97
+  source:
+    citation: 'Kerr, A.C., Tarney, J., Kempton, P.D., Spadea, P., Nivia, A., Marriner, G.F. & Duncan,
+      R.A. (2002). Pervasive mantle plume head heterogeneity: Evidence from the late Cretaceous Caribbean-Colombian
+      oceanic plateau. Journal of Geophysical Research 107(B7), 2140'
+    doi_or_url: doi:10.1029/2001JB000790
+    locator: Table 1 (major elements, wt%, dry basis; LOI row)
+  quality: literature
+  status: ok
+  notes: Median of 11 basalts (MgO <= 12 wt%) of the Caribbean-Colombian oceanic plateau, SW Colombia
+    (Central Cordillera), same plateau as SGC unit K2-Vm. Dry-basis oxides converted to rock as quarried
+    with (1 - LOI/100). Sampling biased to picrite localities; not from the Western Cordillera of Valle.
+    Na, K mobile in altered lavas. Computed by erw_siting.rock_chemistry (D-49).
 - id: k2o_wt_pct_basalt
   name: K2O content of basalt
-  value: null
+  value: 0.29
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 0.08
+      mode: 0.29
+      max: 1.12
+  range:
+  - 0.08
+  - 1.12
+  source:
+    citation: 'Kerr, A.C., Tarney, J., Kempton, P.D., Spadea, P., Nivia, A., Marriner, G.F. & Duncan,
+      R.A. (2002). Pervasive mantle plume head heterogeneity: Evidence from the late Cretaceous Caribbean-Colombian
+      oceanic plateau. Journal of Geophysical Research 107(B7), 2140'
+    doi_or_url: doi:10.1029/2001JB000790
+    locator: Table 1 (major elements, wt%, dry basis; LOI row)
+  quality: literature
+  status: ok
+  notes: Median of 11 basalts (MgO <= 12 wt%) of the Caribbean-Colombian oceanic plateau, SW Colombia
+    (Central Cordillera), same plateau as SGC unit K2-Vm. Dry-basis oxides converted to rock as quarried
+    with (1 - LOI/100). Sampling biased to picrite localities; not from the Western Cordillera of Valle.
+    Na, K mobile in altered lavas. Computed by erw_siting.rock_chemistry (D-49).
 - id: cao_wt_pct_gabbro
-  name: CAO content of gabbro
-  value: null
+  name: CaO content of gabbro
+  value: 10.48
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 7.28
+      mode: 10.48
+      max: 12.06
+  range:
+  - 7.28
+  - 12.06
+  source:
+    citation: 'Kerr, A.C., Tarney, J., Kempton, P.D., Spadea, P., Nivia, A., Marriner, G.F. & Duncan,
+      R.A. (2002). Pervasive mantle plume head heterogeneity: Evidence from the late Cretaceous Caribbean-Colombian
+      oceanic plateau. Journal of Geophysical Research 107(B7), 2140'
+    doi_or_url: doi:10.1029/2001JB000790
+    locator: Table 1 (major elements, wt%, dry basis; LOI row)
+  quality: literature
+  status: ok
+  notes: 'PROXY: no open Colombian gabbro analyses found; uses the basalt set (Kerr 2002, n=11), the intrusive
+    equivalent of the same magma. Cumulate gabbros likely have more CaO and less Na2O/K2O. Approved by
+    David as proxy (D-49).'
 - id: mgo_wt_pct_gabbro
-  name: MGO content of gabbro
-  value: null
+  name: MgO content of gabbro
+  value: 9.2
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 7.09
+      mode: 9.2
+      max: 11.2
+  range:
+  - 7.09
+  - 11.2
+  source:
+    citation: 'Kerr, A.C., Tarney, J., Kempton, P.D., Spadea, P., Nivia, A., Marriner, G.F. & Duncan,
+      R.A. (2002). Pervasive mantle plume head heterogeneity: Evidence from the late Cretaceous Caribbean-Colombian
+      oceanic plateau. Journal of Geophysical Research 107(B7), 2140'
+    doi_or_url: doi:10.1029/2001JB000790
+    locator: Table 1 (major elements, wt%, dry basis; LOI row)
+  quality: literature
+  status: ok
+  notes: 'PROXY: no open Colombian gabbro analyses found; uses the basalt set (Kerr 2002, n=11), the intrusive
+    equivalent of the same magma. Cumulate gabbros likely have more CaO and less Na2O/K2O. Approved by
+    David as proxy (D-49).'
 - id: na2o_wt_pct_gabbro
-  name: NA2O content of gabbro
-  value: null
+  name: Na2O content of gabbro
+  value: 2.14
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 1.46
+      mode: 2.14
+      max: 3.97
+  range:
+  - 1.46
+  - 3.97
+  source:
+    citation: 'Kerr, A.C., Tarney, J., Kempton, P.D., Spadea, P., Nivia, A., Marriner, G.F. & Duncan,
+      R.A. (2002). Pervasive mantle plume head heterogeneity: Evidence from the late Cretaceous Caribbean-Colombian
+      oceanic plateau. Journal of Geophysical Research 107(B7), 2140'
+    doi_or_url: doi:10.1029/2001JB000790
+    locator: Table 1 (major elements, wt%, dry basis; LOI row)
+  quality: literature
+  status: ok
+  notes: 'PROXY: no open Colombian gabbro analyses found; uses the basalt set (Kerr 2002, n=11), the intrusive
+    equivalent of the same magma. Cumulate gabbros likely have more CaO and less Na2O/K2O. Approved by
+    David as proxy (D-49).'
 - id: k2o_wt_pct_gabbro
   name: K2O content of gabbro
-  value: null
+  value: 0.29
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 0.08
+      mode: 0.29
+      max: 1.12
+  range:
+  - 0.08
+  - 1.12
+  source:
+    citation: 'Kerr, A.C., Tarney, J., Kempton, P.D., Spadea, P., Nivia, A., Marriner, G.F. & Duncan,
+      R.A. (2002). Pervasive mantle plume head heterogeneity: Evidence from the late Cretaceous Caribbean-Colombian
+      oceanic plateau. Journal of Geophysical Research 107(B7), 2140'
+    doi_or_url: doi:10.1029/2001JB000790
+    locator: Table 1 (major elements, wt%, dry basis; LOI row)
+  quality: literature
+  status: ok
+  notes: 'PROXY: no open Colombian gabbro analyses found; uses the basalt set (Kerr 2002, n=11), the intrusive
+    equivalent of the same magma. Cumulate gabbros likely have more CaO and less Na2O/K2O. Approved by
+    David as proxy (D-49).'
 - id: cao_wt_pct_ultramafic
-  name: CAO content of ultramafic
-  value: null
+  name: CaO content of ultramafic
+  value: 0.71
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 0.01
+      mode: 0.71
+      max: 4.9
+  range:
+  - 0.01
+  - 4.9
+  source:
+    citation: 'Garcia-Casco, A., Restrepo, J.J., Correa-Martinez, A.M., Blanco-Quintero, I.F., Proenza,
+      J.A., Weber, M. & Butjosa, L. (2020). The petrologic nature of the ''Medellin Dunite'' revisited.
+      In: Gomez, J. & Pinilla-Pachon, A.O. (eds.), The Geology of Colombia, Volume 2 Mesozoic. Servicio
+      Geologico Colombiano, Publicaciones Geologicas Especiales 36'
+    doi_or_url: doi:10.32685/pub.esp.36.2019.02
+    locator: Table 1 (whole-rock composition, wt%, LOI included)
+  quality: literature
+  status: ok
+  notes: 'Median of 49 samples of the Medellin Metaharzburgitic Unit (Antioquia, outside the pilot), compiled
+    from 9 studies; LOI already included (rock as quarried). Serpentinized (LOI 2-13 wt%): MgO overstates
+    reactive Mg. Blank cells (not analysed) excluded. Computed by erw_siting.rock_chemistry (D-49).'
 - id: mgo_wt_pct_ultramafic
-  name: MGO content of ultramafic
-  value: null
+  name: MgO content of ultramafic
+  value: 41.48
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 30.0
+      mode: 41.48
+      max: 45.27
+  range:
+  - 30.0
+  - 45.27
+  source:
+    citation: 'Garcia-Casco, A., Restrepo, J.J., Correa-Martinez, A.M., Blanco-Quintero, I.F., Proenza,
+      J.A., Weber, M. & Butjosa, L. (2020). The petrologic nature of the ''Medellin Dunite'' revisited.
+      In: Gomez, J. & Pinilla-Pachon, A.O. (eds.), The Geology of Colombia, Volume 2 Mesozoic. Servicio
+      Geologico Colombiano, Publicaciones Geologicas Especiales 36'
+    doi_or_url: doi:10.32685/pub.esp.36.2019.02
+    locator: Table 1 (whole-rock composition, wt%, LOI included)
+  quality: literature
+  status: ok
+  notes: 'Median of 49 samples of the Medellin Metaharzburgitic Unit (Antioquia, outside the pilot), compiled
+    from 9 studies; LOI already included (rock as quarried). Serpentinized (LOI 2-13 wt%): MgO overstates
+    reactive Mg. Blank cells (not analysed) excluded. Computed by erw_siting.rock_chemistry (D-49).'
 - id: na2o_wt_pct_ultramafic
-  name: NA2O content of ultramafic
-  value: null
+  name: Na2O content of ultramafic
+  value: 0.04
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 0.01
+      mode: 0.04
+      max: 0.47
+  range:
+  - 0.01
+  - 0.47
+  source:
+    citation: 'Garcia-Casco, A., Restrepo, J.J., Correa-Martinez, A.M., Blanco-Quintero, I.F., Proenza,
+      J.A., Weber, M. & Butjosa, L. (2020). The petrologic nature of the ''Medellin Dunite'' revisited.
+      In: Gomez, J. & Pinilla-Pachon, A.O. (eds.), The Geology of Colombia, Volume 2 Mesozoic. Servicio
+      Geologico Colombiano, Publicaciones Geologicas Especiales 36'
+    doi_or_url: doi:10.32685/pub.esp.36.2019.02
+    locator: Table 1 (whole-rock composition, wt%, LOI included)
+  quality: literature
+  status: ok
+  notes: 'Median of 38 samples of the Medellin Metaharzburgitic Unit (Antioquia, outside the pilot), compiled
+    from 9 studies; LOI already included (rock as quarried). Serpentinized (LOI 2-13 wt%): MgO overstates
+    reactive Mg. Blank cells (not analysed) excluded. Computed by erw_siting.rock_chemistry (D-49).'
 - id: k2o_wt_pct_ultramafic
   name: K2O content of ultramafic
-  value: null
+  value: 0.01
   unit: wt%
-  distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  distribution:
+    type: triangular
+    params:
+      min: 0.0
+      mode: 0.01
+      max: 0.07
+  range:
+  - 0.0
+  - 0.07
+  source:
+    citation: 'Garcia-Casco, A., Restrepo, J.J., Correa-Martinez, A.M., Blanco-Quintero, I.F., Proenza,
+      J.A., Weber, M. & Butjosa, L. (2020). The petrologic nature of the ''Medellin Dunite'' revisited.
+      In: Gomez, J. & Pinilla-Pachon, A.O. (eds.), The Geology of Colombia, Volume 2 Mesozoic. Servicio
+      Geologico Colombiano, Publicaciones Geologicas Especiales 36'
+    doi_or_url: doi:10.32685/pub.esp.36.2019.02
+    locator: Table 1 (whole-rock composition, wt%, LOI included)
+  quality: literature
+  status: ok
+  notes: 'Median of 36 samples of the Medellin Metaharzburgitic Unit (Antioquia, outside the pilot), compiled
+    from 9 studies; LOI already included (rock as quarried). Serpentinized (LOI 2-13 wt%): MgO overstates
+    reactive Mg. Blank cells (not analysed) excluded. Computed by erw_siting.rock_chemistry (D-49).'

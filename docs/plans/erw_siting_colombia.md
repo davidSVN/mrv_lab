@@ -41,7 +41,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 6b | Rainfall + dry months (CHIRPS), temperature + actual evaporation (ERA5-Land) | ✅ | 1991-2020 normals; recent-climate sensitivity (1996-2025) later in F7 |
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
-| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Structure + validator done; 31 parameters, all `missing`; being filled in a separate chat, group by group (D-48) |
+| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Rock group ✅ (12/31, D-49; gabbro = basalt proxy). Next: emissions, weathering, soil, application/capture (D-48) |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 9-table GeoPackage schema (D-44, D-45) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, three pilot departments | ⏳ | Needs F4 values; checkpoint: re-plan if net < 0 everywhere. Run with Opus (David, 2026-11-16) |
@@ -50,8 +50,8 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 
-Next action: F4 — fill parameters group by group (rock → emissions → weathering → soil →
-application) in a separate chat, each group reviewed by David. Then F6 in this chat.
+Next action: F4 — rock group done (D-49); continue with emissions → weathering → soil →
+application/capture in this chat, each group reviewed by David. Then F6.
 
 **Resume point (2026-11-16).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
 Data for F1–F5 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
@@ -134,7 +134,7 @@ Rule: each source gets a row in `data/SOURCES.md` (URL, access date, license, re
 | D13 | Official roads (backup) | INVÍAS national road network | Validate OSM primary roads | Verify | — |
 | D14 | Diesel emission factor | UPME, FECOC | Truck emissions | Verify | — |
 | D15 | Grid emission factor | UPME/XM, SIN emission factor | Grinding emissions | Verify | — |
-| D16 | Rock chemistry | Literature (whole-rock analyses of Colombian basalts; SGC geochemistry if published) | CaO, MgO, Na₂O, K₂O → capture potential | Per article | To search |
+| D16 | Rock chemistry | Kerr et al. 2002 (basalts, SW Colombia) and García-Casco et al. 2020 (Medellín ultramafics) | CaO, MgO, Na₂O, K₂O → capture potential | Unclear; aggregates only | ✅ (D-49) |
 | D17 | Admin boundaries | DANE, Marco Geoestadístico Nacional | Aggregate by municipality / department | Use + transform with citation | ⛔ Unreachable from the cloud session (D-11) |
 | D17b | Admin boundaries (clipping only) | geoBoundaries COL ADM1 (OSM-derived) | Clip layers to pilot departments | ODbL 1.0 | ✅ Downloaded, pinned (D-11) |
 | D18 | Protected areas | RUNAP, Parques Nacionales Naturales (`latest.zip`, linked by PNNC) | Hard exclusion filter | CC BY-SA 4.0 (stricter reading, D-10) | ✅ Downloaded, pinned, mask built |
@@ -262,6 +262,7 @@ src/mrv_lab/erw_siting/
   soil.py                  # ✅ SoilGrids 0-30 cm grids (step 4)
   land_cover.py            # ✅ MapBiomas 2024 classes + agricultural use (step 5)
   registry.py              # 🔄 YAML parameter registry + validator (F4)
+  rock_chemistry.py        # ✅ rock oxides recomputed from source tables (F4, D-49)
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # ✅ suitable rock near truck roads → potential sources (F3, D-46)
   grid.py                  # ✅ 1 km grid, cell filters and values (F5)

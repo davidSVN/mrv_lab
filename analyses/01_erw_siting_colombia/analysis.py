@@ -33,6 +33,7 @@ from mrv_lab.erw_siting import (
     quarries,
     regions,
     registry,
+    rock_chemistry,
     soil,
     terrain,
 )
@@ -169,6 +170,17 @@ registry_problems = registry.validate(parameters)
 if registry_problems:
     raise ValueError(f"Parameter registry invalid: {registry_problems}")
 missing_parameters = registry.missing(parameters)
+
+# %%
+# Rock group: recompute every value from the source tables (D-49); fail if the YAML drifted.
+rock_texts = {k: rock_chemistry.pdf_text(p) for k, p in rock_chemistry.download().items()}
+rock_mismatch = rock_chemistry.check_registry(
+    parameters, rock_chemistry.registry_values(rock_texts)
+)
+if rock_mismatch:
+    raise ValueError(f"rock.yaml differs from the sources: {rock_mismatch}")
+rock_samples = rock_chemistry.sample_sets(rock_texts)
+print({name: len(s) for name, s in rock_samples.items()})
 
 # %% [markdown]
 # ## Compute

@@ -39,7 +39,9 @@ def load(directory: Path | None = None) -> pd.DataFrame:
         content = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
         for param in content.get("parameters", []):
             rows.append({"group": content.get("group"), "file": path.name, **param})
-    return pd.DataFrame(rows)
+    table = pd.DataFrame(rows)
+    # pandas turns None into NaN in columns that also hold numbers; keep None (= empty in YAML).
+    return table.astype(object).where(table.notna(), None)
 
 
 def validate(table: pd.DataFrame) -> list[str]:

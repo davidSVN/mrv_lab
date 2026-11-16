@@ -47,6 +47,12 @@ def test_missing_parameter_cannot_carry_a_value(tmp_path: Path) -> None:
     assert any("must not carry a value" in p for p in reg.validate(table))
 
 
+def test_mixed_ok_and_missing_keep_none(tmp_path: Path) -> None:
+    missing = _ok(id="m", status="missing", value=None, quality=None, source=None, range=None)
+    table = reg.load(_write(tmp_path, [_ok(id="a"), missing]))
+    assert reg.validate(table) == []
+
+
 def test_value_refuses_missing(tmp_path: Path) -> None:
     table = reg.load(_write(tmp_path, [_ok(id="a"), _ok(id="b", status="missing", value=None)]))
     assert reg.value(table, "a") == 2.0

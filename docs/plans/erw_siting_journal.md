@@ -17,11 +17,11 @@ Status legend: ✅ done · 🔄 in progress · ❓ decision pending · ⛔ block
 
 ## Resume point (2026-11-16)
 
-Where the work stands, for the next session (F4 in a separate chat; F6 back here).
+Where the work stands, for the next session (F4 and F6 in this chat, David 2026-11-16).
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: 31 parameters, structure and validator ready, all `missing` | F6 deterministic calculation (needs F4), F7, F8, F9 |
+| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: rock group done (12/31, D-49); emissions, weathering, soil, application/capture pending | F6 deterministic calculation (needs F4), F7, F8, F9 |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -385,6 +385,7 @@ marked *to verify* need a source before publication.
 | G-08 | No public, peer-reviewed ERW field data from Colombia found (only a conference abstract). | F0a research | Model parameters for the tropics cannot be calibrated locally. | From David's research; *to verify* in T0 |
 | G-09 | MapBiomas Colombia (Collection 3.0) has no separate cropland class: crops and pasture share one mosaic class. | F1 step 5 (D-31) | Cannot tell cropland from cattle pasture with open national land-cover data. | Open; ESA WorldCover (D7) as possible cross-check |
 | G-10 | Open gridded climate for Colombia's mountains: ERA5-Land rainfall looks inflated on steep slopes and its potential evaporation looks implausibly high in the pilot; station-blended products have unclear licences (CHPclim). | F1 step 6b | Water-surplus term (rain − ET) is uncertain. | Open |
+| G-11 | No open whole-rock analyses of the pilot's own rock sources (Western Cordillera basalts of Valle, Bolívar ultramafic complex, Valle gabbros); Kerr et al. 1997 paywalled. | F4 rock (D-49) | Rock chemistry comes from other Colombian localities; gabbro is a basalt proxy. | Open; David may supply Kerr 1997 PDF |
 
 ## F2 — Lithology (SGC geological map) ✅
 
@@ -515,6 +516,41 @@ lca) and `erw_siting/registry.py` (load, validate, list missing, read a value). 
   defaults). Fill order: rock → emissions → weathering → soil → application, each group reviewed.
 
 **Result.** Structure and tests in place (68 tests pass); values pending.
+
+### Rock group ✅ (approved by David, 2026-11-16)
+
+**What.** CaO, MgO, Na₂O, K₂O (wt%) for basalt, gabbro and ultramafic, computed from published
+sample tables by `erw_siting/rock_chemistry.py` (downloads the PDFs, pins SHA-256, parses the tables
+with `pdftotext`). `analysis.py` recomputes them and fails if `rock.yaml` drifts.
+
+**Search.** Kerr et al. 1997 (J. Petrology, Western Cordillera basalts) not reachable: OUP and
+Cardiff ORCA return 403; CiteSeerX / web.archive.org reset. Bolívar complex (Valle) data: Nivia 1996
+abstract only. Redalyc and IRD copies blocked. Lewis et al. 2021 (6 non-Colombian basalts) used only
+as a cross-check: lower CaO (5.7–9.4 %) and MgO (2.2–9.7 %) than the Colombian plateau basalts.
+
+| Rock | Source | n | CaO | MgO | Na₂O | K₂O |
+|---|---|---|---|---|---|---|
+| Basalt | Kerr et al. 2002, Table 1 (MgO ≤ 12 wt%) | 11 | 10.48 [7.28–12.06] | 9.20 [7.09–11.20] | 2.14 [1.46–3.97] | 0.29 [0.08–1.12] |
+| Gabbro | proxy = basalt set | 11 | same | same | same | same |
+| Ultramafic | García-Casco et al. 2020, Table 1 | 49 (Na 38, K 36) | 0.71 [0.01–4.90] | 41.48 [30.00–45.27] | 0.04 [0.01–0.47] | 0.01 [0.00–0.07] |
+| Picrite (F7 only) | Kerr et al. 2002 (MgO > 12 wt%) | 8 | 7.60 | 18.20 | 0.56 | 0.06 |
+
+Median [min–max], wt% of rock as quarried.
+
+**Decisions (David, 2026-11-16)**
+- **D-49** — (1) Basis = rock as quarried: Kerr's dry-basis oxides × (1 − LOI/100); García-Casco
+  already includes LOI. (2) Basalt = Kerr 2002 samples with MgO ≤ 12 wt% (the paper's high-MgO
+  threshold); picrites excluded from the base value, used in F7. (3) Gabbro = basalt set as a proxy
+  (no open Colombian gabbro analyses), flagged in notes. (4) Distribution triangular (min, median,
+  max) per oxide; F7 should resample whole samples to keep CaO–MgO correlation. (5) Only aggregates
+  are committed; PDFs and sample tables stay in `data/raw/` (redistribution unclear).
+
+**Fix.** `registry.load` now keeps YAML nulls as `None` (pandas had turned them into NaN once
+numbers and nulls mixed in a column, breaking validation); test added (73 tests pass).
+
+**Limitations.** Basalts from SW Colombia picrite localities, not the Western Cordillera of Valle;
+ultramafics from Antioquia (outside the pilot) and serpentinized (MgO overstates reactive Mg);
+Na and K mobile in altered lavas.
 
 ---
 

@@ -14,7 +14,8 @@ transport, grinding and soil losses eat the gain?
 Sources registered with licence text in [`data/SOURCES.md`](../../data/SOURCES.md): RUNAP (D18),
 UPRA agricultural frontier (D4), ISRIC SoilGrids 2.0 (D8), MapBiomas Colombia 2024 (D6), Copernicus
 DEM GLO-30 (D11), CHIRPS v2.0 (D9), ERA5-Land (D10, D19), SGC Mapa Geológico 2023 (D1, internal use
-until SGC confirms publication), OpenStreetMap roads via HOT/HDX (D12), geoBoundaries (D17b).
+until SGC confirms publication), OpenStreetMap roads via HOT/HDX (D12), geoBoundaries (D17b), rock chemistry from Kerr et al. 2002 and García-Casco et al. 2020 (D16; only
+aggregates in `config/erw_siting/parameters/rock.yaml`).
 Nothing raw is redistributed here.
 
 ## Method
