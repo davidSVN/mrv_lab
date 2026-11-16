@@ -58,3 +58,8 @@ def test_value_refuses_missing(tmp_path: Path) -> None:
     assert reg.value(table, "a") == 2.0
     with pytest.raises(ValueError, match="missing"):
         reg.value(table, "b")
+
+
+def test_only_exchangeable_al_is_missing() -> None:
+    # F4 closed (D-54): every parameter has a source except exchangeable Al (gap G-02, unused).
+    assert reg.missing(reg.load())["id"].tolist() == ["exchangeable_al_cmolc_per_kg"]

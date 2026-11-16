@@ -2049,6 +2049,16 @@
     "sha256": "e7b0e9733dc92a72d33e1578d92717774e2a43d6bc67f23e9ad567931db39167",
     "url": "https://www2.sgc.gov.co/MGC/Documents/MGC_2023/mgc2023.gdb.zip"
   },
+  "raw/soil_losses/bertagni_porporato_2022.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "4fa5230e0f3c78813a3b365758c5bced08e05d5d09a3bc6876bd0a3c2f54eb14",
+    "url": "https://iris.polito.it/retrieve/handle/11583/2994886/769438"
+  },
+  "raw/soil_losses/est_2026_soil_acidity.xml": {
+    "first_recorded": "2026-11-16",
+    "sha256": "119dcf4cf0bfe158578b1b73d8db9561480c71ade4534478a1d9b63f1b257970",
+    "url": "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi?db=pubmed&id=42611468&retmode=xml"
+  },
   "raw/soilgrids/Meta/bdod_0-5cm_Q0.05.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "9d42eea39d69198071419d2ee4e0e365d3eb2e016b95ecb09b2d9814422dbd51",

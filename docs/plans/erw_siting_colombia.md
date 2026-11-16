@@ -41,7 +41,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 6b | Rainfall + dry months (CHIRPS), temperature + actual evaporation (ERA5-Land) | ✅ | 1991-2020 normals; recent-climate sensitivity (1996-2025) later in F7 |
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
-| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Rock (D-49), emissions + grain (D-51), weathering (D-52), capture + application (D-53) ✅: 35/38 ok. Next: soil losses (D-48) |
+| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ✅ | 38/39 ok, every value checked against its source by code (D-49, D-51–D-54); exchangeable Al stays missing and unused (G-02). Rock, emissions, weathering approved by David; capture, application, soil decided on sources at his request |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 12-table GeoPackage schema (D-44, D-45); + parameters / scenarios / scenario_parameters (D-50) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, three pilot departments | ⏳ | Needs F4 values; checkpoint: re-plan if net < 0 everywhere. Run with Opus (David, 2026-11-16) |
@@ -52,7 +52,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
 | F10 | Scenario dashboard: change parameters, pick rock type, compare scenarios | ⏳ | After F7, on PostGIS (F9); uses `scenarios` tables; routes precomputed per rock type; only `base` is citable (D-50) |
 
-Next action: F4 — only the soil-loss group is left (3 parameters); then F6 in this chat.
+Next action: F6 — deterministic calculation for the three pilot departments (this chat, Opus).
 
 **Resume point (2026-11-16).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
 Data for F1–F5 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
@@ -182,10 +182,11 @@ Each cell is assigned the source with the highest `net_ij` (normally the nearest
    - water: **no factor** (no sourced function found); dry months (CHIRPS) reported as a flag (D-52);
    - pH: not in the rate (WR at pH 7); soil acidity enters through `f_loss`.
    Lab-based rates with a three-order range: a **relative index**, not a geochemical model.
-3. **Soil losses** `f_loss`, function of SoilGrids pH and CEC:
-   - in acidic soil, part of the cations neutralises acidity (Al³⁺, H⁺) instead of capturing CO₂;
-   - part is retained on the exchange complex.
-   Wide range, sourced, flagged as the most uncertain assumption.
+3. **Soil losses** `f_loss`, two classes by SoilGrids pH (H₂O, 0–30 cm) (D-54):
+   pH < 5.5 → 0.68 (range 0.35–0.68); pH ≥ 5.5 → 0.33 (range 0–0.33). From Su et al. 2026 (ES&T,
+   soil columns: cation-based CDR overestimated 1.5–3.1×, most in acidic soil) and Bertagni &
+   Porporato 2022 (alkalinity captures ~no CO₂ below pH 5; transition 4.5–6.5). CEC and exchangeable
+   Al not used (an acidity mass balance is future work, G-02). Flagged as the most uncertain term.
 4. `CDR_gross = CDR_max × f_diss × (1 − f_loss)`.
 
 Optional scenario (only with a source): avoided lime emissions where rock replaces agricultural lime.
@@ -266,11 +267,12 @@ src/mrv_lab/erw_siting/
   agricultural_frontier.py # ✅ UPRA frontier, both types labelled (step 3)
   soil.py                  # ✅ SoilGrids 0-30 cm grids (step 4)
   land_cover.py            # ✅ MapBiomas 2024 classes + agricultural use (step 5)
-  registry.py              # 🔄 YAML parameter registry + validator (F4)
+  registry.py              # ✅ YAML parameter registry + validator (F4)
   rock_chemistry.py        # ✅ rock oxides recomputed from source tables (F4, D-49)
   emission_factors.py      # ✅ lca factors checked against sources, Bond grinding (F4, D-51)
   weathering.py            # ✅ dissolved fraction per cell: Strefler Eq. 2 + Arrhenius (F4, D-52)
   capture.py               # ✅ R_CO2 by charges, eta = 0.831 (F4, D-53)
+  soil_losses.py           # ✅ f_loss by pH class (F4, D-54)
   literature.py            # ✅ download, pin and check numbers quoted from documents
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # ✅ suitable rock near truck roads → potential sources (F3, D-46)

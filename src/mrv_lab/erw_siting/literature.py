@@ -16,15 +16,15 @@ def download(sources: dict[str, dict], folder: str) -> dict[str, Path]:
     """Download every source to ``data/raw/<folder>/`` (SHA-256 pinned)."""
     paths = {}
     for key, src in sources.items():
-        suffix = ".htm" if src["url"].endswith(".htm") else ".pdf"
+        suffix = src.get("suffix") or (".htm" if src["url"].endswith(".htm") else ".pdf")
         dest = io.raw_dir() / folder / f"{key}{suffix}"
         paths[key] = io.download_file(src["url"], dest, timeout_s=300)
     return paths
 
 
 def source_text(path: Path) -> str:
-    """Plain text of a downloaded source (PDF layout + raw text, or HTML without tags)."""
-    if path.suffix == ".htm":
+    """Plain text of a downloaded source (PDF layout + raw text, or HTML/XML without tags)."""
+    if path.suffix in (".htm", ".xml"):
         raw = path.read_bytes().decode("utf-8", errors="replace")
         return html.unescape(re.sub(r"<[^>]+>", " ", raw))
     return io.pdf_text(path, layout=True) + "\n" + io.pdf_text(path, layout=False)

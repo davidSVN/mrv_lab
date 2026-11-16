@@ -17,11 +17,11 @@ Status legend: ✅ done · 🔄 in progress · ❓ decision pending · ⛔ block
 
 ## Resume point (2026-11-16)
 
-Where the work stands, for the next session (F4 and F6 in this chat, David 2026-11-16).
+Where the work stands, for the next session (F6 in this chat, David 2026-11-16).
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: 35/38 ok (rock D-49, emissions + grain D-51, weathering D-52, capture + application D-53); soil losses pending | F6 deterministic calculation (needs F4), F7, F8, F9 |
+| P0, F0b, F1 (steps 0–6b), F2, F3, F4 (38/39 ok, D-49, D-51–D-54), F5a, F5 | — | F6 deterministic calculation, F7, F8, F9, F10, study guide |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -503,7 +503,7 @@ immediate test.
 
 ---
 
-## F4 — Parameter registry 🔄
+## F4 — Parameter registry ✅ (closed 2026-11-16)
 
 **What.** `config/erw_siting/parameters/*.yaml` (rock, capture, weathering, soil_losses, application,
 lca) and `erw_siting/registry.py` (load, validate, list missing, read a value). 31 parameters, all
@@ -672,6 +672,38 @@ basalts worldwide.
 modelled); η at 17 °C ocean conditions; dose from Brazil / literature (no Colombian ERW dose found);
 horizon is a modelling choice.
 
+### Soil-loss group ✅ (decided on the sources, David delegated, 2026-11-16) — F4 closed
+
+**What.** `erw_siting/soil_losses.py`: f_loss by topsoil pH class; sources pinned, 7 quotes checked.
+
+| Parameter | Value | Range | Source |
+|---|---|---|---|
+| f_loss_acid_soil | 0.68 | 0.35–0.68 | Su et al. 2026: 1 − 1/3.1 (largest overestimate, acidic soil); low end 1 − 1.30/2 |
+| f_loss_neutral_soil | 0.33 | 0–0.33 | Su et al. 2026: 1 − 1/1.5 (smallest overestimate); low end 0 = freshwater ACE ≈ 1 (Bertagni & Porporato 2022) |
+| acid_soil_ph_threshold | 5.5 | 4.5–6.5 | Middle of the ACE transition (Bertagni & Porporato 2022) |
+| exchangeable_al_cmolc_per_kg | missing | — | Not in SoilGrids (G-02); not used by the two-class rule |
+
+Pilot cells with SoilGrids pH < 5.5: Meta 99 % (median pH 5.05), Tolima 81 % (5.38), Valle 74 % (5.28).
+
+**Decisions (2026-11-16)**
+- **D-54** — Two pH classes instead of a pH–CEC function: the only quantified field-like evidence
+  (Su et al. 2026) reports a range by soil acidity, and the theory (Bertagni & Porporato 2022) gives
+  a sharp transition, not a smooth curve. Conservative base values (measured overestimates), theory
+  as the low end of the ranges. Exchangeable Al stays missing and unused; an acidity mass balance
+  (alkalinity consumed before capture starts) is future work.
+
+**Search notes.** Su et al. 2026 full text (ACS) paywalled: only the PubMed abstract is used; the
+mapping of 0.63–1.30 mol CO₂ per divalent cation to individual pH values is not in the abstract.
+arXiv 2607.01835 ("Subsoil acidity causes long delays…") and a Frontiers in Climate 2025 paper on
+strong acids were found but not used (not read in full).
+
+**Limitations.** One experiment, wollastonite not basalt, abstract only; SoilGrids pH is modelled
+(G-01); two classes create a step at pH 5.5; time dynamics (acidity consumed first, capture later)
+ignored. With this rule the acidic Meta keeps only 32 % of the theoretical capture.
+
+**F4 result.** 39 parameters, 38 `ok`, each value recomputed by code and checked against its
+source text in every run; 1 `missing` (exchangeable Al, unused).
+
 ---
 
 ## Study guide for David (requested 2026-11-16) ⏳
@@ -693,7 +725,9 @@ examples and where each lives in the code. Terms are collected here as they appe
 - Weathering: dissolution; specific surface area (SSA); weathering rate WR and log10 units;
   Arrhenius law, activation energy, reference temperature; dissolved fraction f_diss; constant
   surface vs shrinking core; pH and acid soils.
-- Soil: pH, CEC, exchangeable Al, base saturation, f_loss, lime demand; Ni / Cr and asbestos risks.
+- Soil: pH, CEC, exchangeable Al, base saturation, f_loss, lime demand; Ni / Cr and asbestos risks;
+  alkalinity carbon-capture efficiency (ACE) and the pH 4.5–6.5 transition; strong acid anions;
+  soil organic carbon mineralization; inorganic carbon; wollastonite (CaSiO₃).
 - Grinding and logistics: P80 / F80, Bond's law and work index; t·km, SFC / SFC*, empty return;
   diesel factor (FECOC); grid factor (inventory vs CDM, combined margin OM / BM).
 - Accounting and statistics: CDR, ERW, MRV, LCA, net removal, break-even distance; median, range,

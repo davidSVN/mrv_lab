@@ -1,29 +1,68 @@
 # Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
 # a parameter without a verified source stays status: missing.
+# Values are recomputed by erw_siting.soil_losses; analysis.py fails on any mismatch.
 group: soil_losses
-description: Share of released cations not captured as CO2 (acidity neutralisation,
-  exchange retention). Plan §5.2 step 3; most uncertain term (gap G-02).
+description: Share of released cation charge not captured as CO2 because it neutralises soil acidity.
+  Two classes by topsoil pH, computed by erw_siting.soil_losses.loss_fraction (plan §5.2 step 3; D-54).
 parameters:
 - id: f_loss_acid_soil
-  name: Soil loss fraction in acidic soils (pH < 5.5)
-  value: null
+  name: Soil loss fraction in acidic soils (pH below threshold)
+  value: 0.68
   unit: fraction
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 0.35
+  - 0.68
+  source:
+    citation: Su, C., Kang, R., Driscoll, C.T., Zhu, W., Goll, D.S., Huang, W., Wang, A. & Fang, Y. (2026).
+      Overlooked soil acidity leads to significant overestimation of carbon sequestration in enhanced
+      rock weathering. Environmental Science & Technology 60(32), 22505-22516 (abstract, PubMed 42611468)
+    doi_or_url: doi:10.1021/acs.est.6c05139
+    locator: 'Abstract: CDR from cation release exceeded measured inorganic carbon by 1.5-3.1 times; 0.63-1.30
+      mol CO2 per mol divalent cation under acidic conditions'
+  quality: literature
+  status: ok
+  notes: '1 - 1/3.1: cation-based CDR exceeded measured inorganic carbon 3.1 times in acidic soil (soil
+    columns, wollastonite, pH 4/6/8). Range low end 1 - 1.30/2 (best case under acidic conditions). Mechanism
+    (Bertagni & Porporato 2022): below pH ~5 alkalinity neutralises acidity instead of forming bicarbonate.
+    Abstract only (full text paywalled); one study; not basalt. Most uncertain term (D-54).'
 - id: f_loss_neutral_soil
-  name: Soil loss fraction in near-neutral soils
-  value: null
+  name: Soil loss fraction in near-neutral soils (pH at or above threshold)
+  value: 0.33
   unit: fraction
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 0.0
+  - 0.33
+  source:
+    citation: Su, C., Kang, R., Driscoll, C.T., Zhu, W., Goll, D.S., Huang, W., Wang, A. & Fang, Y. (2026).
+      Overlooked soil acidity leads to significant overestimation of carbon sequestration in enhanced
+      rock weathering. Environmental Science & Technology 60(32), 22505-22516 (abstract, PubMed 42611468)
+    doi_or_url: doi:10.1021/acs.est.6c05139
+    locator: 'Abstract: CDR from cation release exceeded measured inorganic carbon by 1.5-3.1 times; 0.63-1.30
+      mol CO2 per mol divalent cation under acidic conditions'
+  quality: literature
+  status: ok
+  notes: '1 - 1/1.5: smallest measured overestimate (Su et al. 2026). Range low end 0: freshwater carbon-capture
+    efficiency ~1 between pH 6 and 8 (Bertagni & Porporato 2022). Conservative base (D-54).'
+- id: acid_soil_ph_threshold
+  name: Topsoil pH below which the acidic-soil loss applies
+  value: 5.5
+  unit: pH
+  distribution: null
+  range:
+  - 4.5
+  - 6.5
+  source:
+    citation: 'Bertagni, M.B. & Porporato, A. (2022). The carbon-capture efficiency of natural water alkalinization:
+      implications for enhanced weathering. Science of the Total Environment 838, 156524'
+    doi_or_url: doi:10.1016/j.scitotenv.2022.156524
+    locator: '§3.1 and Fig. 1a: ACE ~0 at pH<5, ~1 in freshwater, transition pH 4.5-6.5'
+  quality: definition
+  status: ok
+  notes: 'Middle of the 4.5-6.5 pH transition of carbon-capture efficiency (Bertagni & Porporato 2022);
+    same value as the lime-demand flag. Applied to SoilGrids pH (H2O, 0-30 cm, mean): model predictions
+    (G-01). Pilot cells below 5.5: Meta 99 %, Tolima 81 %, Valle 74 % (D-54).'
 - id: exchangeable_al_cmolc_per_kg
   name: Exchangeable aluminium typical of the pilot soils
   value: null
@@ -33,4 +72,5 @@ parameters:
   source: null
   quality: null
   status: missing
-  notes: Not in SoilGrids (D20); expected to stay missing or wide-ranged.
+  notes: Not in SoilGrids (D20, gap G-02). Not used by the two-class f_loss rule (D-54); needed only for
+    a future acidity mass balance (how much alkalinity the soil consumes before capture starts).

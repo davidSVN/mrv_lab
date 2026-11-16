@@ -19,7 +19,8 @@ aggregates in `config/erw_siting/parameters/rock.yaml`), emission factors from U
 FECOC, freight baseline), SICE-TAC via ANDI, Lefebvre et al. 2019 and Ruan et al. 2026 (D14, D15,
 D21–D24; values quoted in `lca.yaml`), weathering kinetics from Strefler et al. 2018 and
 Palandri & Kharaka 2004 (D25, D26; `weathering.yaml`), capture efficiency from Renforth &
-Henderson 2017 and capture formula from Lewis et al. 2021 (D27, D28; `capture.yaml`, `application.yaml`).
+Henderson 2017 and capture formula from Lewis et al. 2021 (D27, D28; `capture.yaml`, `application.yaml`), soil losses from Su et al. 2026 and
+Bertagni & Porporato 2022 (D29, D30; `soil_losses.yaml`).
 Nothing raw is redistributed here.
 
 ## Method

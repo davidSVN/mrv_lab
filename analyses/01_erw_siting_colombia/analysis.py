@@ -37,6 +37,7 @@ from mrv_lab.erw_siting import (
     registry,
     rock_chemistry,
     soil,
+    soil_losses,
     terrain,
     weathering,
 )
@@ -206,6 +207,13 @@ capture_problems = capture.verify(capture.texts()) + registry.check_values(
 )
 if capture_problems:
     raise ValueError(f"capture/application YAML differs from the sources: {capture_problems}")
+
+# soil-loss group: two pH classes from Su et al. 2026 and Bertagni & Porporato 2022 (D-54).
+soil_problems = soil_losses.verify(soil_losses.texts()) + registry.check_values(
+    parameters, soil_losses.registry_values()
+)
+if soil_problems:
+    raise ValueError(f"soil_losses.yaml differs from the sources: {soil_problems}")
 
 # %%
 # Registry -> GeoPackage: `parameters` (read-only copy) + the citable `base` scenario (D-50).
