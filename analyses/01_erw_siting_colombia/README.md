@@ -18,7 +18,8 @@ until SGC confirms publication), OpenStreetMap roads via HOT/HDX (D12), geoBound
 aggregates in `config/erw_siting/parameters/rock.yaml`), emission factors from UPME (SIN factor,
 FECOC, freight baseline), SICE-TAC via ANDI, Lefebvre et al. 2019 and Ruan et al. 2026 (D14, D15,
 D21–D24; values quoted in `lca.yaml`), weathering kinetics from Strefler et al. 2018 and
-Palandri & Kharaka 2004 (D25, D26; `weathering.yaml`).
+Palandri & Kharaka 2004 (D25, D26; `weathering.yaml`), capture efficiency from Renforth &
+Henderson 2017 and capture formula from Lewis et al. 2021 (D27, D28; `capture.yaml`, `application.yaml`).
 Nothing raw is redistributed here.
 
 ## Method

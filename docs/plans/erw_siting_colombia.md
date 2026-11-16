@@ -41,7 +41,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 6b | Rainfall + dry months (CHIRPS), temperature + actual evaporation (ERA5-Land) | ✅ | 1991-2020 normals; recent-climate sensitivity (1996-2025) later in F7 |
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
-| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Rock ✅ (D-49), emissions + grain ✅ (D-51), weathering kinetics ✅ (D-52): 32/38 ok. Next: soil, application/capture (D-48) |
+| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Rock (D-49), emissions + grain (D-51), weathering (D-52), capture + application (D-53) ✅: 35/38 ok. Next: soil losses (D-48) |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 12-table GeoPackage schema (D-44, D-45); + parameters / scenarios / scenario_parameters (D-50) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, three pilot departments | ⏳ | Needs F4 values; checkpoint: re-plan if net < 0 everywhere. Run with Opus (David, 2026-11-16) |
@@ -52,8 +52,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
 | F10 | Scenario dashboard: change parameters, pick rock type, compare scenarios | ⏳ | After F7, on PostGIS (F9); uses `scenarios` tables; routes precomputed per rock type; only `base` is citable (D-50) |
 
-Next action: F4 — rock (D-49), emissions (D-51) and weathering (D-52) done; continue with soil →
-application/capture in this chat, each group reviewed by David. Then F6.
+Next action: F4 — only the soil-loss group is left (3 parameters); then F6 in this chat.
 
 **Resume point (2026-11-16).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
 Data for F1–F5 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
@@ -171,9 +170,11 @@ Each cell is assigned the source with the highest `net_ij` (normally the nearest
 
 ### 5.2 Gross CDR per tonne of rock (`potential.py`)
 
-1. **Theoretical maximum** from the cation-based capture-potential formula. The exact formula, molar
-   masses, unit convention (oxide wt% → requires /100) and η are taken **from the cited source**
-   (e.g. Renforth 2012) and tested against a worked example from that source.
+1. **Theoretical maximum** counted by charges (D-53; Lewis et al. 2021 Eq. 4):
+   `R_CO2 = M_CO2/100 × 2η × Σ(wt%_oxide / M_oxide)` for CaO, MgO, Na₂O, K₂O (each releases 2 moles
+   of charge per mole of oxide); η = 0.831 mol CO₂ per mole of charge (Renforth & Henderson 2017,
+   ocean pathway). Tested against the source's worked figure (1.66 mol CO₂ per mol Ca²⁺). Lewis
+   Eq. 5 (0.5ω for alkalis) and its Table 6 values are not reproducible and not used.
 2. **Dissolved fraction over the horizon** `f_diss`, computed per cell (D-52):
    `f_diss = min(1, SSA(P80) × WR × M × s/yr × years × Arrhenius(T_cell))` (Strefler et al. 2018,
    Eq. 2; SSA = 69.18·P80^−1.24 m²/g; WR at pH 7 and 25 °C; Eₐ from Palandri & Kharaka 2004).
@@ -269,6 +270,7 @@ src/mrv_lab/erw_siting/
   rock_chemistry.py        # ✅ rock oxides recomputed from source tables (F4, D-49)
   emission_factors.py      # ✅ lca factors checked against sources, Bond grinding (F4, D-51)
   weathering.py            # ✅ dissolved fraction per cell: Strefler Eq. 2 + Arrhenius (F4, D-52)
+  capture.py               # ✅ R_CO2 by charges, eta = 0.831 (F4, D-53)
   literature.py            # ✅ download, pin and check numbers quoted from documents
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # ✅ suitable rock near truck roads → potential sources (F3, D-46)

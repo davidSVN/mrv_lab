@@ -24,6 +24,7 @@ from pathlib import Path
 from mrv_lab import io
 from mrv_lab.erw_siting import (
     agricultural_frontier,
+    capture,
     cells_pipeline,
     climate,
     database,
@@ -198,6 +199,13 @@ weathering_problems = weathering.verify(weathering.texts()) + registry.check_val
 )
 if weathering_problems:
     raise ValueError(f"weathering.yaml differs from the sources: {weathering_problems}")
+
+# capture + application groups: eta (Renforth & Henderson 2017), rate and horizon (D-53).
+capture_problems = capture.verify(capture.texts()) + registry.check_values(
+    parameters, capture.registry_values()
+)
+if capture_problems:
+    raise ValueError(f"capture/application YAML differs from the sources: {capture_problems}")
 
 # %%
 # Registry -> GeoPackage: `parameters` (read-only copy) + the citable `base` scenario (D-50).

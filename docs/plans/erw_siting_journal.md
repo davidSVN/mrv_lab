@@ -21,7 +21,7 @@ Where the work stands, for the next session (F4 and F6 in this chat, David 2026-
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: rock (D-49), emissions + grain (D-51), weathering (D-52) done, 32/38 ok; soil, application/capture pending | F6 deterministic calculation (needs F4), F7, F8, F9 |
+| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: 35/38 ok (rock D-49, emissions + grain D-51, weathering D-52, capture + application D-53); soil losses pending | F6 deterministic calculation (needs F4), F7, F8, F9 |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -646,6 +646,32 @@ dissolve faster); ultramafic rate is for fresh dunite (pilot ultramafics are ser
 is crystalline and likely slower than the basalt proxy. Horizon (10 vs 30 years) decided in the
 application group; recommendation: 10 base, 30 in F7.
 
+### Capture and application groups ✅ (decided on the sources, David delegated, 2026-11-16)
+
+**What.** `erw_siting/capture.py`: R_CO2 counted by charges, sources downloaded, pinned and
+checked (7 regex checks). David asked Claude to choose from credible sources and give the argument.
+
+| Parameter | Value | Range | Source |
+|---|---|---|---|
+| eta_mol_co2_per_mol_charge (renamed from `_per_mol_cation`) | 0.831 | 0.70–0.85 | Renforth & Henderson 2017, Eq. 11 (400 µatm, S 35, 17 °C); range from "1.4 to 1.7" CO₂ per divalent cation |
+| application_rate_t_per_ha | 20 | 5–50 | Lefebvre 2019 (5 current practice, 20 field trials, 50 literature maximum) |
+| horizon_years | 10 | 10–30 | Definition; 30 = Lewis 2021 RTM horizon |
+
+R_CO2 with the registry rock chemistry: basalt (and gabbro proxy) 0.331, ultramafic 0.763 t CO₂/t
+(theoretical maximum, before f_diss and f_loss). Cross-check: Ruan 2026 reports 0.30 ± 0.08 for
+basalts worldwide.
+
+**Decisions (2026-11-16)**
+- **D-53** — (1) η = 0.831 from the primary source, not the 0.86 that Lewis 2021 quotes for the
+  same conditions; parameter renamed "per mole of charge". (2) Capture counted by charges (Lewis
+  Eq. 4): every oxide releases 2 moles of charge per mole; Lewis Eq. 5 (0.5ω for Na₂O/K₂O) and its
+  Table 6 R_CO2 values are not reproducible (up to 15 % off with ω = 1.72) and are not used.
+  (3) Application rate 20 t/ha base (5–50). (4) Horizon 10 years base, 30 in F7.
+
+**Limitations.** Ocean pathway assumed (soil carbonate precipitation roughly halves capture, not
+modelled); η at 17 °C ocean conditions; dose from Brazil / literature (no Colombian ERW dose found);
+horizon is a modelling choice.
+
 ---
 
 ## Study guide for David (requested 2026-11-16) ⏳
@@ -662,7 +688,8 @@ examples and where each lives in the code. Terms are collected here as they appe
 - Chemistry: oxides and wt%; LOI, dry basis vs rock as quarried; mole and molar mass; cations
   (monovalent Na⁺ K⁺, divalent Ca²⁺ Mg²⁺) and charge; alkalinity; bicarbonate vs carbonate;
   η (CO₂ per mole of charge), ω = 2η, R_CO2 (theoretical capture per tonne); Lewis Eq. 5 vs Eq. 4
-  (the 0.5ω issue); ocean vs soil carbonate pathway.
+  (the 0.5ω issue); ocean vs soil carbonate pathway; pCO2, salinity; atomic weights (IUPAC);
+  primary vs secondary source (Lewis quoting 0.86 vs Renforth & Henderson 0.831).
 - Weathering: dissolution; specific surface area (SSA); weathering rate WR and log10 units;
   Arrhenius law, activation energy, reference temperature; dissolved fraction f_diss; constant
   surface vs shrinking core; pH and acid soils.

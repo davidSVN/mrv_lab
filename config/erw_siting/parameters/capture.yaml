@@ -1,16 +1,28 @@
 # Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
 # a parameter without a verified source stays status: missing.
+# Values are recomputed by erw_siting.capture; analysis.py fails on any mismatch.
 group: capture
-description: Theoretical CO2 capture potential. Formula and constants taken from the
-  cited source (e.g. Renforth 2012); plan §5.2 step 1.
+description: CO2 stored per mole of cation charge released (ocean alkalinity pathway). R_CO2 = M_CO2/100
+  * 2 * eta * sum(wt%/M_oxide), charge-based (Lewis 2021 Eq. 4); computed by erw_siting.capture.capture_potential_t_co2_per_t
+  (D-53).
 parameters:
-- id: eta_mol_co2_per_mol_cation
-  name: Moles of CO2 captured per mole of divalent cation
-  value: null
-  unit: mol/mol
+- id: eta_mol_co2_per_mol_charge
+  name: CO2 stored per mole of cation charge (ocean pathway)
+  value: 0.831
+  unit: mol CO2/mol charge
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: Value and range from the source, not from the plan text.
+  range:
+  - 0.7
+  - 0.85
+  source:
+    citation: Renforth, P. & Henderson, G. (2017). Assessing ocean alkalinity for carbon sequestration.
+      Reviews of Geophysics 55, 636-674
+    doi_or_url: doi:10.1002/2016RG000533
+    locator: '§2.2, Eq. 11 and text: eta = 0.831 (pCO2 400 µatm, S 35, 17 °C); uptake 1.4 to 1.7 CO2 per
+      divalent cation'
+  quality: primary
+  status: ok
+  notes: 0.831 at pCO2 400 µatm, salinity 35, 17 °C (= 1.66 mol CO2 per Ca2+ or Mg2+). Range from 'uptake
+    is 1.4 to 1.7 molecules' per divalent cation. Lewis 2021 quotes 0.86 citing this source; the primary
+    value is used. Assumes cations reach the ocean; soil carbonate precipitation would roughly halve capture
+    (not modelled). Checked against the source by erw_siting.capture (D-53).

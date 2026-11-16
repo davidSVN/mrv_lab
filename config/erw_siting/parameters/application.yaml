@@ -1,25 +1,44 @@
 # Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
 # a parameter without a verified source stays status: missing.
+# Values are recomputed by erw_siting.capture; analysis.py fails on any mismatch.
 group: application
-description: Application rate and dissolution horizon. Plan §5.1.
+description: Application rate and dissolution horizon (plan §5.1). Net removal per tonne does not depend
+  on the rate; per-hectare results do (D-53).
 parameters:
 - id: application_rate_t_per_ha
   name: Rock application rate
-  value: null
+  value: 20.0
   unit: t/ha
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 5.0
+  - 50.0
+  source:
+    citation: 'Lefebvre, D. et al. (2019). Assessing the potential of soil carbonation and enhanced weathering
+      through Life Cycle Assessment: A case study for Sao Paulo State, Brazil. Journal of Cleaner Production
+      233, 468-481'
+    doi_or_url: doi:10.1016/j.jclepro.2019.06.099
+    locator: '§2.4: application rates 5, 20 and 50 t/ha'
+  quality: literature
+  status: ok
+  notes: Lefebvre 2019 considers 5 (current practice of some Sao Paulo farmers), 20 (previous field research
+    in Sao Paulo; UK retailer recommendation) and 50 t/ha (maximum in the literature). Base 20 (tropical
+    field trials); no Colombian ERW dose found (D-53).
 - id: horizon_years
   name: Dissolution horizon
-  value: null
+  value: 10.0
   unit: yr
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 10.0
+  - 30.0
+  source:
+    citation: Lewis, A.L. et al. (2021). Effects of mineralogy, chemistry and physical properties of basalts
+      on carbon capture potential and plant-nutrient element release via enhanced weathering. Applied
+      Geochemistry 132, 105023
+    doi_or_url: doi:10.1016/j.apgeochem.2021.105023
+    locator: Eq. 4 (charge-based CDR); 30-year RTM horizon
+  quality: definition
+  status: ok
+  notes: 'Modelling choice (D-53): 10 years base because the weathering rates are lab-based and the constant-surface
+    model overestimates long horizons; 30 years (the RTM horizon of Lewis 2021) in F7.'

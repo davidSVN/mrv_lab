@@ -1,4 +1,19 @@
 {
+  "raw/capture/lefebvre_2019.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "e5adebaaa299196f2e425c7bc0885e10365868525bc0bfd939566f4bea3f5bfb",
+    "url": "https://aura.abdn.ac.uk/server/api/core/bitstreams/2b796f02-b577-4b8d-9f8f-659cf66f431e/content"
+  },
+  "raw/capture/lewis_2021.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "9ac1669b3c732072443045cfa30b577dd836c2d61fdf13f0851534128daf38fc",
+    "url": "https://researchonline.jcu.edu.au/68920/1/68920.pdf"
+  },
+  "raw/capture/renforth_henderson_2017.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "8be848d3b418c81c12c678e18aa560bf0f06891560af4f35fa0e1a229bca632d",
+    "url": "https://www.vliz.be/imisdocs/publications/ocrd/360528.pdf"
+  },
   "raw/chirps/chirps_1991_01.tif": {
     "first_recorded": "2026-11-14",
     "sha256": "2701736b9f93bb82886cd06aac2c4040546adf2549d0912c48b55943488271bd",
