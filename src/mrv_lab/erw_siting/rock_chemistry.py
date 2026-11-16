@@ -16,11 +16,10 @@ Statistics per oxide: median (registry value), min and max (range); distribution
 (min, median, max). Only these aggregates are committed; the sample tables stay in ``data/raw``
 because redistribution of the source tables is unclear (decision D-49).
 
-Requires the ``pdftotext`` command (poppler-utils) to read the PDFs.
+Requires the ``pdftotext`` command (poppler-utils) to read the PDFs (``io.pdf_text``).
 """
 
 import re
-import subprocess
 from pathlib import Path
 
 import numpy as np
@@ -69,14 +68,6 @@ def download() -> dict[str, Path]:
             GARCIA_CASCO_2020_URL, folder / "garcia_casco2020_sgc.pdf"
         ),
     }
-
-
-def pdf_text(path: Path) -> str:
-    """Text of a PDF with its layout kept (``pdftotext -layout``)."""
-    result = subprocess.run(
-        ["pdftotext", "-layout", str(path), "-"], capture_output=True, text=True, check=True
-    )
-    return result.stdout
 
 
 def parse_kerr2002(text: str) -> pd.DataFrame:
@@ -164,17 +155,3 @@ def registry_values(texts: dict[str, str]) -> dict[str, dict]:
                 "n": int(stats.loc["n", oxide]),
             }
     return out
-
-
-def check_registry(table: pd.DataFrame, expected: dict[str, dict]) -> list[str]:
-    """Differences between the registry and the values recomputed from the sources."""
-    problems = []
-    for pid, exp in expected.items():
-        row = table.loc[table["id"] == pid]
-        if row.empty:
-            problems.append(f"{pid}: not in registry")
-            continue
-        p = row.iloc[0]
-        if p["value"] != exp["value"] or list(p["range"]) != exp["range"]:
-            problems.append(f"{pid}: registry {p['value']} {p['range']} != computed {exp}")
-    return problems

@@ -90,3 +90,18 @@ def value(table: pd.DataFrame, parameter_id: str) -> float:
     if row.iloc[0]["status"] != "ok":
         raise ValueError(f"{parameter_id} is missing: no verified value yet")
     return float(row.iloc[0]["value"])
+
+
+def check_values(table: pd.DataFrame, expected: dict[str, dict]) -> list[str]:
+    """Differences between the registry and values recomputed from the sources (value, range)."""
+    problems = []
+    for pid, exp in expected.items():
+        row = table.loc[table["id"] == pid]
+        if row.empty:
+            problems.append(f"{pid}: not in registry")
+            continue
+        p = row.iloc[0]
+        rng = list(p["range"]) if p["range"] is not None else None
+        if p["value"] != exp["value"] or rng != exp.get("range"):
+            problems.append(f"{pid}: registry {p['value']} {rng} != computed {exp}")
+    return problems

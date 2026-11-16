@@ -1,86 +1,157 @@
 # Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
 # a parameter without a verified source stays status: missing.
+# lca values are recomputed by erw_siting.emission_factors; analysis.py fails on any mismatch.
 group: lca
-description: Emission factors for grinding, transport and spreading. Plan §5.3; sources
-  D14 (FECOC), D15 (SIN grid factor) and literature.
+description: Energy use and emission factors for crushing/grinding, transport and spreading. Plan §5.3;
+  sources D14 (FECOC), D15 (SIN grid factor), UPME freight baseline, SICE-TAC, literature. Values computed
+  and checked against the sources by src/mrv_lab/erw_siting/emission_factors.py (D-51).
 parameters:
 - id: grinding_kwh_per_t_coarse
   name: Grinding energy, coarse grain
-  value: null
+  value: 9.02
   unit: kWh/t
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 8.44
+  - 9.02
+  source:
+    citation: 'Lefebvre, D., Goglio, P., Williams, A., Manning, D.A.C., de Azevedo, A.C., Bergmann, M.,
+      Meersmans, J. & Smith, P. (2019). Assessing the potential of soil carbonation and enhanced weathering
+      through Life Cycle Assessment: A case study for Sao Paulo State, Brazil. Journal of Cleaner Production
+      233, 468-481; Ruan et al. (2026), Carbon Research 5, 66, doi:10.1007/s44246-026-00282-4 (Wi basalt)'
+    doi_or_url: doi:10.1016/j.jclepro.2019.06.099
+    locator: Table 1 (spreading diesel kg/Mg rock), Table 2 (crushing kWh/t), §2.8 (Wi)
+  quality: literature
+  status: ok
+  notes: Crushing to 5 mm 5.45 kWh/t (Lefebvre 2019 Table 2) + Bond's law from F80 = 5000 µm to P80 of
+    the coarse class (1000 µm), Wi = 20.41 kWh/t (Ruan 2026, citing Green & Southard 2019); range low
+    end Wi = 17.10 kWh/t (Lefebvre 2019). Computed by erw_siting.emission_factors (D-51).
 - id: grinding_kwh_per_t_medium
   name: Grinding energy, medium grain
-  value: null
+  value: 22.97
   unit: kWh/t
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 20.13
+  - 22.97
+  source:
+    citation: 'Lefebvre, D., Goglio, P., Williams, A., Manning, D.A.C., de Azevedo, A.C., Bergmann, M.,
+      Meersmans, J. & Smith, P. (2019). Assessing the potential of soil carbonation and enhanced weathering
+      through Life Cycle Assessment: A case study for Sao Paulo State, Brazil. Journal of Cleaner Production
+      233, 468-481; Ruan et al. (2026), Carbon Research 5, 66, doi:10.1007/s44246-026-00282-4 (Wi basalt)'
+    doi_or_url: doi:10.1016/j.jclepro.2019.06.099
+    locator: Table 1 (spreading diesel kg/Mg rock), Table 2 (crushing kWh/t), §2.8 (Wi)
+  quality: literature
+  status: ok
+  notes: Crushing to 5 mm 5.45 kWh/t (Lefebvre 2019 Table 2) + Bond's law from F80 = 5000 µm to P80 of
+    the medium class (100 µm), Wi = 20.41 kWh/t (Ruan 2026, citing Green & Southard 2019); range low end
+    Wi = 17.10 kWh/t (Lefebvre 2019). Computed by erw_siting.emission_factors (D-51).
 - id: grinding_kwh_per_t_fine
   name: Grinding energy, fine grain
-  value: null
+  value: 67.11
   unit: kWh/t
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 57.11
+  - 67.11
+  source:
+    citation: 'Lefebvre, D., Goglio, P., Williams, A., Manning, D.A.C., de Azevedo, A.C., Bergmann, M.,
+      Meersmans, J. & Smith, P. (2019). Assessing the potential of soil carbonation and enhanced weathering
+      through Life Cycle Assessment: A case study for Sao Paulo State, Brazil. Journal of Cleaner Production
+      233, 468-481; Ruan et al. (2026), Carbon Research 5, 66, doi:10.1007/s44246-026-00282-4 (Wi basalt)'
+    doi_or_url: doi:10.1016/j.jclepro.2019.06.099
+    locator: Table 1 (spreading diesel kg/Mg rock), Table 2 (crushing kWh/t), §2.8 (Wi)
+  quality: literature
+  status: ok
+  notes: 'Crushing to 5 mm 5.45 kWh/t (Lefebvre 2019 Table 2) + Bond''s law from F80 = 5000 µm to P80
+    of the fine class (10 µm), Wi = 20.41 kWh/t (Ruan 2026, citing Green & Southard 2019); range low end
+    Wi = 17.10 kWh/t (Lefebvre 2019). Bond underestimates below ~70 µm: treat as a lower bound. Computed
+    by erw_siting.emission_factors (D-51).'
 - id: grid_ef_kgco2_per_kwh
   name: Colombian interconnected grid (SIN) emission factor
-  value: null
+  value: 0.22
   unit: kgCO2/kWh
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 0.112
+  - 0.22
+  source:
+    citation: 'UPME (2026). Resolución 000085 de 2026 (23-02-2026): factor de emisión del Sistema Interconectado
+      Nacional del año 2024'
+    doi_or_url: https://docs.upme.gov.co/Normatividad/085_2026.pdf
+    locator: Artículo 1, literal B (factor para inventarios de GEI)
+  quality: primary
+  status: ok
+  notes: 'UPME inventory factor of the SIN, year 2024 (0.220 t/MWh = kg/kWh). Range = inventory factors
+    2022 (Res. 705/2024: 0.112) to 2024; 2023 = 0.177 (Res. 1198/2024). Varies with hydrology (El Niño
+    years use more thermal plants). Computed by erw_siting.emission_factors (D-51).'
 - id: diesel_ef_kgco2_per_l
   name: Diesel combustion emission factor (FECOC)
-  value: null
+  value: 2.689
   unit: kgCO2/L
   distribution: null
   range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  source:
+    citation: UPME, Incombustion & Fundación Natura (2016). Consultoría técnica para el fortalecimiento
+      y mejora de la base de datos de factores de emisión de los combustibles colombianos (FECOC). Informe
+      final
+    doi_or_url: https://app.upme.gov.co/Calculadora_Emisiones1/new/Informe_Final_FECOC_Correcciones_UPME_FunNatura.pdf
+    locator: 'Tabla 5 (Diesel: kg CO2/gal); composition table (Diésel: density kg/L)'
+  quality: primary
+  status: ok
+  notes: Fossil diesel 10.180 kg CO2/gal / 3.785411784 L/gal. Commercial Colombian diesel contains biodiesel
+    (biogenic CO2 not counted), so this is conservative (< 10 % high). (D-51)
 - id: truck_l_diesel_per_t_km
   name: Truck diesel use per tonne-km
-  value: null
+  value: 0.0204
   unit: L/(t*km)
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  range:
+  - 0.0159
+  - 0.0364
+  source:
+    citation: 'UPME & IDB (RELIEVE). Estándares de eficiencia energética y etiquetado para vehículos de
+      carga en Colombia. Informe II: Línea base de consumo de combustible de vehículos de carga en Colombia'
+    doi_or_url: https://docs.upme.gov.co/DemandayEficiencia/Documents/1_Reporte_linea_base_EE_carga.pdf
+    locator: Tabla 2.8, SFC* (DEL/100 t-km), heavy diesel fleets with all trips loaded
+  quality: primary
+  status: ok
+  notes: 'Median SFC* of 7 heavy diesel fleets (C3, 2SX, 3SX) monitored by telemetry whose trips were
+    all loaded: loaded-leg fuel per tonne-km of payload. Empty return added separately (empty_return_factor).
+    Cross-check: x 2.689 x 1.42 = 0.078 kg CO2/t-km vs 0.062 in Renforth 2012 (via Ruan 2026). (D-51)'
 - id: empty_return_factor
   name: Extra distance factor for the empty return trip
-  value: null
+  value: 1.42
   unit: ratio
   distribution: null
-  range: null
-  source: null
-  quality: null
-  status: missing
-  notes: 1.0 = no empty return; 2.0 = full empty return.
-- id: spreading_l_diesel_per_ha
-  name: Diesel to spread rock on one hectare
-  value: null
-  unit: L/ha
+  range:
+  - 1.0
+  - 1.42
+  source:
+    citation: 'ANDI (2024). SICE-TAC: cambios e impactos (presentation of Ministerio de Transporte SICE-TAC
+      fuel yields, C3S3, March 2024)'
+    doi_or_url: https://www.andi.com.co/Uploads/SICETAC%20CAMBIOS%20E%20IMPACTOS.pdf
+    locator: 'Slide ''C3S3 2024'': CARGADO 6.48 km/gal vs VACIO 15.55 km/gal (flat road)'
+  quality: secondary
+  status: ok
+  notes: '1 + loaded/empty km per gal (6.48/15.55 = 0.417): a full empty return costs 42 % of the loaded
+    trip. Same ratio on all 5 road types of the model. Tractor-trailer C3S3; dump-truck model not seen.
+    Range low 1.0 = backhaul (no empty return). Quoted from an ANDI presentation of the Ministerio de
+    Transporte SICE-TAC model. (D-51)'
+- id: spreading_l_diesel_per_t
+  name: Diesel to spread one tonne of rock
+  value: 2.02
+  unit: L/t
   distribution: null
   range: null
-  source: null
-  quality: null
-  status: missing
-  notes: ''
+  source:
+    citation: 'Lefebvre, D., Goglio, P., Williams, A., Manning, D.A.C., de Azevedo, A.C., Bergmann, M.,
+      Meersmans, J. & Smith, P. (2019). Assessing the potential of soil carbonation and enhanced weathering
+      through Life Cycle Assessment: A case study for Sao Paulo State, Brazil. Journal of Cleaner Production
+      233, 468-481'
+    doi_or_url: doi:10.1016/j.jclepro.2019.06.099
+    locator: Table 1 (spreading diesel kg/Mg rock), Table 2 (crushing kWh/t), §2.8 (Wi)
+  quality: literature
+  status: ok
+  notes: '1.73 kg diesel per tonne of rock (Brazil, lime spreader) / FECOC diesel density 0.856 kg/L.
+    Per tonne, not per hectare: fuel grows with the mass spread (D-51). Single study; no range.'

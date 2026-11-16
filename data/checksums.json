@@ -1939,6 +1939,46 @@
     "sha256": "82aeec012e5bd6957045476c509ac03a435a6ce7b9e87dd7b12d262fb15cff3e",
     "url": "https://copernicus-dem-30m.s3.amazonaws.com/Copernicus_DSM_COG_10_N05_00_W078_00_DEM/Copernicus_DSM_COG_10_N05_00_W078_00_DEM.tif"
   },
+  "raw/emission_factors/fecoc_2016.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "f3b7b47b3b1aa9b4fe1ad3570263e26480abe3968e8415e3ce5cccff65d3b505",
+    "url": "https://app.upme.gov.co/Calculadora_Emisiones1/new/Informe_Final_FECOC_Correcciones_UPME_FunNatura.pdf"
+  },
+  "raw/emission_factors/lefebvre_2019.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "e5adebaaa299196f2e425c7bc0885e10365868525bc0bfd939566f4bea3f5bfb",
+    "url": "https://aura.abdn.ac.uk/server/api/core/bitstreams/2b796f02-b577-4b8d-9f8f-659cf66f431e/content"
+  },
+  "raw/emission_factors/ruan_2026.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "fba682a4213ef1a42ed5ea0058946390f3f8a9da367407e01fb42cecc8006f06",
+    "url": "https://link.springer.com/content/pdf/10.1007/s44246-026-00282-4.pdf"
+  },
+  "raw/emission_factors/sicetac_andi_2024.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "1829dabf0eff1fc2698220325afeb4d25c899948cc07db5ba266afdcf228ca9a",
+    "url": "https://www.andi.com.co/Uploads/SICETAC%20CAMBIOS%20E%20IMPACTOS.pdf"
+  },
+  "raw/emission_factors/upme_085_2026.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "f4ce526e691d4d1ac0f17ca94d89720888ce4c43ca7508224e743a3f6e48ab92",
+    "url": "https://docs.upme.gov.co/Normatividad/085_2026.pdf"
+  },
+  "raw/emission_factors/upme_1198_2024.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "a6bec619d517abbcbcf5515792db981fc77f6ea6750e2e9f3ab5311392c3cd49",
+    "url": "https://www.andi.com.co/Uploads/1198_2024.pdf"
+  },
+  "raw/emission_factors/upme_705_2024.htm": {
+    "first_recorded": "2026-11-16",
+    "sha256": "7b7ed20e972e89e6cb646c11659a7ea69d3efaa25211b3b6487283d912ae63b9",
+    "url": "https://gestornormativo.creg.gov.co/gestor/entorno/docs/resolucion_upme_0705_2024.htm"
+  },
+  "raw/emission_factors/upme_freight_baseline.pdf": {
+    "first_recorded": "2026-11-16",
+    "sha256": "a12f8622f00bc7d37b89a650995b08930c59871929ceb0435821ef8d28261593",
+    "url": "https://docs.upme.gov.co/DemandayEficiencia/Documents/1_Reporte_linea_base_EE_carga.pdf"
+  },
   "raw/era5land/e_1991-2020_monthly.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "0bab2fd4a4f2b4d025952050f1c72c13fe40f12043a12f966298fad990c3a97c",

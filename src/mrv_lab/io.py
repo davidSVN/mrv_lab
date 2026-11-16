@@ -10,6 +10,7 @@ committed registry ``data/checksums.json`` so a silent change at the source is d
 import hashlib
 import json
 import shutil
+import subprocess
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -156,3 +157,9 @@ def register_checksum(path: Path, source: str, registry: Path | None = None) -> 
             f"from {recorded.get('url', '?')})."
         )
     return actual
+
+
+def pdf_text(path: Path, layout: bool = True) -> str:
+    """Text of a PDF via ``pdftotext`` (poppler-utils); ``layout`` keeps table columns."""
+    args = ["pdftotext", *(["-layout"] if layout else []), str(path), "-"]
+    return subprocess.run(args, capture_output=True, text=True, check=True).stdout

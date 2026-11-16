@@ -3,6 +3,7 @@
 import pandas as pd
 import pytest
 
+from mrv_lab.erw_siting import registry
 from mrv_lab.erw_siting import rock_chemistry as rc
 
 KERR = """\
@@ -57,7 +58,7 @@ def test_registry_values_split_basalt_from_picrite_and_proxy_gabbro() -> None:
 
 def test_check_registry_flags_differences() -> None:
     expected = {"x": {"value": 1.0, "range": [0.5, 2.0]}}
-    good = pd.DataFrame([{"id": "x", "value": 1.0, "range": [0.5, 2.0]}])
-    assert rc.check_registry(good, expected) == []
+    good = pd.DataFrame([{"id": "x", "value": 1.0, "range": [0.5, 2.0]}], dtype=object)
+    assert registry.check_values(good, expected) == []
     bad = pd.DataFrame([{"id": "x", "value": 1.1, "range": [0.5, 2.0]}])
-    assert rc.check_registry(bad, expected)
+    assert registry.check_values(bad, expected)

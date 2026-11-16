@@ -21,7 +21,7 @@ Where the work stands, for the next session (F4 and F6 in this chat, David 2026-
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: rock group done (12/31, D-49); emissions, weathering, soil, application/capture pending | F6 deterministic calculation (needs F4), F7, F8, F9 |
+| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: rock (D-49) and emissions + grain classes (D-51) done, 23/34 ok; weathering, soil, application/capture pending | F6 deterministic calculation (needs F4), F7, F8, F9 |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -570,6 +570,44 @@ column in `runs`, which cannot be filtered or joined (design oversight, acknowle
 
 **Result.** 12-table schema; `database.write_parameters`, `add_scenario`, `scenario_values`;
 75 tests pass.
+
+### Emissions group (lca) and grain classes ✅ (approved by David, 2026-11-16)
+
+**What.** 8 lca parameters + 3 grain-class definitions (new `grain.yaml`). `erw_siting/emission_factors.py`
+downloads every source (SHA-256 pinned), checks each transcribed number against the source text
+(21 regex checks) and recomputes the derived values; `analysis.py` fails on any mismatch.
+
+| Parameter | Value | Range | Source |
+|---|---|---|---|
+| grid_ef_kgco2_per_kwh | 0.220 | 0.112–0.220 | UPME Res. 085/2026 (2024); 1198/2024 (2023: 0.177); 705/2024 (2022: 0.112) |
+| diesel_ef_kgco2_per_l | 2.689 | — | FECOC 2016, Tabla 5: 10.180 kg CO2/gal |
+| truck_l_diesel_per_t_km | 0.0204 | 0.0159–0.0364 | UPME/IDB freight baseline, Tabla 2.8, median of 7 loaded-only heavy diesel fleets |
+| empty_return_factor | 1.42 | 1.0–1.42 | SICE-TAC C3S3 March 2024 (via ANDI): empty 15.55 vs loaded 6.48 km/gal |
+| grinding_kwh_per_t_coarse / medium / fine | 9.02 / 22.97 / 67.11 | Wi 17.10 low end | Crushing 5.45 kWh/t (Lefebvre 2019) + Bond from 5 mm, Wi 20.41 (Ruan 2026) |
+| spreading_l_diesel_per_t | 2.02 | — | Lefebvre 2019, Table 1: 1.73 kg diesel/t ÷ 0.856 kg/L (FECOC) |
+| p80_um_coarse / medium / fine | 1000 / 100 / 10 µm | — | Definition (sizes modelled by Ruan 2026) |
+
+Cross-check: transport 0.0204 × 2.689 × 1.42 = 0.078 kg CO2/t-km vs 0.062 in Renforth 2012 (via Ruan 2026).
+
+**Decisions (David, 2026-11-16)**
+- **D-51** — (1) Grain classes P80 = 1000 / 100 / 10 µm (coarse / medium / fine), stored as
+  definition parameters in `grain.yaml`; grinding and `f_diss` must use them. (2) Spreading diesel
+  per tonne of rock (`spreading_l_diesel_per_t`, L/t) instead of per hectare: fuel grows with the
+  mass spread. (3) Truck fuel from loaded trips only + explicit empty return factor 1.42 (a rock
+  truck returns empty to the quarry); range low end 1.0 = backhaul. Values: conservative choices
+  (Wi 20.41 not 17.10; diesel 100 % fossil; latest, highest grid factor of 2022–2024).
+
+**Search notes.** Strefler et al. 2018 (ERL, CC BY) grinding curve is in an SI blocked by the
+publisher (403); main text (0.07 GJ/t at 50 µm ≈ 19 kWh/t) agrees with Bond. Japan ERW study
+(0.31 L/t spreading) and the Northern California LCA (Wi 18.56) paywalled or unavailable: not used.
+Minambiente 2026 emission-factor document covers black carbon / criteria pollutants, not CO2.
+
+**Limitations.** Bond's law underestimates below ~70 µm (fine class is a lower bound); grid factor
+depends on hydrology (El Niño); empty-return ratio from the tractor-trailer model, not the dump
+truck; spreading from one Brazilian study without range.
+
+**Refactor.** `io.pdf_text` and `registry.check_values` shared by the rock and lca groups.
+
 ---
 
 ## F2–F8 ⏳

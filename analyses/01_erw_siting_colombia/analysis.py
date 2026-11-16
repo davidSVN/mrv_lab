@@ -27,6 +27,7 @@ from mrv_lab.erw_siting import (
     cells_pipeline,
     climate,
     database,
+    emission_factors,
     land_cover,
     lithology,
     protected_areas,
@@ -173,13 +174,22 @@ missing_parameters = registry.missing(parameters)
 
 # %%
 # Rock group: recompute every value from the source tables (D-49); fail if the YAML drifted.
-rock_texts = {k: rock_chemistry.pdf_text(p) for k, p in rock_chemistry.download().items()}
-rock_mismatch = rock_chemistry.check_registry(
-    parameters, rock_chemistry.registry_values(rock_texts)
-)
+rock_texts = {k: io.pdf_text(p) for k, p in rock_chemistry.download().items()}
+rock_mismatch = registry.check_values(parameters, rock_chemistry.registry_values(rock_texts))
 if rock_mismatch:
     raise ValueError(f"rock.yaml differs from the sources: {rock_mismatch}")
 rock_samples = rock_chemistry.sample_sets(rock_texts)
+
+# %%
+# lca group: every transcribed number is checked against its source text; derived values
+# (Bond grinding, L/gal, medians) are recomputed with the grain classes of grain.yaml (D-51).
+ef_texts = {k: emission_factors.source_text(p) for k, p in emission_factors.download().items()}
+p80_um = {c: registry.value(parameters, f"p80_um_{c}") for c in ("coarse", "medium", "fine")}
+lca_problems = emission_factors.verify(ef_texts) + registry.check_values(
+    parameters, emission_factors.registry_values(p80_um)
+)
+if lca_problems:
+    raise ValueError(f"lca.yaml differs from the sources: {lca_problems}")
 
 # %%
 # Registry -> GeoPackage: `parameters` (read-only copy) + the citable `base` scenario (D-50).

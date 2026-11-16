@@ -1,0 +1,44 @@
+# Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
+# a parameter without a verified source stays status: missing.
+group: grain
+description: 'Grain-size classes (P80, µm: 80 % of the rock mass passes). Definitions used by grinding
+  energy (lca) and dissolved fraction (weathering) so both stay consistent (D-51).'
+parameters:
+- id: p80_um_coarse
+  name: Coarse grain class, P80
+  value: 1000
+  unit: µm
+  distribution: null
+  range: null
+  source: &id001
+    citation: Ruan, L., Li, J., Song, Z. et al. (2026). Enhanced weathering for CO2 removal from a global
+      perspective. Carbon Research 5, 66
+    doi_or_url: doi:10.1007/s44246-026-00282-4
+    locator: §2.3.1 (particle sizes 10, 37, 100, 1000 µm), §2.3.2 Eq. 6 (Bond, Wi basalt 20.41 kWh/t citing
+      Green & Southard 2019)
+  quality: definition
+  status: ok
+  notes: Chosen by David (D-51) from the sizes modelled by Ruan et al. 2026 (10, 37, 100, 1000 µm). Changing
+    it requires recomputing grinding (lca) and f_diss (weathering).
+- id: p80_um_medium
+  name: Medium grain class, P80
+  value: 100
+  unit: µm
+  distribution: null
+  range: null
+  source: *id001
+  quality: definition
+  status: ok
+  notes: Chosen by David (D-51) from the sizes modelled by Ruan et al. 2026 (10, 37, 100, 1000 µm). Changing
+    it requires recomputing grinding (lca) and f_diss (weathering).
+- id: p80_um_fine
+  name: Fine grain class, P80
+  value: 10
+  unit: µm
+  distribution: null
+  range: null
+  source: *id001
+  quality: definition
+  status: ok
+  notes: Chosen by David (D-51) from the sizes modelled by Ruan et al. 2026 (10, 37, 100, 1000 µm). Changing
+    it requires recomputing grinding (lca) and f_diss (weathering).
