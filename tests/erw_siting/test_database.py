@@ -4,6 +4,7 @@ import sqlite3
 from pathlib import Path
 
 import geopandas as gpd
+import pandas as pd
 import pytest
 
 from mrv_lab.erw_siting import database as db
@@ -68,3 +69,67 @@ def test_result_columns_cover_blocks_1_and_2(tmp_path: Path) -> None:
         "data_quality",
     }
     assert expected <= cols
+
+
+def _registry() -> pd.DataFrame:
+    source = {"citation": "A 2020", "doi_or_url": "doi:10/x", "locator": "Table 1"}
+    return pd.DataFrame(
+        [
+            {
+                "group": "rock",
+                "id": "a",
+                "name": "A",
+                "value": 2.0,
+                "unit": "wt%",
+                "range": [1.0, 3.0],
+                "distribution": {"type": "triangular"},
+                "source": source,
+                "quality": "literature",
+                "status": "ok",
+                "notes": "",
+            },
+            {
+                "group": "lca",
+                "id": "b",
+                "name": "B",
+                "value": None,
+                "unit": "kWh/t",
+                "range": None,
+                "distribution": None,
+                "source": None,
+                "quality": None,
+                "status": "missing",
+                "notes": "",
+            },
+        ]
+    )
+
+
+def test_parameters_and_base_scenario(tmp_path: Path) -> None:
+    path = db.create_database(tmp_path / "erw.gpkg")
+    db.write_parameters(_registry(), path)
+    base = db.scenario_values(db.BASE_SCENARIO, path).set_index("parameter_id")
+    assert base.loc["a", "value"] == 2.0 and pd.isna(base.loc["a", "override_value"])
+    assert pd.isna(base.loc["b", "value"])  # missing stays empty, never defaulted
+    with db.connect(path) as con:
+        row = con.execute(
+            "SELECT range_min, range_max, citation FROM parameters WHERE parameter_id = 'a'"
+        ).fetchone()
+        citable = con.execute("SELECT citable FROM scenarios").fetchone()[0]
+    assert row == (1.0, 3.0, "A 2020") and citable == 1
+
+
+def test_scenario_overrides_only_what_changes(tmp_path: Path) -> None:
+    path = db.create_database(tmp_path / "erw.gpkg")
+    db.write_parameters(_registry(), path)
+    db.add_scenario("s1", "Higher a", overrides={"a": 2.5}, rock_type="ultramafic", path=path)
+    values = db.scenario_values("s1", path).set_index("parameter_id")
+    assert values.loc["a", "value"] == 2.5 and values.loc["a", "base_value"] == 2.0
+    with db.connect(path) as con:
+        assert (
+            con.execute("SELECT citable FROM scenarios WHERE scenario_id='s1'").fetchone()[0] == 0
+        )
+    with pytest.raises(KeyError):
+        db.add_scenario("s2", "bad", overrides={"zzz": 1.0}, path=path)
+    with pytest.raises(KeyError):
+        db.scenario_values("nope", path)

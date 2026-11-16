@@ -180,6 +180,10 @@ rock_mismatch = rock_chemistry.check_registry(
 if rock_mismatch:
     raise ValueError(f"rock.yaml differs from the sources: {rock_mismatch}")
 rock_samples = rock_chemistry.sample_sets(rock_texts)
+
+# %%
+# Registry -> GeoPackage: `parameters` (read-only copy) + the citable `base` scenario (D-50).
+database.write_parameters(parameters)
 print({name: len(s) for name, s in rock_samples.items()})
 
 # %% [markdown]

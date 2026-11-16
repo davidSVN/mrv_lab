@@ -9,12 +9,19 @@ Portability rules: SRID 9377 everywhere, explicit primary and foreign keys, plai
 The database lives in ``data/interim/`` (gitignored: it holds SGC-derived data, D-08); this schema
 is code and is versioned. Tables are created empty here and filled in F3, F5, F6 and F7.
 
+Parameters and scenarios (D-50): ``parameters`` is a read-only copy of the YAML registry (the
+YAML stays the reviewed master); ``scenarios`` + ``scenario_parameters`` store only the values a
+scenario changes ("base + overrides"); every ``runs`` row points to its scenario. Only the ``base``
+scenario (all values sourced) is citable; a scenario with overrides is exploratory.
+
 Cells are 1 km x 1 km squares on EPSG:9377 (D-44); a border cell belongs to the department holding
 most of its area. Soil and climate go to the long table ``cell_values`` (one row per cell, variable
 and statistic), so new variables or rock types do not change the schema.
 """
 
+import json
 import sqlite3
+from datetime import UTC, datetime
 from pathlib import Path
 
 import geopandas as gpd
@@ -108,12 +115,49 @@ ATTRIBUTE_TABLES: dict[str, str] = {
             last_mile_km REAL,                   -- cell centre to nearest road node
             PRIMARY KEY (cell_id, scenario)
         )""",
+    "parameters": """
+        CREATE TABLE parameters (
+            parameter_id TEXT PRIMARY KEY,       -- id in config/erw_siting/parameters/*.yaml
+            group_name TEXT NOT NULL,            -- rock | capture | weathering | ...
+            name TEXT,
+            value REAL,                          -- NULL while status = missing
+            unit TEXT NOT NULL,
+            range_min REAL,
+            range_max REAL,
+            distribution_json TEXT,              -- {"type": ..., "params": {...}}
+            citation TEXT,
+            doi_or_url TEXT,
+            locator TEXT,                        -- table / page in the source
+            quality TEXT,                        -- primary | secondary | literature | definition
+            status TEXT NOT NULL,                -- ok | missing
+            notes TEXT
+        )""",
+    "scenarios": """
+        CREATE TABLE scenarios (
+            scenario_id TEXT PRIMARY KEY,        -- 'base' = registry values, nothing changed
+            name TEXT NOT NULL,
+            rock_type TEXT,                      -- basalt | gabbro | ultramafic; NULL = per source
+            route_scenario TEXT NOT NULL,        -- cell_routes.scenario: apta | apta_mixta
+            citable INTEGER NOT NULL,            -- 1 only when every value is sourced (D-50)
+            author TEXT,
+            created_utc TEXT NOT NULL,
+            notes TEXT
+        )""",
+    "scenario_parameters": """
+        CREATE TABLE scenario_parameters (
+            scenario_id TEXT NOT NULL REFERENCES scenarios (scenario_id),
+            parameter_id TEXT NOT NULL REFERENCES parameters (parameter_id),
+            value REAL NOT NULL,                 -- replaces parameters.value in this scenario
+            note TEXT,
+            PRIMARY KEY (scenario_id, parameter_id)
+        )""",
     "runs": """
         CREATE TABLE runs (
             run_id TEXT PRIMARY KEY,
+            scenario_id TEXT NOT NULL REFERENCES scenarios (scenario_id),
             created_utc TEXT NOT NULL,
             code_commit TEXT,
-            parameters_json TEXT NOT NULL,       -- dose, horizon, grain size, scenario, filters
+            parameters_json TEXT NOT NULL,       -- effective values used (base + overrides)
             seed INTEGER,
             notes TEXT
         )""",
@@ -260,3 +304,110 @@ def write_table(name: str, frame: pd.DataFrame, path: Path | None = None) -> Non
         con.executemany(
             f"INSERT INTO {name} ({', '.join(frame.columns)}) VALUES ({placeholders})", records
         )
+
+
+BASE_SCENARIO = "base"
+
+
+def parameter_rows(registry_table: pd.DataFrame) -> pd.DataFrame:
+    """Registry table (``registry.load``) -> rows of the ``parameters`` table."""
+
+    def _source(p: dict, key: str) -> str | None:
+        return (p.get("source") or {}).get(key)
+
+    rows = []
+    for p in registry_table.to_dict("records"):
+        rng = p.get("range") or [None, None]
+        dist = p.get("distribution")
+        rows.append(
+            {
+                "parameter_id": p["id"],
+                "group_name": p["group"],
+                "name": p.get("name"),
+                "value": p.get("value"),
+                "unit": p["unit"],
+                "range_min": rng[0],
+                "range_max": rng[1],
+                "distribution_json": json.dumps(dist) if dist else None,
+                "citation": _source(p, "citation"),
+                "doi_or_url": _source(p, "doi_or_url"),
+                "locator": _source(p, "locator"),
+                "quality": p.get("quality"),
+                "status": p["status"],
+                "notes": p.get("notes") or None,
+            }
+        )
+    return pd.DataFrame(rows)
+
+
+def write_parameters(registry_table: pd.DataFrame, path: Path | None = None) -> None:
+    """Load the registry into ``parameters`` and (re)create the ``base`` scenario.
+
+    Runs, scenario overrides and scenarios depend on ``parameters``, so they are cleared first:
+    the registry is the master and a changed registry starts a fresh set of scenarios.
+    """
+    path = path or database_path()
+    with connect(path) as con:
+        for table in ("cell_results", "runs", "scenario_parameters", "scenarios"):
+            con.execute(f"DELETE FROM {table}")
+    write_table("parameters", parameter_rows(registry_table), path)
+    add_scenario(BASE_SCENARIO, "Registry values (sourced)", path=path)
+
+
+def add_scenario(
+    scenario_id: str,
+    name: str,
+    overrides: dict[str, float] | None = None,
+    rock_type: str | None = None,
+    route_scenario: str = "apta",
+    author: str | None = None,
+    notes: str | None = None,
+    path: Path | None = None,
+) -> None:
+    """Add a scenario that changes only ``overrides`` (parameter_id -> value).
+
+    ``citable`` is set to 1 only for a scenario without overrides whose values are all sourced
+    (the base); anything else is exploratory and never goes to ``results.json`` (D-50).
+    """
+    overrides = overrides or {}
+    path = path or database_path()
+    with connect(path) as con:
+        known = {r[0] for r in con.execute("SELECT parameter_id FROM parameters")}
+        unknown = set(overrides) - known
+        if unknown:
+            raise KeyError(f"unknown parameters: {sorted(unknown)}")
+        con.execute(
+            "INSERT INTO scenarios VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (
+                scenario_id,
+                name,
+                rock_type,
+                route_scenario,
+                int(not overrides and rock_type is None),
+                author,
+                datetime.now(UTC).isoformat(timespec="seconds"),
+                notes,
+            ),
+        )
+        con.executemany(
+            "INSERT INTO scenario_parameters (scenario_id, parameter_id, value) VALUES (?, ?, ?)",
+            [(scenario_id, pid, float(v)) for pid, v in overrides.items()],
+        )
+
+
+def scenario_values(scenario_id: str, path: Path | None = None) -> pd.DataFrame:
+    """Effective parameters of a scenario: base value, override if any, and the value to use."""
+    query = """
+        SELECT p.parameter_id, p.group_name, p.unit, p.status,
+               p.value AS base_value, o.value AS override_value,
+               COALESCE(o.value, p.value) AS value
+        FROM parameters p
+        LEFT JOIN scenario_parameters o
+               ON o.parameter_id = p.parameter_id AND o.scenario_id = ?
+        ORDER BY p.group_name, p.parameter_id"""
+    with connect(path or database_path()) as con:
+        if not con.execute(
+            "SELECT 1 FROM scenarios WHERE scenario_id = ?", (scenario_id,)
+        ).fetchone():
+            raise KeyError(scenario_id)
+        return pd.read_sql_query(query, con, params=(scenario_id,))

@@ -552,6 +552,24 @@ numbers and nulls mixed in a column, breaking validation); test added (73 tests 
 ultramafics from Antioquia (outside the pilot) and serpentinized (MgO overstates reactive Mg);
 Na and K mobile in altered lavas.
 
+
+### Parameters and scenarios in the database (approved by David, 2026-11-16)
+
+**Why.** David wants to see the parameters in the database and, later, change them in a dashboard
+to compare scenarios (rock types, settings). Missed in F5a: parameters were only planned as a JSON
+column in `runs`, which cannot be filtered or joined (design oversight, acknowledged).
+
+**Decisions (David, 2026-11-16)**
+- **D-50** — "Base + overrides" model in the GeoPackage: `parameters` (read-only copy of the YAML
+  registry, written every run; YAML stays the reviewed master), `scenarios` (rock type, route
+  scenario, author, `citable`), `scenario_parameters` (only the values a scenario changes); `runs`
+  now references `scenario_id`. Only the `base` scenario (all values sourced, nothing overridden)
+  is citable; other scenarios are exploratory and never go to `results.json`. Scenario dashboard =
+  new phase F10, after F7, on PostGIS (F9); routes precomputed per rock type so a rock change does
+  not re-run Dijkstra live.
+
+**Result.** 12-table schema; `database.write_parameters`, `add_scenario`, `scenario_values`;
+75 tests pass.
 ---
 
 ## F2–F8 ⏳

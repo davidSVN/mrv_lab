@@ -42,13 +42,14 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Rock group ✅ (12/31, D-49; gabbro = basalt proxy). Next: emissions, weathering, soil, application/capture (D-48) |
-| F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 9-table GeoPackage schema (D-44, D-45) |
+| F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 12-table GeoPackage schema (D-44, D-45); + parameters / scenarios / scenario_parameters (D-50) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, three pilot departments | ⏳ | Needs F4 values; checkpoint: re-plan if net < 0 everywhere. Run with Opus (David, 2026-11-16) |
 | F1–F6 national | Scale to the country | ⏳ | — |
 | F7 | Monte Carlo + sensitivity | ⏳ | Includes recent-climate run (1996-2025) and Meta single-source dependency (84 % of cells from one source) |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
+| F10 | Scenario dashboard: change parameters, pick rock type, compare scenarios | ⏳ | After F7, on PostGIS (F9); uses `scenarios` tables; routes precomputed per rock type; only `base` is citable (D-50) |
 
 Next action: F4 — rock group done (D-49); continue with emissions → weathering → soil →
 application/capture in this chat, each group reviewed by David. Then F6.
@@ -69,6 +70,7 @@ Future (not scheduled, far from now):
 - Research question (D-38): how the location of rock sources in each department changes transport
   emissions relative to removal, and how departments compare.
 - Rock catalogue (D-39): select any rock type, with properties from F4, and re-run the analysis.
+  Delivered through the scenario dashboard (F10, D-50).
 - Slope view switch (D-36): interactive toggle between raw and smoothed slope maps; choose which feeds the filter.
 - ENSO / seasonal variability (D-21): El Niño / La Niña effect on rainfall per zone (CHIRPS since 1981
   + NOAA ENSO index) for project-level forecasting and MRV risk. Not needed for long-term screening.
@@ -256,7 +258,7 @@ data/processed/            # derived data only where licenses allow
 src/mrv_lab/erw_siting/
   regions.py               # ✅ pilot departments (clipping mask)
   geometry.py              # shared polygon repair helpers
-  database.py              # ✅ GeoPackage schema: 9 tables, PostGIS-portable (F5a)
+  database.py              # ✅ GeoPackage schema: 12 tables, PostGIS-portable (F5a, D-50)
   protected_areas.py       # ✅ RUNAP exclusion mask (step 2)
   agricultural_frontier.py # ✅ UPRA frontier, both types labelled (step 3)
   soil.py                  # ✅ SoilGrids 0-30 cm grids (step 4)
