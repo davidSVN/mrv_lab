@@ -40,7 +40,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 6a | Slope from Copernicus DEM (D11) | ✅ | Raw default, optional smoothing (D-36); threshold in F5 (D-35) |
 | F1 · step 6b | Rainfall + dry months (CHIRPS), temperature + actual evaporation (ERA5-Land) | ✅ | 1991-2020 normals; recent-climate sensitivity (1996-2025) later in F7 |
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
-| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ⏳ | Al / base saturation likely `missing` (D-23) |
+| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Structure + validator done; 31 parameters, all `missing`; fill by group with David's review (D-48) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 9-table GeoPackage schema (D-44, D-45) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
@@ -50,7 +50,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 
-Next action: explain and agree F4 (parameter registry) before F6.
+Next action: fill F4 parameters group by group (rock → emissions → weathering → soil → application), each with David's review of sources.
 
 Future (not scheduled, far from now):
 - Consolidate all layers into a well-structured spatial database with polygon/cell tables (D-19).
@@ -254,7 +254,7 @@ src/mrv_lab/erw_siting/
   agricultural_frontier.py # ✅ UPRA frontier, both types labelled (step 3)
   soil.py                  # ✅ SoilGrids 0-30 cm grids (step 4)
   land_cover.py            # ✅ MapBiomas 2024 classes + agricultural use (step 5)
-  registry.py              # parameter schema + loading + unit validation
+  registry.py              # 🔄 YAML parameter registry + validator (F4)
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # ✅ suitable rock near truck roads → potential sources (F3, D-46)
   grid.py                  # ✅ 1 km grid, cell filters and values (F5)

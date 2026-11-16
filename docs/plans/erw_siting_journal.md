@@ -473,6 +473,22 @@ immediate test.
 
 ---
 
+## F4 — Parameter registry 🔄
+
+**What.** `config/erw_siting/parameters/*.yaml` (rock, capture, weathering, soil_losses, application,
+lca) and `erw_siting/registry.py` (load, validate, list missing, read a value). 31 parameters, all
+`status: missing` with no value until a verified source is found.
+
+**Decisions (David, 2026-11-16)**
+- **D-48** — Only `pyyaml` (no pydantic / pint); validation in plain code: `ok` needs value, unit
+  and source (citation + DOI/URL); `missing` cannot carry a value; ranges must contain the value;
+  known distribution types; unique ids. `registry.value()` refuses missing parameters (no silent
+  defaults). Fill order: rock → emissions → weathering → soil → application, each group reviewed.
+
+**Result.** Structure and tests in place (68 tests pass); values pending.
+
+---
+
 ## F2–F8 ⏳
 
 Not started. See plan §8 for exit criteria.

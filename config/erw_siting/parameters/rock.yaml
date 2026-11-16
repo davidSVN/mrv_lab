@@ -1,0 +1,126 @@
+# Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
+# a parameter without a verified source stays status: missing.
+group: rock
+description: Whole-rock chemistry of suitable rock types (wt% oxides). Plan §5.2 step
+  1; source D16 (literature).
+parameters:
+- id: cao_wt_pct_basalt
+  name: CAO content of basalt
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: mgo_wt_pct_basalt
+  name: MGO content of basalt
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: na2o_wt_pct_basalt
+  name: NA2O content of basalt
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: k2o_wt_pct_basalt
+  name: K2O content of basalt
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: cao_wt_pct_gabbro
+  name: CAO content of gabbro
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: mgo_wt_pct_gabbro
+  name: MGO content of gabbro
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: na2o_wt_pct_gabbro
+  name: NA2O content of gabbro
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: k2o_wt_pct_gabbro
+  name: K2O content of gabbro
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: cao_wt_pct_ultramafic
+  name: CAO content of ultramafic
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: mgo_wt_pct_ultramafic
+  name: MGO content of ultramafic
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: na2o_wt_pct_ultramafic
+  name: NA2O content of ultramafic
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: k2o_wt_pct_ultramafic
+  name: K2O content of ultramafic
+  value: null
+  unit: wt%
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''

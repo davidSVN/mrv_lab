@@ -1,0 +1,16 @@
+# Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
+# a parameter without a verified source stays status: missing.
+group: capture
+description: Theoretical CO2 capture potential. Formula and constants taken from the
+  cited source (e.g. Renforth 2012); plan §5.2 step 1.
+parameters:
+- id: eta_mol_co2_per_mol_cation
+  name: Moles of CO2 captured per mole of divalent cation
+  value: null
+  unit: mol/mol
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: Value and range from the source, not from the plan text.

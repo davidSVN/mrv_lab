@@ -1,0 +1,86 @@
+# Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
+# a parameter without a verified source stays status: missing.
+group: lca
+description: Emission factors for grinding, transport and spreading. Plan §5.3; sources
+  D14 (FECOC), D15 (SIN grid factor) and literature.
+parameters:
+- id: grinding_kwh_per_t_coarse
+  name: Grinding energy, coarse grain
+  value: null
+  unit: kWh/t
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: grinding_kwh_per_t_medium
+  name: Grinding energy, medium grain
+  value: null
+  unit: kWh/t
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: grinding_kwh_per_t_fine
+  name: Grinding energy, fine grain
+  value: null
+  unit: kWh/t
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: grid_ef_kgco2_per_kwh
+  name: Colombian interconnected grid (SIN) emission factor
+  value: null
+  unit: kgCO2/kWh
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: diesel_ef_kgco2_per_l
+  name: Diesel combustion emission factor (FECOC)
+  value: null
+  unit: kgCO2/L
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: truck_l_diesel_per_t_km
+  name: Truck diesel use per tonne-km
+  value: null
+  unit: L/(t*km)
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: empty_return_factor
+  name: Extra distance factor for the empty return trip
+  value: null
+  unit: ratio
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: 1.0 = no empty return; 2.0 = full empty return.
+- id: spreading_l_diesel_per_ha
+  name: Diesel to spread rock on one hectare
+  value: null
+  unit: L/ha
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''

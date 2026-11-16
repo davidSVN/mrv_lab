@@ -1,0 +1,56 @@
+# Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
+# a parameter without a verified source stays status: missing.
+group: weathering
+description: Dissolved fraction over the horizon and climate adjustment (relative
+  index). Plan §5.2 step 2.
+parameters:
+- id: f_diss_coarse
+  name: Dissolved fraction over the horizon, coarse grain
+  value: null
+  unit: fraction
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: f_diss_medium
+  name: Dissolved fraction over the horizon, medium grain
+  value: null
+  unit: fraction
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: f_diss_fine
+  name: Dissolved fraction over the horizon, fine grain
+  value: null
+  unit: fraction
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: activation_energy_kj_per_mol
+  name: Apparent activation energy of silicate dissolution
+  value: null
+  unit: kJ/mol
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: reference_temperature_c
+  name: Reference temperature of the rate data
+  value: null
+  unit: degC
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''

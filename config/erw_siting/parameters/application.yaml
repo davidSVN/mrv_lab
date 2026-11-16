@@ -1,0 +1,25 @@
+# Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
+# a parameter without a verified source stays status: missing.
+group: application
+description: Application rate and dissolution horizon. Plan §5.1.
+parameters:
+- id: application_rate_t_per_ha
+  name: Rock application rate
+  value: null
+  unit: t/ha
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: horizon_years
+  name: Dissolution horizon
+  value: null
+  unit: yr
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''

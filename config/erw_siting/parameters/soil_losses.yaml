@@ -1,0 +1,36 @@
+# Parameter registry (F4). Schema: src/mrv_lab/erw_siting/registry.py. Never invent values:
+# a parameter without a verified source stays status: missing.
+group: soil_losses
+description: Share of released cations not captured as CO2 (acidity neutralisation,
+  exchange retention). Plan §5.2 step 3; most uncertain term (gap G-02).
+parameters:
+- id: f_loss_acid_soil
+  name: Soil loss fraction in acidic soils (pH < 5.5)
+  value: null
+  unit: fraction
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: f_loss_neutral_soil
+  name: Soil loss fraction in near-neutral soils
+  value: null
+  unit: fraction
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: ''
+- id: exchangeable_al_cmolc_per_kg
+  name: Exchangeable aluminium typical of the pilot soils
+  value: null
+  unit: cmol(c)/kg
+  distribution: null
+  range: null
+  source: null
+  quality: null
+  status: missing
+  notes: Not in SoilGrids (D20); expected to stay missing or wide-ranged.
