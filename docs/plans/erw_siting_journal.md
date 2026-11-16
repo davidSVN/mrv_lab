@@ -15,6 +15,35 @@ Status legend: ✅ done · 🔄 in progress · ❓ decision pending · ⛔ block
 
 ---
 
+## Resume point (2026-11-16)
+
+Where the work stands, for the next session (F4 in a separate chat; F6 back here).
+
+| Done ✅ | In progress 🔄 | Next ⏳ |
+|---|---|---|
+| P0, F0b, F1 (steps 0–6b), F2, F3, F5a, F5 | F4: 31 parameters, structure and validator ready, all `missing` | F6 deterministic calculation (needs F4), F7, F8, F9 |
+
+**What exists.** One command rebuilds everything from `data/raw/`:
+`uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
+MapBiomas, slope, CHIRPS + ERA5-Land climate, SGC lithology, potential rock sources, GeoPackage with
+132,264 cells, filters, values and road routes, registry check). Code: `src/mrv_lab/erw_siting/`;
+tests: `tests/erw_siting/` (68 passing).
+
+**Where the data is.** `data/raw/` (downloads, SHA-256 pinned in `data/checksums.json`) and
+`data/interim/erw_siting/` (clean layers, `erw_siting.gpkg`, QC maps in `qc/`). Both gitignored.
+
+**Open items outside the code.**
+- T0: does this map already exist? (David; prompt given 2026-11-12).
+- SGC written answer on publishing derived geology (D-08); until then F2/F3/F5 rock results are internal.
+- Route-validation source (documented road distances) for ~20 example routes (D-47).
+- Credentials: Copernicus CDS token saved in the cloud environment (never in the repo).
+
+**How to work (rules R-01..R-11 below).** Explain before coding; implement only after David's OK;
+verify every URL and licence before use; never invent values; update plan §0 and this journal in the
+same commit as each decision.
+
+---
+
 ## Working rules
 
 | ID | Rule | Why | Since |

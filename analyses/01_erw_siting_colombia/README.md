@@ -1,7 +1,8 @@
 # 01 — Where does ERW make sense in Colombia?
 
-> Work in progress. Spec: [`docs/plans/erw_siting_colombia.md`](../../docs/plans/erw_siting_colombia.md).
-> Sections are filled phase by phase. Contract: [CLAUDE.md §6](../../CLAUDE.md).
+> Work in progress. Spec and live status: [`docs/plans/erw_siting_colombia.md`](../../docs/plans/erw_siting_colombia.md)
+> (§0). Steps, decisions and results: [`docs/plans/erw_siting_journal.md`](../../docs/plans/erw_siting_journal.md).
+> Sections are filled when results are final; no number is quoted before it is in `results.json`. Contract: [CLAUDE.md §6](../../CLAUDE.md).
 
 ## Question
 
@@ -10,8 +11,11 @@ transport, grinding and soil losses eat the gain?
 
 ## Data
 
-_Pending._ Every source is registered in [`data/SOURCES.md`](../../data/SOURCES.md)
-before any download.
+Sources registered with licence text in [`data/SOURCES.md`](../../data/SOURCES.md): RUNAP (D18),
+UPRA agricultural frontier (D4), ISRIC SoilGrids 2.0 (D8), MapBiomas Colombia 2024 (D6), Copernicus
+DEM GLO-30 (D11), CHIRPS v2.0 (D9), ERA5-Land (D10, D19), SGC Mapa Geológico 2023 (D1, internal use
+until SGC confirms publication), OpenStreetMap roads via HOT/HDX (D12), geoBoundaries (D17b).
+Nothing raw is redistributed here.
 
 ## Method
 

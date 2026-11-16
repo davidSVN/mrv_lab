@@ -1,6 +1,6 @@
 # Plan — Where does ERW make sense in Colombia? (analysis 01)
 
-Status: v0.4 · Owner: David · Code targets: `src/mrv_lab/erw_siting/` ·
+Status: v0.5 · Owner: David · Code targets: `src/mrv_lab/erw_siting/` ·
 `analyses/01_erw_siting_colombia/` · `config/erw_siting/`
 
 Companion: [`erw_siting_journal.md`](erw_siting_journal.md) explains each step, the decisions and rules
@@ -33,24 +33,31 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F0b | License rows in `data/SOURCES.md` | ✅ | D1 publication blocked until SGC answers (D-08); D3 dropped (D-09) |
 | F1 · step 0 | Download helper with SHA-256 pinning | ✅ | — |
 | F1 · step 1 | Pilot departments (clipping mask) | ✅ | — |
-| F1 · step 2 | Protected areas (RUNAP, D18) | ✅ | Revisit sustainable-use categories in Valle only if Valle is chosen in F2 (D-17) |
+| F1 · step 2 | Protected areas (RUNAP, D18) | ✅ | Revisit sustainable-use categories in Valle (D-17; all three departments kept, D-38) |
 | F1 · step 3 | Agricultural frontier (UPRA, D4) | ✅ | Frontier type choice deferred to F5 (D-18) |
 | F1 · step 4 | Soil (SoilGrids, D8) | ✅ | — |
 | F1 · step 5 | Land cover (MapBiomas 2024, D6) | ✅ | Cropland vs pasture not separable (G-09) |
 | F1 · step 6a | Slope from Copernicus DEM (D11) | ✅ | Raw default, optional smoothing (D-36); threshold in F5 (D-35) |
 | F1 · step 6b | Rainfall + dry months (CHIRPS), temperature + actual evaporation (ERA5-Land) | ✅ | 1991-2020 normals; recent-climate sensitivity (1996-2025) later in F7 |
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
-| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Structure + validator done; 31 parameters, all `missing`; fill by group with David's review (D-48) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
+| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | 🔄 | Structure + validator done; 31 parameters, all `missing`; being filled in a separate chat, group by group (D-48) |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 9-table GeoPackage schema (D-44, D-45) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
-| F6 | Deterministic calculation, two departments | ⏳ | Checkpoint: re-plan if net < 0 everywhere |
+| F6 | Deterministic calculation, three pilot departments | ⏳ | Needs F4 values; checkpoint: re-plan if net < 0 everywhere. Run with Opus (David, 2026-11-16) |
 | F1–F6 national | Scale to the country | ⏳ | — |
 | F7 | Monte Carlo + sensitivity | ⏳ | Includes recent-climate run (1996-2025) and Meta single-source dependency (84 % of cells from one source) |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 
-Next action: fill F4 parameters group by group (rock → emissions → weathering → soil → application), each with David's review of sources.
+Next action: F4 — fill parameters group by group (rock → emissions → weathering → soil →
+application) in a separate chat, each group reviewed by David. Then F6 in this chat.
+
+**Resume point (2026-11-16).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
+Data for F1–F5 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
+`uv run python analyses/01_erw_siting_colombia/analysis.py` rebuilds everything from `data/raw/`.
+Open items outside the code: T0 novelty search (David), SGC written answer (D-08), route-validation
+source (D-47).
 
 Future (not scheduled, far from now):
 - Consolidate all layers into a well-structured spatial database with polygon/cell tables (D-19).

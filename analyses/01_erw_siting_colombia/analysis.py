@@ -24,9 +24,15 @@ from pathlib import Path
 from mrv_lab import io
 from mrv_lab.erw_siting import (
     agricultural_frontier,
+    cells_pipeline,
+    climate,
+    database,
     land_cover,
+    lithology,
     protected_areas,
+    quarries,
     regions,
+    registry,
     soil,
     terrain,
 )
@@ -114,6 +120,57 @@ slope_label = f"_smooth{SLOPE_SMOOTHING_PX}" if SLOPE_SMOOTHING_PX else ""
 slope_qc_png, slope_qc_csv = terrain.save_slope_qc(slope_grids, label=slope_label)
 
 # %% [markdown]
+# ### F1 — Climate normals 1991-2020
+# Rainfall and dry months: CHIRPS v2.0 (public domain, SOURCES.md D9). Temperature and actual
+# evaporation: ERA5-Land (CC BY 4.0, D10/D19; CDS token injected by the environment, never stored).
+
+# %%
+era5 = climate.fetch_era5land(pilot)
+chirps = climate.fetch_chirps(pilot)
+climate_grids = climate.process_climate(era5, chirps, pilot)
+climate_qc_pngs, climate_qc_csv = climate.save_climate_qc(climate_grids, pilot)
+
+# %% [markdown]
+# ### F2 — Lithology (SGC 2023) — internal use only until SGC answers (D-08)
+# All 194 units classified Apta / Mixta / No apta; David's review file is merged (D-43).
+
+# %%
+geo_units = lithology.read_units(lithology.fetch_geology())
+unit_table = lithology.unit_table(geo_units, pilot)
+unit_table = lithology.apply_review(
+    unit_table, io.interim_dir() / "erw_siting" / "geology" / "lithology_review.csv"
+)
+classified = lithology.classified_units(geo_units, unit_table)
+lithology.save_lithology(classified, unit_table, departments, pilot)
+
+# %% [markdown]
+# ### F3 — Potential rock sources (truck roads within 5 km of suitable rock, D-46)
+
+# %%
+rock_sources = quarries.potential_sources(
+    quarries.read_truck_roads(quarries.fetch_roads()), classified
+)
+quarries.save_quarries(rock_sources, classified, departments, pilot)
+
+# %% [markdown]
+# ### F5 — Cell database (GeoPackage): grid, filters, values and road routing (D-44, D-47)
+
+# %%
+database.create_database(overwrite=True)
+database.write_rock_tables(unit_table, rock_sources)
+f5_qc = cells_pipeline.run(pilot)
+
+# %% [markdown]
+# ### F4 — Parameter registry (values filled group by group; missing ones are listed)
+
+# %%
+parameters = registry.load()
+registry_problems = registry.validate(parameters)
+if registry_problems:
+    raise ValueError(f"Parameter registry invalid: {registry_problems}")
+missing_parameters = registry.missing(parameters)
+
+# %% [markdown]
 # ## Compute
 # Units in variable names when ambiguous: `tonnes_tco2e`, `price_usd_per_t`.
 
@@ -161,3 +218,8 @@ if __name__ == "__main__":
     print(f"Slope ({len(dem_tiles)} DEM tiles, smoothing={SLOPE_SMOOTHING_PX}):")
     print(f"QC map: {slope_qc_png.relative_to(root)}")
     print(f"QC table: {slope_qc_csv.relative_to(root)}")
+    print(f"Climate QC table: {climate_qc_csv.relative_to(root)}")
+    print(f"Lithology: {unit_table['final_class'].value_counts().to_dict()} (internal)")
+    print(f"Rock sources: {len(rock_sources)} potential points (internal)")
+    print(f"F5 QC: {', '.join(str(v.relative_to(root)) for v in f5_qc.values())}")
+    print(f"Parameters: {len(parameters)} ({len(missing_parameters)} missing)")
