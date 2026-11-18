@@ -104,3 +104,58 @@ def test_flags(values: dict[str, float]) -> None:
         _frame(rock_class="gabbro", arc_volcanic=True, dry_months=2.0), values, "medium"
     ).iloc[0]
     assert out["data_quality"] == "gabbro_proxy;arc_volcanic_source;dry_months:2"
+
+
+def test_candidate_filters_are_configurable() -> None:
+    filters = pd.DataFrame(
+        {
+            "cell_id": ["savanna", "conditioned", "steep9"],
+            "protected_frac": [0.0, 0.0, 0.0],
+            "frontier_unconditioned_frac": [1.0, 0.0, 1.0],
+            "frontier_conditioned_frac": [0.0, 1.0, 0.0],
+            "agro_use_frac": [0.1, 0.9, 0.9],
+            "grassland_frac": [0.8, 0.0, 0.0],
+            "slope_gt8_frac": [0.0, 0.0, 0.9],
+            "slope_gt12_frac": [0.0, 0.0, 0.1],
+        }
+    )
+    assert nr.candidates(filters)["candidate"].tolist() == [0, 0, 1]
+    wide = nr.candidates(
+        filters,
+        {
+            "include_grassland": True,
+            "frontier_types": ["unconditioned", "conditioned"],
+            "slope_threshold_pct": 8,
+        },
+    )
+    assert wide["candidate"].tolist() == [1, 1, 0]
+
+
+def test_qc_map_helpers_run_on_a_tiny_grid(tmp_path) -> None:  # noqa: ANN001
+    import geopandas as gpd
+    import matplotlib.pyplot as plt
+    from shapely.geometry import box
+
+    from mrv_lab.erw_siting.regions import WORK_CRS
+
+    base = gpd.GeoDataFrame(
+        {
+            "cell_id": ["a", "b"],
+            "department": ["Meta", "Meta"],
+            "candidate": [1, 0],
+            "excluded_by": [None, "frontier;slope"],
+            "rock_class": ["basalt", None],
+            "margin_km": [50.0, np.nan],
+            "e_grind_tco2_per_t": [0.005, np.nan],
+            "e_transport_tco2_per_t": [0.01, np.nan],
+            "e_spread_tco2_per_t": [0.005, np.nan],
+        },
+        geometry=[box(0, 0, 1000, 1000), box(1000, 0, 2000, 1000)],
+        crs=WORK_CRS,
+    )
+    depts = gpd.GeoDataFrame({"name": ["Meta"]}, geometry=[box(0, 0, 2000, 1000)], crs=WORK_CRS)
+    assert nr._exclusion_maps(base, depts, tmp_path).exists()
+    assert nr._emission_parts(base[base["candidate"] == 1], tmp_path).exists()
+    fig, ax = plt.subplots()
+    nr._plot_values(ax, base[base["candidate"] == 1], "margin_km", "km", "RdBu")
+    plt.close(fig)

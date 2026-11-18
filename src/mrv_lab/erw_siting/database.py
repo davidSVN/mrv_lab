@@ -81,6 +81,7 @@ ATTRIBUTE_TABLES: dict[str, str] = {
             frontier_unconditioned_frac REAL,    -- UPRA "No condicionada" (0-1)
             frontier_conditioned_frac REAL,      -- UPRA "Condicionada" (0-1)
             agro_use_frac REAL,                  -- MapBiomas 2024 classes 21/35/74 (0-1)
+            grassland_frac REAL,                 -- MapBiomas 2024 class 12, grassland (D-58)
             slope_median_pct REAL,
             slope_gt8_frac REAL,
             slope_gt12_frac REAL,
@@ -139,6 +140,7 @@ ATTRIBUTE_TABLES: dict[str, str] = {
             rock_type TEXT,                      -- basalt | gabbro | ultramafic; NULL = per source
             grain_class TEXT NOT NULL,           -- coarse | medium | fine (grain.yaml, D-51)
             route_scenario TEXT NOT NULL,        -- cell_routes.scenario: apta | apta_mixta
+            filters_json TEXT,                   -- candidate-filter settings (D-58)
             citable INTEGER NOT NULL,            -- 1 only when every value is sourced (D-50)
             author TEXT,
             created_utc TEXT NOT NULL,
@@ -365,6 +367,7 @@ def add_scenario(
     rock_type: str | None = None,
     grain_class: str = "medium",
     route_scenario: str = "apta",
+    filters: dict | None = None,
     author: str | None = None,
     notes: str | None = None,
     path: Path | None = None,
@@ -383,14 +386,16 @@ def add_scenario(
             raise KeyError(f"unknown parameters: {sorted(unknown)}")
         con.execute(
             "INSERT INTO scenarios (scenario_id, name, rock_type, grain_class, route_scenario, "
-            "citable, author, created_utc, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            "filters_json, citable, author, created_utc, notes) "
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 scenario_id,
                 name,
                 rock_type,
                 grain_class,
                 route_scenario,
-                int(not overrides and rock_type is None),
+                json.dumps(filters) if filters else None,
+                int(not overrides and rock_type is None and not filters),
                 author,
                 datetime.now(UTC).isoformat(timespec="seconds"),
                 notes,

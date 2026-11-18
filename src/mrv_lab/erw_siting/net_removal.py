@@ -12,8 +12,9 @@ class; base = medium)::
     breakeven  = (cdr_gross - e_grind - e_spread) / (emission per t km)                    km
     margin     = breakeven - road_km                                                  km
 
-Candidate cell (D-56): protected < 50 %, frontier "No condicionada" >= 50 %, agricultural use
->= 50 %, slope > 12 % on < 50 % of the cell (all as shares of the cell). Rock class of a source:
+Candidate cell (D-56 defaults, configurable per scenario, D-58): protected < 50 %, frontier
+"No condicionada" >= 50 %, agricultural use >= 50 % (optionally counting natural grassland /
+savanna), slope > 12 % on < 50 % of the cell (all as shares of the cell). Rock class of a source:
 ultramafic flag -> ultramafic; gabbro/norite named first -> gabbro (basalt kinetics and chemistry
 as proxy, D-49/D-52); otherwise basalt. Q-Vm and J-Vi sources carry an "arc_volcanic_source" flag
 (arc rocks may capture 3-5x less, Ryan et al. 2024 via R03a, unverified). Route scenario: Apta
@@ -37,13 +38,18 @@ from mrv_lab import io  # noqa: E402
 from mrv_lab.erw_siting import capture, soil_losses, weathering  # noqa: E402
 from mrv_lab.erw_siting import database as db  # noqa: E402
 
-#: Candidate rules (D-56): column, comparison, threshold, label used in ``excluded_by``.
-FILTER_RULES = [
-    ("protected_frac", "<", 0.5, "protected"),
-    ("frontier_unconditioned_frac", ">=", 0.5, "frontier"),
-    ("agro_use_frac", ">=", 0.5, "land_use"),
-    ("slope_gt12_frac", "<", 0.5, "slope"),
-]
+#: Candidate-filter settings (D-56 defaults; every one can change per scenario, D-58):
+#: share thresholds of the cell, frontier types, whether natural grassland / savanna counts as
+#: agricultural use, and the slope class (8 or 12 %).
+DEFAULT_FILTERS: dict = {
+    "protected_max_frac": 0.5,
+    "frontier_types": ["unconditioned"],  # add "conditioned" to include UPRA "Condicionada"
+    "frontier_min_frac": 0.5,
+    "land_use_min_frac": 0.5,
+    "include_grassland": False,  # MapBiomas class 12 (Llanos savanna with extensive grazing)
+    "slope_threshold_pct": 12,  # 8 or 12 (columns slope_gt8_frac / slope_gt12_frac)
+    "slope_max_frac": 0.5,
+}
 ARC_VOLCANIC_UNITS = frozenset({"Q-Vm", "J-Vi"})
 GABBRO_TYPES = ("gabbro", "norite")
 OXIDES = ("CaO", "MgO", "Na2O", "K2O")
@@ -52,13 +58,23 @@ ROUTE_SCENARIO = "apta"
 GRAIN_SCENARIOS = {db.BASE_SCENARIO: "medium", "grain_coarse": "coarse", "grain_fine": "fine"}
 
 
-def candidates(filters: pd.DataFrame) -> pd.DataFrame:
-    """``cell_id``, ``candidate`` (0/1) and ``excluded_by`` (failed rules, ';'-joined)."""
-    failed = []
-    for column, op, threshold, label in FILTER_RULES:
-        values = filters[column]
-        ok = values < threshold if op == "<" else values >= threshold
-        failed.append(np.where(ok.fillna(False), "", label))
+def candidates(filters: pd.DataFrame, settings: dict | None = None) -> pd.DataFrame:
+    """``cell_id``, ``candidate`` (0/1) and ``excluded_by`` (failed rules, ';'-joined).
+
+    ``settings`` overrides :data:`DEFAULT_FILTERS` key by key.
+    """
+    s = {**DEFAULT_FILTERS, **(settings or {})}
+    frontier = sum(filters[f"frontier_{kind}_frac"].fillna(0) for kind in s["frontier_types"])
+    land_use = filters["agro_use_frac"].fillna(0)
+    if s["include_grassland"]:
+        land_use = land_use + filters["grassland_frac"].fillna(0)
+    checks = {
+        "protected": filters["protected_frac"] < s["protected_max_frac"],
+        "frontier": frontier >= s["frontier_min_frac"],
+        "land_use": land_use >= s["land_use_min_frac"],
+        "slope": filters[f"slope_gt{s['slope_threshold_pct']}_frac"] < s["slope_max_frac"],
+    }
+    failed = [np.where(ok.fillna(False), "", label) for label, ok in checks.items()]
     excluded = [";".join(f for f in row if f) for row in zip(*failed, strict=True)]
     return pd.DataFrame(
         {
@@ -81,7 +97,7 @@ def rock_class(units: pd.DataFrame) -> pd.Series:
     return units.set_index("unit_code").apply(classify, axis=1).rename("rock_class")
 
 
-def load_inputs(path: Path | None = None) -> pd.DataFrame:
+def load_inputs(path: Path | None = None, settings: dict | None = None) -> pd.DataFrame:
     """One row per cell: filters, temperature, pH, dry months, route and source rock class."""
     path = path or db.database_path()
     with db.connect(path) as con:
@@ -106,7 +122,7 @@ def load_inputs(path: Path | None = None) -> pd.DataFrame:
     sources["rock_class"] = sources["unit_code"].map(classes)
     sources["arc_volcanic"] = sources["symbol"].isin(ARC_VOLCANIC_UNITS)
     frame = (
-        cells.merge(candidates(filters), on="cell_id")
+        cells.merge(candidates(filters, settings), on="cell_id")
         .merge(values.reset_index(), on="cell_id", how="left")
         .merge(routes, on="cell_id", how="left")
         .merge(
@@ -224,10 +240,17 @@ def _code_commit() -> str | None:
         return None
 
 
-def run(path: Path | None = None) -> tuple[pd.DataFrame, dict[str, Path]]:
-    """Compute and store one run per grain scenario; write internal QC table and maps."""
+def run(
+    path: Path | None = None, settings: dict | None = None
+) -> tuple[pd.DataFrame, dict[str, Path]]:
+    """Compute and store one run per grain scenario; write internal QC table and maps.
+
+    ``settings``: candidate-filter overrides (:data:`DEFAULT_FILTERS`, D-58).
+    """
     path = path or db.database_path()
-    frame = load_inputs(path)
+    filters = {**DEFAULT_FILTERS, **(settings or {})}
+    frame = load_inputs(path, filters)
+    base_values: dict[str, float] = {}
     with db.connect(path) as con:
         existing = {r[0] for r in con.execute("SELECT scenario_id FROM scenarios")}
         con.execute("DELETE FROM cell_results")
@@ -243,6 +266,8 @@ def run(path: Path | None = None) -> tuple[pd.DataFrame, dict[str, Path]]:
             )
         values = db.scenario_values(scenario_id, path).set_index("parameter_id")["value"]
         values = {k: float(x) for k, x in values.dropna().items()}
+        if scenario_id == db.BASE_SCENARIO:
+            base_values = values
         table = compute(frame, values, grain)
         run_id = f"f6_{scenario_id}"
         db.append_rows(
@@ -259,7 +284,7 @@ def run(path: Path | None = None) -> tuple[pd.DataFrame, dict[str, Path]]:
                                 "values": values,
                                 "grain_class": grain,
                                 "route_scenario": ROUTE_SCENARIO,
-                                "filters": FILTER_RULES,
+                                "filters": filters,
                             }
                         ),
                         "seed": None,
@@ -274,7 +299,7 @@ def run(path: Path | None = None) -> tuple[pd.DataFrame, dict[str, Path]]:
     combined = pd.concat(results, ignore_index=True).merge(
         frame[["cell_id", "department"]], on="cell_id"
     )
-    return combined, save_qc(combined, path)
+    return combined, save_qc(combined, path, frame, base_values)
 
 
 def summary(combined: pd.DataFrame) -> pd.DataFrame:
@@ -294,80 +319,140 @@ def summary(combined: pd.DataFrame) -> pd.DataFrame:
     return table.reset_index().round(4)
 
 
-def save_qc(combined: pd.DataFrame, path: Path) -> dict[str, Path]:
-    """Internal QC: summary table and maps of net removal and margin (base scenario)."""
+NOT_CANDIDATE_GREY = "#BDBDBD"
+EMISSION_PARTS = {
+    "e_grind_tco2_per_t": "Grinding",
+    "e_transport_tco2_per_t": "Transport",
+    "e_spread_tco2_per_t": "Spreading",
+}
+FILTER_LABELS = {
+    "protected": "Protected area (RUNAP)",
+    "frontier": "Outside the agricultural frontier (UPRA)",
+    "land_use": "Not agricultural use (MapBiomas)",
+    "slope": "Slope above threshold",
+}
+
+
+def save_qc(
+    combined: pd.DataFrame,
+    path: Path,
+    frame: pd.DataFrame | None = None,
+    base_values: dict[str, float] | None = None,
+) -> dict[str, Path]:
+    """Internal QC (D-08): summary table; candidate maps (net per ha, margin, emissions);
+    exclusion-reason maps; and, when ``frame`` and ``base_values`` are given, "potential" maps
+    computed for every cell as if it were farmland, with candidate cells outlined (D-58)."""
     qc = io.interim_dir() / "erw_siting" / "qc"
     qc.mkdir(parents=True, exist_ok=True)
     paths = {"summary": qc / "f6_summary.csv"}
     summary(combined).to_csv(paths["summary"], index=False)
 
     cells = gpd.read_file(path, layer="cells")[["cell_id", "geometry"]]
+    depts = gpd.read_file(io.interim_dir() / "erw_siting" / "pilot_departments.gpkg").to_crs(
+        cells.crs
+    )
     base = cells.merge(combined[combined["scenario_id"] == db.BASE_SCENARIO], on="cell_id")
-    for column, label, name in (
-        ("net_ha_tco2_per_ha_yr", "Net removal, t CO2/ha/yr (medium grain, 10 yr)", "f6_net_ha"),
-        ("margin_km", "Break-even distance minus road distance, km", "f6_margin_km"),
+    cand = base[base["candidate"] == 1].copy()
+    cand["e_total_kgco2_per_t"] = cand[list(EMISSION_PARTS)].sum(axis=1) * 1000
+    outline = gpd.GeoSeries([cand.geometry.union_all()], crs=cells.crs)
+
+    for column, label, name, cmap in (
+        ("net_ha_tco2_per_ha_yr", "Net removal, t CO2/ha/yr", "f6_net_ha", "RdBu"),
+        ("margin_km", "Break-even distance minus road distance, km", "f6_margin_km", "RdBu"),
+        (
+            "e_total_kgco2_per_t",
+            "Grinding + transport + spreading, kg CO2/t",
+            "f6_emissions_map",
+            "RdYlGn_r",
+        ),
     ):
-        fig, ax = plt.subplots(figsize=(9, 6))
-        base[base["candidate"] == 0].plot(ax=ax, color="#EEEEEE")
-        cand = base[base["candidate"] == 1]
-        # Colour range from non-ultramafic cells (ultramafic sources would wash out the rest).
-        ref = cand.loc[cand["rock_class"] != "ultramafic", column]
-        ref = ref if ref.notna().any() else cand[column]
-        limit = float(np.nanpercentile(np.abs(ref), 95)) or 1.0
-        cand.plot(
-            ax=ax,
-            column=column,
-            cmap="RdBu",
-            vmin=-limit,
-            vmax=limit,
-            legend=True,
-            legend_kwds={"label": label, "shrink": 0.6},
-        )
-        ax.set_title(f"QC — F6 {label}; grey = not candidate — internal", fontsize=9)
-        ax.set_axis_off()
-        paths[name] = qc / f"{name}.png"
-        fig.savefig(paths[name], dpi=130, bbox_inches="tight")
-        plt.close(fig)
-    paths.update(save_emissions_qc(base, qc))
+        fig, ax = plt.subplots(figsize=(10, 6.5))
+        base[base["candidate"] == 0].plot(ax=ax, color=NOT_CANDIDATE_GREY, linewidth=0)
+        _plot_values(ax, cand, column, label, cmap)
+        _decorate(ax, depts, f"QC — {label}, medium grain; dark grey = not candidate — internal")
+        paths[name] = _save(fig, qc / f"{name}.png")
+
+    paths["f6_emissions_parts"] = _emission_parts(cand, qc)
+    paths["f6_exclusion_reasons"] = _exclusion_maps(base, depts, qc)
+
+    if frame is not None and base_values is not None:
+        potential = compute(frame.assign(candidate=1, excluded_by=None), base_values, "medium")
+        potential["e_total_kgco2_per_t"] = potential[list(EMISSION_PARTS)].sum(axis=1) * 1000
+        pot = cells.merge(potential, on="cell_id")
+        for column, label, name, cmap in (
+            (
+                "e_total_kgco2_per_t",
+                "Emissions if farmed, kg CO2/t rock",
+                "f6_potential_emissions",
+                "RdYlGn_r",
+            ),
+            ("margin_km", "Margin if farmed, km", "f6_potential_margin_km", "RdBu"),
+            (
+                "net_ha_tco2_per_ha_yr",
+                "Net removal if farmed, t CO2/ha/yr",
+                "f6_potential_net_ha",
+                "RdBu",
+            ),
+        ):
+            fig, ax = plt.subplots(figsize=(10, 6.5))
+            _plot_values(ax, pot, column, label, cmap)
+            outline.boundary.plot(ax=ax, color="black", linewidth=0.4)
+            _decorate(
+                ax, depts, f"QC — {label}, every cell; black outline = candidate cells — internal"
+            )
+            paths[name] = _save(fig, qc / f"{name}.png")
     return paths
 
 
-EMISSION_PARTS = {
-    "e_grind_tco2_per_t": "Grinding",
-    "e_transport_tco2_per_t": "Transport",
-    "e_spread_tco2_per_t": "Spreading",
-}
-
-
-def save_emissions_qc(base: gpd.GeoDataFrame, qc: Path) -> dict[str, Path]:
-    """Heat map of supply-chain emissions per tonne of rock (green low, red high) and the
-    median share of each part per department. Internal QC; red-green is not colour-blind safe,
-    published figures will use the project palette (CLAUDE.md §8)."""
-    cand = base[base["candidate"] == 1].copy()
-    cand["e_total_kgco2_per_t"] = cand[list(EMISSION_PARTS)].sum(axis=1) * 1000
-    paths = {}
-
-    fig, ax = plt.subplots(figsize=(9, 6))
-    base[base["candidate"] == 0].plot(ax=ax, color="#EEEEEE")
-    cand.plot(
+def _plot_values(ax, gdf: gpd.GeoDataFrame, column: str, label: str, cmap: str) -> None:  # noqa: ANN001
+    """Diverging maps centred on 0; sequential (emissions) clipped at the 2nd-98th percentiles."""
+    values = gdf[column]
+    if cmap == "RdBu":
+        # Colour range from non-ultramafic cells (ultramafic sources would wash out the rest).
+        ref = values[gdf["rock_class"] != "ultramafic"] if "rock_class" in gdf else values
+        ref = ref if ref.notna().any() else values
+        limit = float(np.nanpercentile(np.abs(ref), 95)) or 1.0
+        vmin, vmax = -limit, limit
+    else:
+        vmin, vmax = (float(np.nanpercentile(values, q)) for q in (2, 98))
+    gdf.plot(
         ax=ax,
-        column="e_total_kgco2_per_t",
-        cmap="RdYlGn_r",
-        vmin=float(np.nanpercentile(cand["e_total_kgco2_per_t"], 2)),
-        vmax=float(np.nanpercentile(cand["e_total_kgco2_per_t"], 98)),
+        column=column,
+        cmap=cmap,
+        vmin=vmin,
+        vmax=vmax,
+        linewidth=0,
         legend=True,
-        legend_kwds={"label": "Grinding + transport + spreading, kg CO2 per t rock", "shrink": 0.6},
+        legend_kwds={"label": label, "shrink": 0.6},
+        missing_kwds={"color": "white"},
     )
-    ax.set_title(
-        "QC — supply-chain emissions per tonne of rock (medium grain, Apta sources); "
-        "green = low, red = high; grey = not candidate — internal",
-        fontsize=9,
-    )
-    ax.set_axis_off()
-    paths["f6_emissions_map"] = qc / "f6_emissions_map.png"
-    fig.savefig(paths["f6_emissions_map"], dpi=130, bbox_inches="tight")
-    plt.close(fig)
 
+
+def _decorate(ax, depts: gpd.GeoDataFrame, title: str) -> None:  # noqa: ANN001
+    """Department outlines and names, title, no axes."""
+    depts.boundary.plot(ax=ax, color="black", linewidth=0.9)
+    for _, row in depts.iterrows():
+        point = row.geometry.representative_point()
+        ax.annotate(
+            row["name"],
+            (point.x, point.y),
+            ha="center",
+            fontsize=8,
+            fontweight="bold",
+            bbox={"boxstyle": "round,pad=0.2", "fc": "white", "ec": "none", "alpha": 0.7},
+        )
+    ax.set_title(title, fontsize=9)
+    ax.set_axis_off()
+
+
+def _save(fig, out: Path) -> Path:  # noqa: ANN001
+    fig.savefig(out, dpi=130, bbox_inches="tight")
+    plt.close(fig)
+    return out
+
+
+def _emission_parts(cand: pd.DataFrame, qc: Path) -> Path:
+    """Median grinding / transport / spreading per department (stacked bars)."""
     medians = cand.groupby("department")[list(EMISSION_PARTS)].median() * 1000
     fig, ax = plt.subplots(figsize=(7, 3.5))
     left = np.zeros(len(medians))
@@ -379,7 +464,19 @@ def save_emissions_qc(base: gpd.GeoDataFrame, qc: Path) -> dict[str, Path]:
     ax.set_xlabel("Median emissions, kg CO2 per t rock (medium grain)")
     ax.set_title("QC — what drives the emissions in each department — internal", fontsize=9)
     ax.legend(frameon=False, fontsize=8)
-    paths["f6_emissions_parts"] = qc / "f6_emissions_parts.png"
-    fig.savefig(paths["f6_emissions_parts"], dpi=130, bbox_inches="tight")
-    plt.close(fig)
-    return paths
+    return _save(fig, qc / "f6_emissions_parts.png")
+
+
+def _exclusion_maps(base: gpd.GeoDataFrame, depts: gpd.GeoDataFrame, qc: Path) -> Path:
+    """2 x 2 panels: cells failing each candidate filter (a cell can fail several)."""
+    fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+    reasons = base["excluded_by"].fillna("")
+    for ax, (key, label) in zip(axes.ravel(), FILTER_LABELS.items(), strict=True):
+        fails = reasons.str.split(";").apply(lambda r, k=key: k in r)
+        base[~fails].plot(ax=ax, color="#EEEEEE", linewidth=0)
+        base[fails].plot(ax=ax, color="#D55E00", linewidth=0)
+        share = fails.groupby(base["department"]).mean()
+        text = ", ".join(f"{d[:6]} {s:.0%}" for d, s in share.items())
+        _decorate(ax, depts, f"{label}\n(cells failing: {text})")
+    fig.suptitle("QC — why cells are not candidates (orange = fails this filter) — internal")
+    return _save(fig, qc / "f6_exclusion_reasons.png")

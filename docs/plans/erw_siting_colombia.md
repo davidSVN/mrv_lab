@@ -50,7 +50,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
-| F10 | Scenario dashboard: change parameters, pick rock type, compare scenarios | ⏳ | After F7, on PostGIS (F9); uses `scenarios` tables; routes precomputed per rock type; only `base` is citable (D-50) |
+| F10 | Scenario dashboard: every variable as a filter or parameter (D-58); compare scenarios; 3D view of Monte Carlo results per cell (exploration only, not for publication) | ⏳ | After F7, on PostGIS (F9); uses `scenarios` (incl. `filters_json`); routes precomputed per rock type; only `base` is citable (D-50) |
 
 Next action: David reviews F6 results (internal QC in `data/interim/erw_siting/qc/f6_*`); then F7.
 

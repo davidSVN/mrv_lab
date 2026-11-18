@@ -76,6 +76,9 @@ CLASSES: dict[int, str] = {
 
 #: Classes counted as current agricultural use (decision D-31).
 AGRO_CLASSES: tuple[int, ...] = (21, 35, 74)
+#: Natural grassland / savanna (class 12), often extensive grazing in the Llanos; optional in the
+#: candidate filter (D-58).
+GRASSLAND_CLASSES: tuple[int, ...] = (12,)
 
 #: Output resolution in metres (MapBiomas native ~30 m).
 RESOLUTION_M = 30.0

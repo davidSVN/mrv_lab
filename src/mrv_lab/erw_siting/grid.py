@@ -142,6 +142,12 @@ def cell_filters(
     def is_agro(a: np.ndarray) -> np.ndarray:
         return np.where(np.isnan(a) | (a == land_cover.NODATA), np.nan, np.isin(a, agro) * 1.0)
 
+    def is_grassland(a: np.ndarray) -> np.ndarray:
+        grass = list(land_cover.GRASSLAND_CLASSES)
+        return np.where(np.isnan(a) | (a == land_cover.NODATA), np.nan, np.isin(a, grass) * 1.0)
+
+    land_files = _dept_files(base / "land_cover", f"{{dept}}_{land_cover.YEAR}.tif", pilot)
+
     slope_files = _dept_files(base / "slope", "{dept}.tif", pilot)
     layers = {
         "protected_frac": polygon_fraction(grid, list(protected.geometry)),
@@ -151,12 +157,8 @@ def cell_filters(
         "frontier_conditioned_frac": polygon_fraction(
             grid, list(frontier[frontier["frontier_type"] == "Condicionada"].geometry)
         ),
-        "agro_use_frac": raster_to_grid(
-            _dept_files(base / "land_cover", f"{{dept}}_{land_cover.YEAR}.tif", pilot),
-            grid,
-            Resampling.average,
-            is_agro,
-        ),
+        "agro_use_frac": raster_to_grid(land_files, grid, Resampling.average, is_agro),
+        "grassland_frac": raster_to_grid(land_files, grid, Resampling.average, is_grassland),
         "slope_median_pct": raster_to_grid(slope_files, grid, Resampling.med),
         "slope_gt8_frac": raster_to_grid(
             slope_files,

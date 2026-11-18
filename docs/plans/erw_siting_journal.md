@@ -795,6 +795,27 @@ answers; they are in `data/interim/erw_siting/qc/f6_summary.csv`.
   Limits: surface shares taken equal to volume shares; Ea stays forsterite; samples from Medellín.
   Asbestos (chrysotile) risk of grinding serpentinite is a flag for F8, not modelled.
 
+**Configurable filters and map code (David, 2026-11-18)**
+- **D-58** — Principle: every variable brought into the analysis must be usable as a filter or
+  parameter in future scenarios and in the F10 dashboard (soil properties, rock type and source,
+  temperature, rainfall, evaporation, dry months, slope, elevation, department, cell area, quarry,
+  grain, horizon, and the Monte Carlo P5 / P50 / P95). First step: candidate filters are now
+  settings (`net_removal.DEFAULT_FILTERS`: protected and frontier thresholds, frontier types,
+  land-use share, **include natural grassland / savanna** (new `cell_filters.grassland_frac`,
+  MapBiomas class 12), slope class 8 / 12 %); stored per scenario in `scenarios.filters_json` and
+  per run in `runs.parameters_json`. A scenario with changed filters is not citable.
+  Gap for F10: elevation is not stored per cell yet (only slope).
+- Why grey dominates the Meta maps: only 17 % of Meta cells are candidates (frontier excludes 65 %,
+  land use 63 %; 18 % fail only on land use, likely Llanos savanna with extensive grazing, which
+  MapBiomas maps as natural grassland). Candidate cells with margin near 0 were also drawn almost
+  white, close to the light grey.
+- Map code (written, not run; next full run produces them): darker grey for non-candidates;
+  department outlines and names; `f6_exclusion_reasons.png` (one panel per filter);
+  `f6_potential_*.png` (emissions, margin, net per ha for every cell as if farmed, candidates
+  outlined). `grassland_frac` needs the F5 rebuild (next full run).
+- Monte Carlo storage for F7: keep per-cell draws (or histograms) outside the GeoPackage
+  (Parquet, ~66 M values) so the F10 dashboard can show each cell's curve and a 3D column view.
+
 **Readings to check in F7 (qualitative).** Coarse grain is net negative almost everywhere; the
 eastern Meta is beyond break-even distance; ultramafic sources dominate the Tolima result and
 use the fresh-dunite rate (pilot ultramafics are serpentinized) — the most fragile part of F6.
