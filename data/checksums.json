@@ -2009,6 +2009,11 @@
     "sha256": "8383e86f17e20ecf6f63958dc433b16cf0234a82674533cd85407e6a54f618b8",
     "url": "CDS reanalysis-era5-land-monthly-means t2m area=[5.52, -77.76, 1.4, -70.87] 1991-2020"
   },
+  "raw/era5land/t2m_2021-2025_monthly.tif": {
+    "first_recorded": "2026-11-18",
+    "sha256": "2b6860718861c4fa965db23fbd893571c02d469b909e0dbdc98e899d530fcda0",
+    "url": "CDS reanalysis-era5-land-monthly-means t2m area=[5.52, -77.76, 1.4, -70.87] 2021-2025"
+  },
   "raw/era5land/tp_1991-2020_monthly.tif": {
     "first_recorded": "2026-11-13",
     "sha256": "1cbd9faee728e1a5c9d4bb257c365227332697dde0bf189dc21bebdbe3b8a968",
