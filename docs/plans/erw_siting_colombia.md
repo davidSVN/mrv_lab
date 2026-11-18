@@ -29,7 +29,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | Phase / step | What | Status | Pending / blocker |
 |---|---|---|---|
 | P0 | Workspace: plan, analysis folder, CLAUDE.md layout | ✅ | — |
-| F0a · T0 | Does this map already exist? | ❓ | David's search; the first research received covered actors, not maps (D-07) |
+| F0a · T0 | Does this map already exist? | ✅ | Verdict PARTIAL: no equivalent for Colombia; closest is a global web tool (ERW Atlas) without LCA or net removal (R03a, D-55). No further search |
 | F0b | License rows in `data/SOURCES.md` | ✅ | D1 publication blocked until SGC answers (D-08); D3 dropped (D-09) |
 | F1 · step 0 | Download helper with SHA-256 pinning | ✅ | — |
 | F1 · step 1 | Pilot departments (clipping mask) | ✅ | — |
@@ -57,7 +57,7 @@ Next action: F6 — deterministic calculation for the three pilot departments (t
 **Resume point (2026-11-18).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
 Data for F1–F5 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
 `uv run python analyses/01_erw_siting_colombia/analysis.py` rebuilds everything from `data/raw/`.
-Open items outside the code: T0 novelty search (David), SGC written answer (D-08), route-validation
+Open items outside the code: SGC written answer (D-08; email sent by David, reported 2026-11-18), route-validation
 source (D-47).
 
 Future (not scheduled, far from now):

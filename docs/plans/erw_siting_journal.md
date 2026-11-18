@@ -34,8 +34,8 @@ its source and checked in every run).
 `data/interim/erw_siting/` (clean layers, `erw_siting.gpkg`, QC maps in `qc/`). Both gitignored.
 
 **Open items outside the code.**
-- T0: does this map already exist? (David; prompt given 2026-11-12).
-- SGC written answer on publishing derived geology (D-08); until then F2/F3/F5 rock results are internal.
+- SGC written answer on publishing derived geology (D-08); email sent by David (reported 2026-11-18);
+  until then F2/F3/F5 rock results are internal.
 - Route-validation source (documented road distances) for ~20 example routes (D-47).
 - Credentials: Copernicus CDS token saved in the cloud environment (never in the repo).
 
@@ -85,7 +85,28 @@ same commit as each decision.
 
 ---
 
-## F0a — T0: does this map already exist? ❓
+## F0a — T0: does this map already exist? ✅ (closed 2026-11-18)
+
+**Result (David's research R03a, cut 2026-11-13, not in the repo).** Verdict **PARTIAL**: no map
+for Colombia meets the four criteria (Colombia, cell resolution, rock + transport, LCA / net
+removal). Closest: a global web tool ("ERW Atlas", cost-based, no LCA, not peer reviewed); Cascade
+Weathering Potential Explorer (soil/climate only, "not a site selection tool"); Strefler 2018,
+Beerling 2020, Baek 2023 (global, no Colombian figure); Lefebvre 2019 (São Paulo) is the closest
+method analogue. Colombian institutions publish no ERW or agrogeology map.
+
+**Decision (David, 2026-11-18)**
+- **D-55** — T0 closed; no further novelty search. Novelty is stated as "first for Colombia as far
+  as searched (search documented)", built on the free angle: cell-level net removal with LCA,
+  P(net > 0), national data (SGC, UPRA, roads), local rock chemistry and acid-soil losses.
+
+**Checked against our sources.** Lefebvre 2019 break-even: the abstract says 990 ± 116 km, the body
+994 ± 116 km (5 mm product); both appear in the paper. Unverified figures from R03a kept only as F7
+cross-check candidates: Rinder & von Hagke 2021 grinding 18.9 kWh/t (< 100 µm) and 173 kWh/t
+(< 10 µm) — the latter would be 2.6× our Bond value for the fine class; Ryan et al. 2024 (Costa
+Rica): arc-volcanic mafic rocks give 3–5× lower CDR than oceanic-island basalts (relevant to Q-Vm
+and J-Vi sources; K2-Vm is oceanic plateau).
+
+### Earlier notes
 
 **Purpose.** Before publishing, check whether an ERW siting/suitability map for Colombia already
 exists, so novelty is not over-claimed (plan §3).
