@@ -321,4 +321,58 @@ def save_qc(combined: pd.DataFrame, path: Path) -> dict[str, Path]:
         paths[name] = qc / f"{name}.png"
         fig.savefig(paths[name], dpi=130, bbox_inches="tight")
         plt.close(fig)
+    paths.update(save_emissions_qc(base, qc))
+    return paths
+
+
+EMISSION_PARTS = {
+    "e_grind_tco2_per_t": "Grinding",
+    "e_transport_tco2_per_t": "Transport",
+    "e_spread_tco2_per_t": "Spreading",
+}
+
+
+def save_emissions_qc(base: gpd.GeoDataFrame, qc: Path) -> dict[str, Path]:
+    """Heat map of supply-chain emissions per tonne of rock (green low, red high) and the
+    median share of each part per department. Internal QC; red-green is not colour-blind safe,
+    published figures will use the project palette (CLAUDE.md §8)."""
+    cand = base[base["candidate"] == 1].copy()
+    cand["e_total_kgco2_per_t"] = cand[list(EMISSION_PARTS)].sum(axis=1) * 1000
+    paths = {}
+
+    fig, ax = plt.subplots(figsize=(9, 6))
+    base[base["candidate"] == 0].plot(ax=ax, color="#EEEEEE")
+    cand.plot(
+        ax=ax,
+        column="e_total_kgco2_per_t",
+        cmap="RdYlGn_r",
+        vmin=float(np.nanpercentile(cand["e_total_kgco2_per_t"], 2)),
+        vmax=float(np.nanpercentile(cand["e_total_kgco2_per_t"], 98)),
+        legend=True,
+        legend_kwds={"label": "Grinding + transport + spreading, kg CO2 per t rock", "shrink": 0.6},
+    )
+    ax.set_title(
+        "QC — supply-chain emissions per tonne of rock (medium grain, Apta sources); "
+        "green = low, red = high; grey = not candidate — internal",
+        fontsize=9,
+    )
+    ax.set_axis_off()
+    paths["f6_emissions_map"] = qc / "f6_emissions_map.png"
+    fig.savefig(paths["f6_emissions_map"], dpi=130, bbox_inches="tight")
+    plt.close(fig)
+
+    medians = cand.groupby("department")[list(EMISSION_PARTS)].median() * 1000
+    fig, ax = plt.subplots(figsize=(7, 3.5))
+    left = np.zeros(len(medians))
+    for (column, label), color in zip(
+        EMISSION_PARTS.items(), ("#999999", "#D55E00", "#56B4E9"), strict=True
+    ):
+        ax.barh(medians.index, medians[column], left=left, color=color, label=label)
+        left += medians[column].to_numpy()
+    ax.set_xlabel("Median emissions, kg CO2 per t rock (medium grain)")
+    ax.set_title("QC — what drives the emissions in each department — internal", fontsize=9)
+    ax.legend(frameon=False, fontsize=8)
+    paths["f6_emissions_parts"] = qc / "f6_emissions_parts.png"
+    fig.savefig(paths["f6_emissions_parts"], dpi=130, bbox_inches="tight")
+    plt.close(fig)
     return paths
