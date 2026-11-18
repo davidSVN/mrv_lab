@@ -31,6 +31,7 @@ from mrv_lab.erw_siting import (
     emission_factors,
     land_cover,
     lithology,
+    net_removal,
     protected_areas,
     quarries,
     regions,
@@ -222,9 +223,15 @@ print({name: len(s) for name, s in rock_samples.items()})
 
 # %% [markdown]
 # ## Compute
-# Units in variable names when ambiguous: `tonnes_tco2e`, `price_usd_per_t`.
+# ### F6 — Deterministic net removal per cell (D-56)
+# One run per grain class (base = medium); results stay internal until SGC answers (D-08), so
+# nothing goes to results.json yet. Units: t CO2 per t rock, t CO2/ha/yr, km.
 
 # %%
+f6_results, f6_qc = net_removal.run()
+f6_summary = net_removal.summary(f6_results)
+if (f6_results.loc[f6_results["scenario_id"] == "base", "net_tco2_per_t"] <= 0).all():
+    print("CHECKPOINT: net removal <= 0 in every candidate cell (base) — re-plan before F7.")
 
 # %% [markdown]
 # ## Figure
@@ -273,3 +280,5 @@ if __name__ == "__main__":
     print(f"Rock sources: {len(rock_sources)} potential points (internal)")
     print(f"F5 QC: {', '.join(str(v.relative_to(root)) for v in f5_qc.values())}")
     print(f"Parameters: {len(parameters)} ({len(missing_parameters)} missing)")
+    print(f"F6 (internal): {', '.join(str(v.relative_to(root)) for v in f6_qc.values())}")
+    print(f6_summary.to_string(index=False))

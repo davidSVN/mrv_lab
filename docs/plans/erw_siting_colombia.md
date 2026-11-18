@@ -44,7 +44,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ✅ | 38/39 ok, every value checked against its source by code (D-49, D-51–D-54); exchangeable Al stays missing and unused (G-02). Rock, emissions, weathering approved by David; capture, application, soil decided on sources at his request |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 12-table GeoPackage: 9 cell/rock/run tables (D-44, D-45) + parameters / scenarios / scenario_parameters (D-50) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
-| F6 | Deterministic calculation, three pilot departments | ⏳ | Unblocked (F4 closed). Plan to be explained to David before coding. Checkpoint: re-plan if net < 0 everywhere; watch soil acidity (pH < 5.5 in 99 % of Meta cells, D-54) |
+| F6 | Deterministic calculation, three pilot departments | 🔄 | Code + first run done (D-56): 3 grain runs in `cell_results`; checkpoint passed (net > 0 in part of every department). Results internal until SGC answers (D-08). Pending David's review |
 | F1–F6 national | Scale to the country | ⏳ | — |
 | F7 | Monte Carlo + sensitivity | ⏳ | Includes recent-climate run (1996-2025) and Meta single-source dependency (84 % of cells from one source) |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
@@ -52,7 +52,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
 | F10 | Scenario dashboard: change parameters, pick rock type, compare scenarios | ⏳ | After F7, on PostGIS (F9); uses `scenarios` tables; routes precomputed per rock type; only `base` is citable (D-50) |
 
-Next action: F6 — deterministic calculation for the three pilot departments (this chat, Opus).
+Next action: David reviews F6 results (internal QC in `data/interim/erw_siting/qc/f6_*`); then F7.
 
 **Resume point (2026-11-18).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
 Data for F1–F5 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
@@ -273,6 +273,7 @@ src/mrv_lab/erw_siting/
   weathering.py            # ✅ dissolved fraction per cell: Strefler Eq. 2 + Arrhenius (F4, D-52)
   capture.py               # ✅ R_CO2 by charges, eta = 0.831 (F4, D-53)
   soil_losses.py           # ✅ f_loss by pH class (F4, D-54)
+  net_removal.py           # 🔄 F6 net removal per cell, 3 grain runs, QC (D-56)
   literature.py            # ✅ download, pin and check numbers quoted from documents
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # ✅ suitable rock near truck roads → potential sources (F3, D-46)

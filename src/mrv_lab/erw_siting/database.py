@@ -137,6 +137,7 @@ ATTRIBUTE_TABLES: dict[str, str] = {
             scenario_id TEXT PRIMARY KEY,        -- 'base' = registry values, nothing changed
             name TEXT NOT NULL,
             rock_type TEXT,                      -- basalt | gabbro | ultramafic; NULL = per source
+            grain_class TEXT NOT NULL,           -- coarse | medium | fine (grain.yaml, D-51)
             route_scenario TEXT NOT NULL,        -- cell_routes.scenario: apta | apta_mixta
             citable INTEGER NOT NULL,            -- 1 only when every value is sourced (D-50)
             author TEXT,
@@ -168,6 +169,7 @@ ATTRIBUTE_TABLES: dict[str, str] = {
             candidate INTEGER NOT NULL,          -- 0/1: passes the four hard filters
             excluded_by TEXT,                    -- protected | frontier | land_use | slope
             rock_source_id TEXT REFERENCES rock_sources (rock_source_id),
+            rock_class TEXT,                     -- basalt | gabbro | ultramafic (D-56)
             road_km REAL,
             cdr_max_tco2_per_t REAL,             -- theoretical capture per t rock
             f_diss REAL,                         -- dissolved fraction over the horizon (0-1)
@@ -178,6 +180,8 @@ ATTRIBUTE_TABLES: dict[str, str] = {
             e_spread_tco2_per_t REAL,
             breakeven_km REAL,
             margin_km REAL,                      -- breakeven_km - road_km
+            net_tco2_per_t REAL,                 -- deterministic net removal per t rock (F6)
+            net_ha_tco2_per_ha_yr REAL,          -- deterministic, x rate / horizon (F6)
             net_ha_p5_tco2_per_ha_yr REAL,
             net_ha_p50_tco2_per_ha_yr REAL,
             net_ha_p95_tco2_per_ha_yr REAL,
@@ -351,7 +355,7 @@ def write_parameters(registry_table: pd.DataFrame, path: Path | None = None) -> 
         for table in ("cell_results", "runs", "scenario_parameters", "scenarios"):
             con.execute(f"DELETE FROM {table}")
     write_table("parameters", parameter_rows(registry_table), path)
-    add_scenario(BASE_SCENARIO, "Registry values (sourced)", path=path)
+    add_scenario(BASE_SCENARIO, "Registry values (sourced), medium grain", path=path)
 
 
 def add_scenario(
@@ -359,6 +363,7 @@ def add_scenario(
     name: str,
     overrides: dict[str, float] | None = None,
     rock_type: str | None = None,
+    grain_class: str = "medium",
     route_scenario: str = "apta",
     author: str | None = None,
     notes: str | None = None,
@@ -377,11 +382,13 @@ def add_scenario(
         if unknown:
             raise KeyError(f"unknown parameters: {sorted(unknown)}")
         con.execute(
-            "INSERT INTO scenarios VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            "INSERT INTO scenarios (scenario_id, name, rock_type, grain_class, route_scenario, "
+            "citable, author, created_utc, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
             (
                 scenario_id,
                 name,
                 rock_type,
+                grain_class,
                 route_scenario,
                 int(not overrides and rock_type is None),
                 author,
@@ -411,3 +418,14 @@ def scenario_values(scenario_id: str, path: Path | None = None) -> pd.DataFrame:
         ).fetchone():
             raise KeyError(scenario_id)
         return pd.read_sql_query(query, con, params=(scenario_id,))
+
+
+def append_rows(name: str, frame: pd.DataFrame, path: Path | None = None) -> None:
+    """Insert ``frame`` into an attribute table without deleting existing rows."""
+    path = path or database_path()
+    records = frame.astype(object).where(frame.notna(), None).itertuples(index=False, name=None)
+    placeholders = ", ".join("?" for _ in frame.columns)
+    with connect(path) as con:
+        con.executemany(
+            f"INSERT INTO {name} ({', '.join(frame.columns)}) VALUES ({placeholders})", records
+        )

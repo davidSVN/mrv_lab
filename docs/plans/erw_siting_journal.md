@@ -21,7 +21,7 @@ Where the work stands, for the next session (F6 in this chat, David 2026-11-16).
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0b, F1 (steps 0–6b), F2, F3, F4 (38/39 ok, D-49, D-51–D-54), F5a, F5 | — | F6 deterministic calculation, F7, F8, F9, F10, study guide |
+| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (38/39 ok, D-49, D-51–D-54), F5a, F5 | F6 (code and first run done, D-56; David's review pending) | F7, F8, F9, F10, study guide |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -752,8 +752,42 @@ examples and where each lives in the code. Terms are collected here as they appe
   soil organic carbon mineralization; inorganic carbon; wollastonite (CaSiO₃).
 - Grinding and logistics: P80 / F80, Bond's law and work index; t·km, SFC / SFC*, empty return;
   diesel factor (FECOC); grid factor (inventory vs CDM, combined margin OM / BM).
-- Accounting and statistics: CDR, ERW, MRV, LCA, net removal, break-even distance; median, range,
-  triangular distribution, Monte Carlo, sensitivity.
+- Accounting and statistics: CDR, ERW, MRV, LCA, net removal, break-even distance and margin;
+  candidate cell and hard filters; scenario vs run; median, range, triangular distribution,
+  Monte Carlo, P(net > 0), sensitivity.
+
+---
+
+## F6 — Deterministic net removal 🔄 (code and first run 2026-11-18; David's review pending)
+
+**What.** `erw_siting/net_removal.py` builds one row per cell (filters, mean temperature, topsoil pH,
+dry months, Apta route, source rock class) and computes for the candidate cells:
+`cdr_gross = R_CO2 × f_diss × (1 − f_loss)`; `net = cdr_gross − e_grind − e_transport − e_spread`
+(t CO₂/t rock); `net_ha = net × 20 t/ha ÷ 10 yr`; break-even distance and margin. One run per grain
+class (`base` = medium, `grain_coarse`, `grain_fine`), stored in `runs` + `cell_results` with the
+effective parameter values, filters and code commit. Internal QC: `qc/f6_summary.csv`,
+`qc/f6_net_ha.png`, `qc/f6_margin_km.png`. Runs in ~30 s.
+
+**Decisions (David, 2026-11-18)**
+- **D-56** — (1) Candidate cell = protected < 50 %, frontier "No condicionada" ≥ 50 %, agricultural
+  use ≥ 50 %, slope > 12 % on < 50 % of the cell; every failed rule is listed in `excluded_by`.
+  Conditioned frontier and the 8 % slope go to F7. (2) Base grain = medium (100 µm); coarse and fine
+  computed as scenarios. (3) Rock class per source: ultramafic flag → ultramafic; gabbro / norite
+  named first → gabbro (basalt proxy); otherwise basalt; Q-Vm and J-Vi flagged `arc_volcanic_source`.
+  (4) Route scenario: Apta sources only (Apta + Mixta in F7).
+
+**Schema.** `scenarios.grain_class`; `cell_results.rock_class`, `net_tco2_per_t`,
+`net_ha_tco2_per_ha_yr` (deterministic; the P5/P50/P95 columns wait for F7). Inserts now name their
+columns.
+
+**Result (internal, D-08).** Candidate cells: Meta 14,936; Tolima 3,943; Valle 3,098 (these counts
+use no SGC data). Checkpoint passed: net removal is positive in part of every department.
+Net-removal numbers depend on SGC-derived rock sources and stay out of the repo until the SGC
+answers; they are in `data/interim/erw_siting/qc/f6_summary.csv`.
+
+**Readings to check in F7 (qualitative).** Coarse grain is net negative almost everywhere; the
+eastern Meta is beyond break-even distance; ultramafic sources dominate the Tolima result and
+use the fresh-dunite rate (pilot ultramafics are serpentinized) — the most fragile part of F6.
 
 ---
 
