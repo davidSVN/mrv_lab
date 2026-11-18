@@ -15,7 +15,7 @@ Status legend: ✅ done · 🔄 in progress · ❓ decision pending · ⛔ block
 
 ---
 
-## Resume point (2026-11-16)
+## Resume point (2026-11-18)
 
 Where the work stands, for the next session (F6 in this chat, David 2026-11-16).
 
@@ -27,7 +27,8 @@ Where the work stands, for the next session (F6 in this chat, David 2026-11-16).
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
 MapBiomas, slope, CHIRPS + ERA5-Land climate, SGC lithology, potential rock sources, GeoPackage with
 132,264 cells, filters, values and road routes, registry check). Code: `src/mrv_lab/erw_siting/`;
-tests: `tests/erw_siting/` (68 passing).
+tests: `tests/erw_siting/` (90 passing). Parameters: `config/erw_siting/parameters/*.yaml` (38/39 ok, each recomputed from
+its source and checked in every run).
 
 **Where the data is.** `data/raw/` (downloads, SHA-256 pinned in `data/checksums.json`) and
 `data/interim/erw_siting/` (clean layers, `erw_siting.gpkg`, QC maps in `qc/`). Both gitignored.

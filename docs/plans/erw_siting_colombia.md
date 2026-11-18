@@ -23,8 +23,8 @@ v0.2 changes vs. v0.1 (agreed with David):
 ## 0. Status
 
 Legend: ✅ done · 🔄 in progress · ❓ decision pending · ⛔ blocked · ⏳ not started.
-Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. Data sources are D1–D20
-(no hyphen).
+Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. Data sources are D1–D30
+(no hyphen; D21–D30 added in F4, see `data/SOURCES.md`).
 
 | Phase / step | What | Status | Pending / blocker |
 |---|---|---|---|
@@ -42,9 +42,9 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
 | F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ✅ | 38/39 ok, every value checked against its source by code (D-49, D-51–D-54); exchangeable Al stays missing and unused (G-02). Rock, emissions, weathering approved by David; capture, application, soil decided on sources at his request |
-| F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 12-table GeoPackage schema (D-44, D-45); + parameters / scenarios / scenario_parameters (D-50) |
+| F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 12-table GeoPackage: 9 cell/rock/run tables (D-44, D-45) + parameters / scenarios / scenario_parameters (D-50) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
-| F6 | Deterministic calculation, three pilot departments | ⏳ | Needs F4 values; checkpoint: re-plan if net < 0 everywhere. Run with Opus (David, 2026-11-16) |
+| F6 | Deterministic calculation, three pilot departments | ⏳ | Unblocked (F4 closed). Plan to be explained to David before coding. Checkpoint: re-plan if net < 0 everywhere; watch soil acidity (pH < 5.5 in 99 % of Meta cells, D-54) |
 | F1–F6 national | Scale to the country | ⏳ | — |
 | F7 | Monte Carlo + sensitivity | ⏳ | Includes recent-climate run (1996-2025) and Meta single-source dependency (84 % of cells from one source) |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
@@ -54,7 +54,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 
 Next action: F6 — deterministic calculation for the three pilot departments (this chat, Opus).
 
-**Resume point (2026-11-16).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
+**Resume point (2026-11-18).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
 Data for F1–F5 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
 `uv run python analyses/01_erw_siting_colombia/analysis.py` rebuilds everything from `data/raw/`.
 Open items outside the code: T0 novelty search (David), SGC written answer (D-08), route-validation
