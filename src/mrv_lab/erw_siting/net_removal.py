@@ -37,7 +37,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 from mrv_lab import io  # noqa: E402
-from mrv_lab.erw_siting import capture, soil_losses, weathering  # noqa: E402
+from mrv_lab.erw_siting import capture, history, soil_losses, weathering  # noqa: E402
 from mrv_lab.erw_siting import database as db  # noqa: E402
 
 #: Candidate-filter settings (D-56 defaults; every one can change per scenario, D-58):
@@ -100,7 +100,10 @@ def rock_class(units: pd.DataFrame) -> pd.Series:
 
 
 def load_inputs(
-    path: Path | None = None, settings: dict | None = None, route_scenario: str = "apta"
+    path: Path | None = None,
+    settings: dict | None = None,
+    route_scenario: str = "apta",
+    temperature_variable: str = "t2m_mean_c",
 ) -> pd.DataFrame:
     """One row per cell: filters, temperature, pH, dry months, route and source rock class."""
     path = path or db.database_path()
@@ -110,9 +113,11 @@ def load_inputs(
         filters = pd.read_sql("SELECT * FROM cell_filters", con)
         values = pd.read_sql(
             "SELECT cell_id, variable, value FROM cell_values WHERE statistic = 'mean' "
-            "AND variable IN ('t2m_mean_c', 'phh2o', 'dry_months')",
+            "AND variable IN (?, 'phh2o', 'dry_months')",
             con,
+            params=(temperature_variable,),
         ).pivot_table(index="cell_id", columns="variable", values="value", aggfunc="first")
+        values = values.rename(columns={temperature_variable: "t2m_mean_c"})
         routes = pd.read_sql(
             "SELECT cell_id, rock_source_id, road_km FROM cell_routes WHERE scenario = ?",
             con,
@@ -370,7 +375,9 @@ def run(
     combined = pd.concat(results, ignore_index=True).merge(
         frame[["cell_id", "department"]], on="cell_id"
     )
-    return combined, save_qc(combined, path, frame, base_values)
+    paths = save_qc(combined, path, frame, base_values)
+    history.snapshot([paths["summary"]])
+    return combined, paths
 
 
 def summary(combined: pd.DataFrame) -> pd.DataFrame:

@@ -325,6 +325,80 @@ def process_climate(
     return outputs
 
 
+#: Recent-climate sensitivity (F7 second round, D-62): 30-year mean temperature 1996-2025.
+RECENT_YEARS = tuple(range(1996, 2026))
+EXTRA_YEARS = tuple(range(2021, 2026))  # not in the 1991-2020 download
+
+
+def fetch_era5land_t2m_extra(pilot: gpd.GeoDataFrame, raw_dir: Path | None = None) -> Path:
+    """Download ERA5-Land 2 m temperature 2021-2025 (monthly means) once; pinned GeoTIFF."""
+    raw_dir = raw_dir or io.raw_dir() / "era5land"
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    tif = raw_dir / "t2m_2021-2025_monthly.tif"
+    request = {
+        **era5_request(pilot_bounds_4326(pilot)),
+        "variable": ["2m_temperature"],
+        "year": [str(y) for y in EXTRA_YEARS],
+    }
+    if not tif.exists():
+        import cdsapi
+
+        download = raw_dir / "era5land_t2m_2021-2025.download"
+        if not download.exists():
+            client = cdsapi.Client(url=CDS_URL, key="proxy-injected", quiet=True)
+            client.retrieve(ERA5_DATASET, request, str(download))
+        _extract_variable(download, "t2m", tif, raw_dir / "extra_2021-2025")
+    io.register_checksum(tif, f"CDS {ERA5_DATASET} t2m area={request['area']} 2021-2025")
+    return tif
+
+
+def recent_temperature(
+    pilot: gpd.GeoDataFrame,
+    base_t2m: Path,
+    extra_t2m: Path,
+    out_dir: Path | None = None,
+) -> dict[str, Path]:
+    """Mean 2 m temperature 1996-2025 (°C) per department, same grid as ``t2m_mean_c``.
+
+    Bands of ``base_t2m`` are the months 1991-2020 in order; months 1996-2020 are kept and joined
+    with the 60 months of ``extra_t2m`` (2021-2025).
+    """
+    out_dir = out_dir or io.interim_dir() / "erw_siting" / "climate"
+    skip = (RECENT_YEARS[0] - YEARS[0]) * 12
+    with rasterio.open(base_t2m) as src:
+        base = src.read()[skip:].astype("float64")
+        transform, crs = src.transform, src.crs
+    with rasterio.open(extra_t2m) as src:
+        extra = src.read().astype("float64")
+        if extra.shape[1:] != base.shape[1:] or src.transform != transform:
+            raise ValueError("2021-2025 temperature grid differs from the 1991-2020 grid")
+    stack = np.concatenate([base, extra])
+    if stack.shape[0] != len(RECENT_YEARS) * 12:
+        raise ValueError(f"expected {len(RECENT_YEARS) * 12} months, got {stack.shape[0]}")
+    mean_c = np.nanmean(stack, axis=0) - 273.15
+    outputs = {}
+    for _, dept in pilot.iterrows():
+        outline = gpd.GeoSeries([dept.geometry], crs=pilot.crs)
+        projected, dst_tf = to_work_grid(mean_c, transform, crs, outline, OUTPUTS["t2m_mean_c"][1])
+        dest = out_dir / dept["name"].replace(" ", "_") / "t2m_mean_c_1996-2025.tif"
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        profile = {
+            "driver": "GTiff",
+            "dtype": "float32",
+            "count": 1,
+            "height": projected.shape[0],
+            "width": projected.shape[1],
+            "crs": WORK_CRS,
+            "transform": dst_tf,
+            "nodata": np.nan,
+            "compress": "deflate",
+        }
+        with rasterio.open(dest, "w", **profile) as out:
+            out.write(projected, 1)
+        outputs[dept["name"]] = dest
+    return outputs
+
+
 def save_climate_qc(
     processed: dict[tuple[str, str], Path], pilot: gpd.GeoDataFrame, out_dir: Path | None = None
 ) -> tuple[list[Path], Path]:

@@ -862,6 +862,16 @@ most Meta cells lose net removal. (4) A 30-year horizon turns almost all Meta ce
 (5) Coarse grain stays net negative under uncertainty. (6) 420 candidate cells (~2 %) have no
 Monte Carlo result because pH or temperature is missing. Assumption scenarios are deterministic.
 
+**Second round and history (David, 2026-11-18)**
+- **D-62** — Option A for results history: every F6 / F7 run copies its small summary tables to
+  `qc/history/<date>_<commit>/` (`erw_siting/history.py`); the database and the Monte Carlo draws
+  are not copied (reproducible from the commit and the seed). Second-round scenarios, added without
+  removing the first five: **s6** no ultramafic sources (re-routed); **s7** fine grain with the
+  comminution energy of Rinder & von Hagke 2021 (173.0 kWh/t to < 10 µm, Table 2, CC BY; quote
+  checked; "< 10 µm" is finer than our P80 = 10 µm, so it is an upper estimate); **s8** recent
+  climate: ERA5-Land mean temperature 1996–2025 (2021–2025 downloaded from the CDS; temperature is
+  the only climate input of the calculation). Running a subset of scenarios replaces only those runs.
+
 **Health risk of rock sources (David, 2026-11-18)**
 - **D-61** — `rock_units` gets `health_risk` (low | medium | high | pending), `health_hazards` and
   `health_risk_source`; every cell inherits its source's risk (`cell_results.source_health_risk`)

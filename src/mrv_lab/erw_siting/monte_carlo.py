@@ -25,6 +25,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 
 from mrv_lab import io  # noqa: E402
 from mrv_lab.erw_siting import database as db  # noqa: E402
+from mrv_lab.erw_siting import history  # noqa: E402
 from mrv_lab.erw_siting import net_removal as nr  # noqa: E402
 
 SEED = 20261118
@@ -272,4 +273,5 @@ def run(
     paths["f7_tornado"] = qc / "f7_tornado.csv"
     torn.round(6).to_csv(paths["f7_tornado"], index=False)
     paths["f7_tornado_png"] = save_tornado_figure(torn, qc / "f7_tornado.png")
+    history.snapshot([paths["f7_mc_summary"], paths["f7_tornado"]])
     return paths
