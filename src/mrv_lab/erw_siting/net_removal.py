@@ -18,7 +18,9 @@ savanna), slope > 12 % on < 50 % of the cell (all as shares of the cell). Rock c
 ultramafic flag -> ultramafic; gabbro/norite named first -> gabbro (basalt kinetics and chemistry
 as proxy, D-49/D-52); otherwise basalt. Q-Vm and J-Vi sources carry an "arc_volcanic_source" flag
 (arc rocks may capture 3-5x less, Ryan et al. 2024 via R03a, unverified). Route scenario: Apta
-sources only. Results are internal until the SGC answers (D-08): no results.json yet.
+sources only. Each cell inherits the health risk of its source's rock unit (``pending`` until the
+health research is in, D-61). Results are internal until the SGC answers (D-08): no
+results.json yet.
 """
 
 import json
@@ -102,6 +104,7 @@ def load_inputs(
 ) -> pd.DataFrame:
     """One row per cell: filters, temperature, pH, dry months, route and source rock class."""
     path = path or db.database_path()
+    db.migrate(path)
     with db.connect(path) as con:
         cells = pd.read_sql("SELECT cell_id, department FROM cells", con)
         filters = pd.read_sql("SELECT * FROM cell_filters", con)
@@ -116,8 +119,8 @@ def load_inputs(
             params=(route_scenario,),
         )
         sources = pd.read_sql(
-            "SELECT s.rock_source_id, u.unit_code, u.symbol, u.rock_types, u.ultramafic "
-            "FROM rock_sources s JOIN rock_units u USING (unit_code)",
+            "SELECT s.rock_source_id, u.unit_code, u.symbol, u.rock_types, u.ultramafic, "
+            "u.health_risk FROM rock_sources s JOIN rock_units u USING (unit_code)",
             con,
         )
     classes = rock_class(sources.drop_duplicates("unit_code"))
@@ -128,7 +131,7 @@ def load_inputs(
         .merge(values.reset_index(), on="cell_id", how="left")
         .merge(routes, on="cell_id", how="left")
         .merge(
-            sources[["rock_source_id", "rock_class", "arc_volcanic"]],
+            sources[["rock_source_id", "rock_class", "arc_volcanic", "health_risk"]],
             on="rock_source_id",
             how="left",
         )
@@ -241,6 +244,7 @@ def compute(frame: pd.DataFrame, values: dict[str, float], grain: str) -> pd.Dat
     )
     out["lime_demand"] = np.where(cand, (ph < v["acid_soil_ph_threshold"]).astype(int), None)
     out["ultramafic_source"] = np.where(cand, (rock == "ultramafic").astype(int), None)
+    out["source_health_risk"] = frame["health_risk"].where(cand) if "health_risk" in frame else None
     out["data_quality"] = _flags(frame, cand)
     return out
 

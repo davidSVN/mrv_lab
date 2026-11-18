@@ -49,6 +49,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F7 | Monte Carlo + sensitivity | 🔄 | Code written (D-60): 1,000 draws per grain run, per-cell draws in npz, P5/P50/P95 and P(net > 0) in `cell_results`, tornado, 5 assumption scenarios. Not run yet. Second round: recent climate (1996–2025), Rinder fine grinding (verify first) |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
+| R09 health research | Health risk per rock unit: asbestos, silica, metals, law, protocols, lab tests (David, separate chat) | ⏳ | Columns ready, all `pending` (D-61); levels assigned only with sourced criteria |
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
 | F10 | Scenario dashboard: every variable as a filter or parameter (D-58); compare scenarios; 3D view of Monte Carlo results per cell (exploration only, not for publication) | ⏳ | After F7, on PostGIS (F9); uses `scenarios` (incl. `filters_json`); routes precomputed per rock type; only `base` is citable (D-50) |
 

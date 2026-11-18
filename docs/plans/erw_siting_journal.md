@@ -747,7 +747,8 @@ examples and where each lives in the code. Terms are collected here as they appe
 - Weathering: dissolution; specific surface area (SSA); weathering rate WR and log10 units;
   Arrhenius law, activation energy, reference temperature; dissolved fraction f_diss; constant
   surface vs shrinking core; pH and acid soils.
-- Soil: pH, CEC, exchangeable Al, base saturation, f_loss, lime demand; Ni / Cr and asbestos risks;
+- Soil: pH, CEC, exchangeable Al, base saturation, f_loss, lime demand; Ni / Cr / Cr(VI) and asbestos
+  risks (chrysotile, amphibole asbestos), respirable crystalline silica;
   alkalinity carbon-capture efficiency (ACE) and the pH 4.5–6.5 transition; strong acid anions;
   soil organic carbon mineralization; inorganic carbon; wollastonite (CaSiO₃).
 - Grinding and logistics: P80 / F80, Bond's law and work index; t·km, SFC / SFC*, empty return;
@@ -849,6 +850,15 @@ arrays) and `run_scenario` (adds a scenario without clearing others).
   oxide takes the set median). (3) Assumption scenarios 1–5 now; recent climate and Rinder &
   von Hagke fine grinding in a second round. (4) Per-cell draws stored as NumPy `.npz` (no new
   dependency); Parquet can come with F9 / F10.
+
+**Health risk of rock sources (David, 2026-11-18)**
+- **D-61** — `rock_units` gets `health_risk` (low | medium | high | pending), `health_hazards` and
+  `health_risk_source`; every cell inherits its source's risk (`cell_results.source_health_risk`)
+  so it can be a dashboard filter. All units stay `pending` until David's research **R09**
+  (asbestos incl. chrysotile and amphiboles, respirable crystalline silica, Ni / Cr / Cr(VI) and
+  other metals, Colombian law and ICA rules, ERW certification protocols, lab tests) returns with
+  sourced criteria; no level is assigned without a source. `database.migrate` adds new columns to
+  an existing GeoPackage without a full rebuild.
 
 ---
 

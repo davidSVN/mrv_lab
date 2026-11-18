@@ -104,7 +104,10 @@ ATTRIBUTE_TABLES: dict[str, str] = {
             symbol TEXT,
             final_class TEXT NOT NULL,           -- Apta | Mixta | No apta (D-40, D-43)
             rock_types TEXT,                     -- '; '-separated (D-39)
-            ultramafic INTEGER NOT NULL          -- 0/1
+            ultramafic INTEGER NOT NULL,         -- 0/1
+            health_risk TEXT NOT NULL DEFAULT 'pending',  -- low | medium | high | pending (D-61)
+            health_hazards TEXT,                 -- '; '-separated, e.g. asbestos; Ni; Cr
+            health_risk_source TEXT              -- citation of the classification criterion
         )""",
     "cell_routes": """
         CREATE TABLE cell_routes (
@@ -190,6 +193,7 @@ ATTRIBUTE_TABLES: dict[str, str] = {
             p_net_positive REAL,                 -- probability that net removal > 0
             lime_demand INTEGER,                 -- 0/1: pH < 5.5 (agronomic axis)
             ultramafic_source INTEGER,           -- 0/1: assigned rock is ultramafic (Ni/Cr)
+            source_health_risk TEXT,             -- health_risk of the source's rock unit (D-61)
             data_quality TEXT,                   -- ';'-separated flags
             PRIMARY KEY (run_id, cell_id)
         )""",
@@ -276,7 +280,11 @@ def write_rock_tables(
     ]
     with connect(path) as con:
         con.execute("DELETE FROM rock_units")
-        con.executemany("INSERT INTO rock_units VALUES (?, ?, ?, ?, ?)", rows)
+        con.executemany(
+            "INSERT INTO rock_units (unit_code, symbol, final_class, rock_types, ultramafic) "
+            "VALUES (?, ?, ?, ?, ?)",
+            rows,
+        )
     columns = list(SPATIAL_TABLES["rock_sources"][1])
     # Spatial table: rewritten as a whole through OGR (GeoPackage triggers, see ``connect``).
     gpd.GeoDataFrame(sources[[*columns, "geometry"]], crs=WORK_CRS).to_file(
@@ -434,3 +442,31 @@ def append_rows(name: str, frame: pd.DataFrame, path: Path | None = None) -> Non
         con.executemany(
             f"INSERT INTO {name} ({', '.join(frame.columns)}) VALUES ({placeholders})", records
         )
+
+
+#: Columns added after a database was first built: (table, column, SQL type). :func:`migrate`
+#: adds the missing ones, so an existing GeoPackage keeps working without a full rebuild.
+MIGRATIONS: list[tuple[str, str, str]] = [
+    ("scenarios", "grain_class", "TEXT NOT NULL DEFAULT 'medium'"),
+    ("scenarios", "filters_json", "TEXT"),
+    ("cell_filters", "grassland_frac", "REAL"),
+    ("cell_results", "rock_class", "TEXT"),
+    ("cell_results", "net_tco2_per_t", "REAL"),
+    ("cell_results", "net_ha_tco2_per_ha_yr", "REAL"),
+    ("cell_results", "source_health_risk", "TEXT"),
+    ("rock_units", "health_risk", "TEXT NOT NULL DEFAULT 'pending'"),
+    ("rock_units", "health_hazards", "TEXT"),
+    ("rock_units", "health_risk_source", "TEXT"),
+]
+
+
+def migrate(path: Path | None = None) -> list[str]:
+    """Add every missing column of :data:`MIGRATIONS` (idempotent); returns what was added."""
+    added = []
+    with connect(path or database_path()) as con:
+        for table, column, sql_type in MIGRATIONS:
+            existing = {r[1] for r in con.execute(f"PRAGMA table_info({table})")}
+            if column not in existing:
+                con.execute(f"ALTER TABLE {table} ADD COLUMN {column} {sql_type}")
+                added.append(f"{table}.{column}")
+    return added

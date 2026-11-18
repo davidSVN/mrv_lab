@@ -133,3 +133,19 @@ def test_scenario_overrides_only_what_changes(tmp_path: Path) -> None:
         db.add_scenario("s2", "bad", overrides={"zzz": 1.0}, path=path)
     with pytest.raises(KeyError):
         db.scenario_values("nope", path)
+
+
+def test_rock_units_health_risk_defaults_to_pending_and_migrate_is_idempotent(
+    tmp_path: Path,
+) -> None:
+    path = db.create_database(tmp_path / "erw.gpkg")
+    with db.connect(path) as con:
+        con.execute(
+            "INSERT INTO rock_units (unit_code, symbol, final_class, rock_types, ultramafic) "
+            "VALUES (1, 'K2-Pu', 'Apta', 'dunite', 1)"
+        )
+        assert con.execute("SELECT health_risk FROM rock_units").fetchone()[0] == "pending"
+    assert db.migrate(path) == []  # a fresh database already has every column
+    with db.connect(path) as con:
+        con.execute("ALTER TABLE cell_filters DROP COLUMN grassland_frac")
+    assert db.migrate(path) == ["cell_filters.grassland_frac"]
