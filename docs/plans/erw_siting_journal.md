@@ -829,7 +829,7 @@ use the fresh-dunite rate (pilot ultramafics are serpentinized) — the most fra
 
 ---
 
-## F7 — Monte Carlo and sensitivity 🔄 (code written 2026-11-18; not run yet)
+## F7 — Monte Carlo and sensitivity 🔄 (first run 2026-11-18; David's review pending)
 
 **What.** `erw_siting/monte_carlo.py`: for each F6 grain run, 1,000 draws (seed 20261118) of every
 parameter with a source range (triangular min / base / max; the same draw for every cell) and a
@@ -850,6 +850,17 @@ arrays) and `run_scenario` (adds a scenario without clearing others).
   oxide takes the set median). (3) Assumption scenarios 1–5 now; recent climate and Rinder &
   von Hagke fine grinding in a second round. (4) Per-cell draws stored as NumPy `.npz` (no new
   dependency); Parquet can come with F9 / F10.
+
+**First run (2026-11-18, ~90 s; results internal, D-08).** Qualitative readings, no SGC-derived
+numbers here: (1) the Monte Carlo median differs from the deterministic base because several base
+values sit at the conservative end of their range (acid-soil loss, empty return, serpentine ratio)
+and the weathering rate is drawn in log space; the base is conservative for Tolima and Valle and
+optimistic for Meta. (2) The tornado is dominated by the weathering rate and the acid-soil loss in
+every department; truck fuel and rock chemistry follow. (3) The Meta main rock unit is the gabbro
+NP3ε-Pm (basalt proxy chemistry and kinetics); removing it roughly doubles Meta road distances and
+most Meta cells lose net removal. (4) A 30-year horizon turns almost all Meta cells positive.
+(5) Coarse grain stays net negative under uncertainty. (6) 420 candidate cells (~2 %) have no
+Monte Carlo result because pH or temperature is missing. Assumption scenarios are deterministic.
 
 **Health risk of rock sources (David, 2026-11-18)**
 - **D-61** — `rock_units` gets `health_risk` (low | medium | high | pending), `health_hazards` and
