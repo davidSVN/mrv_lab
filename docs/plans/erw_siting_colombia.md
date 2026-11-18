@@ -69,6 +69,10 @@ Future (not scheduled, far from now):
   instead of 2024 only.
 - Research question (D-38): how the location of rock sources in each department changes transport
   emissions relative to removal, and how departments compare.
+- Land-use purpose (D-59): compare cells by use — cropland only vs pasture / savanna — to assess how
+  ERW behaves on land dedicated to food production versus grazing or other rural uses. Needs a
+  cropland vs pasture split (MapBiomas class 21 mixes both, G-09) and the `include_grassland`
+  filter (D-58). Not in the base analysis.
 - Rock catalogue (D-39): select any rock type, with properties from F4, and re-run the analysis.
   Delivered through the scenario dashboard (F10, D-50).
 - Slope view switch (D-36): interactive toggle between raw and smoothed slope maps; choose which feeds the filter.

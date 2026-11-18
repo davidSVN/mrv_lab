@@ -816,6 +816,12 @@ answers; they are in `data/interim/erw_siting/qc/f6_summary.csv`.
 - Monte Carlo storage for F7: keep per-cell draws (or histograms) outside the GeoPackage
   (Parquet, ~66 M values) so the F10 dashboard can show each cell's curve and a 3D column view.
 
+**Savanna decision (David, 2026-11-18)**
+- **D-59** — Natural grassland / savanna stays **out** of the base candidate land
+  (`include_grassland = False`, as D-31/D-56): the analysis keeps the current agricultural classes.
+  Future work (plan "Future"): analyse cropland vs pasture zones separately, to compare ERW on land
+  for food production versus grazing or other rural uses. No further change to the grassland code.
+
 **Readings to check in F7 (qualitative).** Coarse grain is net negative almost everywhere; the
 eastern Meta is beyond break-even distance; ultramafic sources dominate the Tolima result and
 use the fresh-dunite rate (pilot ultramafics are serpentinized) — the most fragile part of F6.
