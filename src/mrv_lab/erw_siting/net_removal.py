@@ -139,11 +139,18 @@ def compute(frame: pd.DataFrame, values: dict[str, float], grain: str) -> pd.Dat
             oxides, v["eta_mol_co2_per_mol_charge"]
         )
         kin = weathering.KINETIC_ROCK[cls]
+        log10_wr = v[f"log10_wr_{kin}_mol_m2_s"]
+        if kin == "ultramafic":  # partly serpentinized (D-57)
+            log10_wr = weathering.effective_log10_wr(
+                log10_wr,
+                v["serpentinized_fraction_ultramafic"],
+                v["log10_rate_ratio_serpentine_forsterite"],
+            )
         f_diss[rows] = weathering.dissolved_fraction(
             p80_um=v[f"p80_um_{grain}"],
             years=v["horizon_years"],
             temperature_c=temp[rows],
-            log10_wr_mol_m2_s=v[f"log10_wr_{kin}_mol_m2_s"],
+            log10_wr_mol_m2_s=log10_wr,
             molar_mass_g_per_mol=v[f"molar_mass_{kin}_g_per_mol"],
             ea_kj_per_mol=v[f"activation_energy_kj_per_mol_{kin}"],
             reference_c=v["reference_temperature_c"],

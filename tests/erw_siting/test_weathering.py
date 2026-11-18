@@ -43,3 +43,21 @@ def test_registry_values_ranges_contain_values() -> None:
     for pid, v in w.registry_values().items():
         if v["range"] is not None:
             assert v["range"][0] <= v["value"] <= v["range"][1], pid
+
+
+def test_serpentinization_slows_the_ultramafic_rate() -> None:
+    import pandas as pd
+
+    s = w.serpentinized_fraction(pd.Series([0.0, 6.25, 12.5, 14.0]))
+    assert s.tolist() == [0.0, 0.5, 1.0, 1.0]  # capped at fully serpentinized
+    fresh = w.effective_log10_wr(-9.86, 0.0, -1.76)
+    assert fresh == pytest.approx(-9.86)
+    mixed = w.effective_log10_wr(-9.86, 0.7, -1.76)
+    expected = -9.86 + math.log10(0.3 + 0.7 * 10**-1.76)
+    assert mixed == pytest.approx(expected) and -10.4 < mixed < -10.3
+
+
+def test_serpentine_ratio_from_palandri_kharaka() -> None:
+    v = w.registry_values()["log10_rate_ratio_serpentine_forsterite"]
+    assert v["value"] == pytest.approx(-12.40 + 10.64)
+    assert v["range"] == [pytest.approx(-1.76), pytest.approx(-1.36)]

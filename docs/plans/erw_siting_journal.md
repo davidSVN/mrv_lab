@@ -785,6 +785,16 @@ use no SGC data). Checkpoint passed: net removal is positive in part of every de
 Net-removal numbers depend on SGC-derived rock sources and stay out of the repo until the SGC
 answers; they are in `data/interim/erw_siting/qc/f6_summary.csv`.
 
+**Serpentinization correction (David, 2026-11-18)**
+- **D-57** — The ultramafic rate is no longer fresh dunite: `log10 WR = −9.86 + log10((1 − s) +
+  s · 10^r)`, with s = serpentinized share = median of LOI / 12.5 wt% over García-Casco's 49 samples
+  (0.70; IQR 0.56–0.79; "a fully serpentinized peridotite yields ca. 12–13 wt % H2O") and r =
+  lizardite − forsterite neutral log k (Palandri & Kharaka 2004: −12.40 − (−10.64) = −1.76; range to
+  chrysotile −1.36). Result −10.37 instead of −9.86: about 3× slower. Two new weathering parameters
+  (`serpentinized_fraction_ultramafic`, `log10_rate_ratio_serpentine_forsterite`); 40/41 ok.
+  Limits: surface shares taken equal to volume shares; Ea stays forsterite; samples from Medellín.
+  Asbestos (chrysotile) risk of grinding serpentinite is a flag for F8, not modelled.
+
 **Readings to check in F7 (qualitative).** Coarse grain is net negative almost everywhere; the
 eastern Meta is beyond break-even distance; ultramafic sources dominate the Tolima result and
 use the fresh-dunite rate (pilot ultramafics are serpentinized) — the most fragile part of F6.

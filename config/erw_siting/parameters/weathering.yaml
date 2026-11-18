@@ -4,7 +4,7 @@
 group: weathering
 description: 'Kinetics of rock dissolution (plan §5.2 step 2). f_diss is computed per cell by erw_siting.weathering.dissolved_fraction:
   min(1, SSA(P80) * WR * M * s/yr * years * Arrhenius(T)); Strefler et al. 2018 Eq. 2. No pH or water
-  term; dry months are a flag only (D-52).'
+  term; dry months are a flag only (D-52). Ultramafic rate corrected for serpentinization (D-57).'
 parameters:
 - id: ssa_coef_m2_per_g
   name: Specific surface area coefficient a in SSA = a * P80^b
@@ -68,8 +68,9 @@ parameters:
     locator: §2, Eq. 2 (SSA = 69.18 x^-1.24; molar masses) and weathering rates at pH 7, 25 °C
   quality: literature
   status: ok
-  notes: Strefler value for dunite (forsterite) at pH 7 and 25 °C; applied to all ultramafic sources (serpentinized
-    rock likely slower). Checked against the source by erw_siting.weathering.
+  notes: 'Strefler value for fresh dunite (forsterite) at pH 7 and 25 °C. Pilot ultramafics are partly
+    serpentinized: the rate used is mixed with serpentine via serpentinized_fraction_ultramafic and log10_rate_ratio_serpentine_forsterite
+    (D-57). Checked against the source by erw_siting.weathering.'
 - id: molar_mass_basalt_g_per_mol
   name: Molar mass of basalt
   value: 125.0
@@ -146,3 +147,40 @@ parameters:
   status: ok
   notes: Both sources give rates at 25 °C; the Arrhenius factor scales them to each cell's mean temperature.
     Checked against the source by erw_siting.weathering.
+- id: log10_rate_ratio_serpentine_forsterite
+  name: Serpentine rate relative to forsterite, log10
+  value: -1.76
+  unit: log10(ratio)
+  distribution: null
+  range:
+  - -1.76
+  - -1.36
+  source:
+    citation: Palandri, J.L. & Kharaka, Y.K. (2004). A compilation of rate parameters of water-mineral
+      interaction kinetics for application to geochemical modeling. U.S. Geological Survey Open-File Report
+      2004-1068
+    doi_or_url: doi:10.3133/ofr20041068
+    locator: 'Rate-parameter tables: neutral-mechanism activation energy E (kJ/mol)'
+  quality: literature
+  status: ok
+  notes: 'Neutral mechanism at 25 °C: lizardite -12.40 minus forsterite -10.64 = -1.76 (58x slower); range
+    up to chrysotile -12.00 (-1.36, 23x slower). Lizardite used (conservative). D-57.'
+- id: serpentinized_fraction_ultramafic
+  name: Share of ultramafic rock turned to serpentine
+  value: 0.7
+  unit: fraction
+  distribution: null
+  range:
+  - 0.56
+  - 0.79
+  source:
+    citation: 'Garcia-Casco, A. et al. (2020). The petrologic nature of the ''Medellin Dunite'' revisited.
+      In: The Geology of Colombia, Volume 2 Mesozoic. Servicio Geologico Colombiano, Publicaciones Geologicas
+      Especiales 36'
+    doi_or_url: doi:10.32685/pub.esp.36.2019.02
+    locator: '§2: ''a fully serpentinized peridotite yields ca. 12-13 wt % H2O''; Table 1 LOI'
+  quality: literature
+  status: ok
+  notes: Median of LOI / 12.5 wt% over the 49 Medellín samples (fully serpentinized peridotite holds ca.
+    12-13 wt% H2O); range = inter-quartile range. LOI includes some CO2 in carbonated samples, so the
+    share is slightly high (conservative). Medellín (Antioquia), not the pilot ultramafics. D-57.

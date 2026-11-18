@@ -197,7 +197,7 @@ if lca_problems:
 
 # weathering group: kinetics checked against Strefler 2018 and Palandri & Kharaka 2004 (D-52).
 weathering_problems = weathering.verify(weathering.texts()) + registry.check_values(
-    parameters, weathering.registry_values()
+    parameters, weathering.registry_values(rock_samples["ultramafic"])
 )
 if weathering_problems:
     raise ValueError(f"weathering.yaml differs from the sources: {weathering_problems}")

@@ -2829,6 +2829,11 @@
     "sha256": "f1b41f56eca350b4d8067152a60b361f085aa2a3e737b7dabdb09055b0d9e831",
     "url": "https://geoservicios.upra.gov.co/arcgis/rest/services/ordenamiento_productivo/frontera_agricola_frontera_agricola_condicionada/MapServer/0/query?where=cod_depart%3D%2776%27&outFields=objectid%2Cdepartamen%2Ccod_dane_mpio%2Cmunicipio%2Ctipo_frontera&orderByFields=objectid&resultOffset=8000&resultRecordCount=2000&outSR=4326&f=geojson"
   },
+  "raw/weathering/garcia_casco_2020.pdf": {
+    "first_recorded": "2026-11-18",
+    "sha256": "d96eb645239ee12f103be03fe9a88a648f5ed671ebb9f8dafb6be3c3aa6a889f",
+    "url": "https://www2.sgc.gov.co/LibroGeologiaColombia/tgc/sgcpubesp36201902.pdf"
+  },
   "raw/weathering/palandri_kharaka_2004.pdf": {
     "first_recorded": "2026-11-16",
     "sha256": "9298b618c206da1e4673dae51b904689eff4f5f68a40eddcf13af2eb0d6c2d7e",

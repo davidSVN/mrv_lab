@@ -41,7 +41,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1 · step 6b | Rainfall + dry months (CHIRPS), temperature + actual evaporation (ERA5-Land) | ✅ | 1991-2020 normals; recent-climate sensitivity (1996-2025) later in F7 |
 | F2 | Lithology: all 194 SGC units classified Apta / Mixta / No apta, with rock types | ✅ | Reviewed by David, proposal accepted (D-43); results internal until SGC answers (D-08) |
 | F3 | Rock sources (potential, from suitable polygons near roads) | ✅ | 3,130 potential points (D-46) |
-| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ✅ | 38/39 ok, every value checked against its source by code (D-49, D-51–D-54); exchangeable Al stays missing and unused (G-02). Rock, emissions, weathering approved by David; capture, application, soil decided on sources at his request |
+| F4 | Parameter registry with sources, incl. exchangeable Al / base saturation (D20) | ✅ | 40/41 ok (+2 serpentinization parameters, D-57), every value checked against its source by code (D-49, D-51–D-54); exchangeable Al stays missing and unused (G-02). Rock, emissions, weathering approved by David; capture, application, soil decided on sources at his request |
 | F5a | Data model and storage: cell tables with every variable (D-24) | ✅ | 12-table GeoPackage: 9 cell/rock/run tables (D-44, D-45) + parameters / scenarios / scenario_parameters (D-50) |
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, three pilot departments | 🔄 | Code + first run done (D-56): 3 grain runs in `cell_results`; checkpoint passed (net > 0 in part of every department). Results internal until SGC answers (D-08). Pending David's review |

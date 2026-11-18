@@ -9,7 +9,9 @@ Model (Strefler et al. 2018, Eq. 2, plus an Arrhenius temperature correction)::
 WR is the grain-surface weathering rate at pH 7 and 25 °C (mol m-2 s-1), M the molar mass of the
 rock (g/mol). The surface is held constant (Strefler's idealisation: overestimates long horizons).
 No pH or water term (D-52): rates at pH 7; dry months are only a flag. Gabbro uses the basalt
-values (proxy, as in the rock group, D-49).
+values (proxy, as in the rock group, D-49). Ultramafic rock is partly serpentinized (D-57): its
+rate mixes fresh dunite (Strefler) and serpentine, slower by 10**(lizardite - forsterite) per
+Palandri & Kharaka, weighted by the serpentinized share from García-Casco's LOI.
 
 Quoted numbers are checked against the source texts (:mod:`literature`).
 """
@@ -53,7 +55,18 @@ SOURCES: dict[str, dict] = {
             r"Forsterite\s+-6\.85\s+67\.2\s+0\.470\s+-10\.64\s+79\.0",
             r"augite\s+-6\.82\s+78\.0\s+0\.700\s+-11\.97\s+78\.0",
             r"diopside\s+-6\.36\s+96\.1\s+0\.710\s+-11\.11\s+40\.6",
+            r"lizardite\s+-5\.70\s+75\.5\s+0\.800\s+-12\.40\s+56\.6",
+            r"chrysotile\s+--\s+--\s+--\s+-12\.00\s+73\.5",
         ],
+    },
+    "garcia_casco_2020": {
+        "url": "https://www2.sgc.gov.co/LibroGeologiaColombia/tgc/sgcpubesp36201902.pdf",
+        "citation": "Garcia-Casco, A. et al. (2020). The petrologic nature of the 'Medellin "
+        "Dunite' revisited. In: The Geology of Colombia, Volume 2 Mesozoic. Servicio Geologico "
+        "Colombiano, Publicaciones Geologicas Especiales 36",
+        "doi": "doi:10.32685/pub.esp.36.2019.02",
+        "locator": "§2: 'a fully serpentinized peridotite yields ca. 12-13 wt % H2O'; Table 1 LOI",
+        "checks": [r"fully serpentinized peridotite yields\s+ca\. 12–13 wt % H2O"],
     },
 }
 
@@ -68,6 +81,10 @@ MOLAR_MASS_G_PER_MOL = {"basalt": 125.0, "ultramafic": 140.7}
 #: Neutral-mechanism E (kJ/mol), Palandri & Kharaka 2004.
 EA_NEUTRAL_KJ_PER_MOL = {"labradorite": 45.2, "forsterite": 79.0, "augite": 78.0, "diopside": 40.6}
 REFERENCE_TEMPERATURE_C = 25.0
+#: Neutral-mechanism log10 k at 25 °C (mol m-2 s-1), Palandri & Kharaka 2004.
+LOG10_K_NEUTRAL = {"forsterite": -10.64, "lizardite": -12.40, "chrysotile": -12.00}
+#: Water of a fully serpentinized peridotite, wt% (García-Casco 2020: "ca. 12-13"; midpoint).
+LOI_FULLY_SERPENTINIZED_WT_PCT = 12.5
 #: Rock type used for the kinetics of each rock class (gabbro: basalt proxy, D-49/D-52).
 KINETIC_ROCK = {"basalt": "basalt", "gabbro": "basalt", "ultramafic": "ultramafic"}
 
@@ -82,11 +99,26 @@ def verify(source_texts: dict[str, str]) -> list[str]:
     return literature.verify(SOURCES, source_texts)
 
 
-def registry_values() -> dict[str, dict]:
-    """Expected value and range of every weathering parameter."""
+def serpentinized_fraction(loi_wt_pct: pd.Series) -> pd.Series:
+    """Share of the rock turned to serpentine, from its water (LOI / LOI of full serpentinite)."""
+    return (loi_wt_pct / LOI_FULLY_SERPENTINIZED_WT_PCT).clip(lower=0, upper=1)
+
+
+def effective_log10_wr(log10_wr_fresh: float, serp_fraction: float, log10_ratio: float) -> float:
+    """Rate of a partly serpentinized rock: (1 - s) * WR_fresh + s * WR_fresh * 10**ratio
+    (surface shares taken equal to volume shares)."""
+    return log10_wr_fresh + float(np.log10((1 - serp_fraction) + serp_fraction * 10**log10_ratio))
+
+
+def registry_values(ultramafic_samples: pd.DataFrame | None = None) -> dict[str, dict]:
+    """Expected value and range of every weathering parameter (D-52, D-57).
+
+    ``ultramafic_samples``: García-Casco 2020 Table 1 (``rock_chemistry.sample_sets``), needed
+    for the serpentinized fraction (median, inter-quartile range of LOI / 12.5).
+    """
     ea = EA_NEUTRAL_KJ_PER_MOL
     pyroxenes = [ea["diopside"], ea["augite"]]
-    return {
+    out = {
         "ssa_coef_m2_per_g": {"value": SSA_COEF_M2_PER_G, "range": None},
         "ssa_exponent": {"value": SSA_EXPONENT, "range": None},
         "log10_wr_basalt_mol_m2_s": LOG10_WR["basalt"],
@@ -103,6 +135,21 @@ def registry_values() -> dict[str, dict]:
         "activation_energy_kj_per_mol_ultramafic": {"value": ea["forsterite"], "range": None},
         "reference_temperature_c": {"value": REFERENCE_TEMPERATURE_C, "range": None},
     }
+    k = LOG10_K_NEUTRAL
+    out["log10_rate_ratio_serpentine_forsterite"] = {
+        "value": round(k["lizardite"] - k["forsterite"], 2),
+        "range": [
+            round(k["lizardite"] - k["forsterite"], 2),
+            round(k["chrysotile"] - k["forsterite"], 2),
+        ],
+    }
+    if ultramafic_samples is not None:
+        s = serpentinized_fraction(ultramafic_samples["LOI"])
+        out["serpentinized_fraction_ultramafic"] = {
+            "value": round(float(s.median()), 2),
+            "range": [round(float(s.quantile(0.25)), 2), round(float(s.quantile(0.75)), 2)],
+        }
+    return out
 
 
 def specific_surface_m2_per_g(p80_um: float, coef: float, exponent: float) -> float:
@@ -154,11 +201,18 @@ def dissolved_fraction_from_registry(
     def v(pid: str) -> float:
         return registry.value(table, pid)
 
+    log10_wr = v(f"log10_wr_{rock}_mol_m2_s")
+    if rock == "ultramafic":
+        log10_wr = effective_log10_wr(
+            log10_wr,
+            v("serpentinized_fraction_ultramafic"),
+            v("log10_rate_ratio_serpentine_forsterite"),
+        )
     return dissolved_fraction(
         p80_um=p80_um,
         years=years,
         temperature_c=temperature_c,
-        log10_wr_mol_m2_s=v(f"log10_wr_{rock}_mol_m2_s"),
+        log10_wr_mol_m2_s=log10_wr,
         molar_mass_g_per_mol=v(f"molar_mass_{rock}_g_per_mol"),
         ea_kj_per_mol=v(f"activation_energy_kj_per_mol_{rock}"),
         reference_c=v("reference_temperature_c"),
