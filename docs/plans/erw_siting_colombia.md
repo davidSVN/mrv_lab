@@ -46,7 +46,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, three pilot departments | 🔄 | Code + first run done (D-56): 3 grain runs in `cell_results`; checkpoint passed (net > 0 in part of every department). Results internal until SGC answers (D-08). Pending David's review |
 | F1–F6 national | Scale to the country | ⏳ | — |
-| F7 | Monte Carlo + sensitivity | 🔄 | First run done 2026-11-18 (D-60; ~90 s): per-cell draws in npz (~230 MB), P5/P50/P95 and P(net > 0) in `cell_results`, tornado, 5 assumption scenarios. Results internal (D-08). Pending David's review. Second round (D-62): s6 no ultramafic, s7 Rinder fine grinding (verified), s8 temperature 1996–2025; light results history |
+| F7 | Monte Carlo + sensitivity | 🔄 | First run done 2026-11-18 (D-60; ~90 s): per-cell draws in npz (~230 MB), P5/P50/P95 and P(net > 0) in `cell_results`, tornado, 5 assumption scenarios. Results internal (D-08). Pending David's review. Second round run (D-62): s6 no ultramafic, s7 Rinder fine grinding (verified), s8 temperature 1996–2025; light results history. Pending David's review |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 | R09 health research | Health risk per rock unit: asbestos, silica, metals, law, protocols, lab tests (David, separate chat) | ⏳ | Columns ready, all `pending` (D-61); levels assigned only with sourced criteria |

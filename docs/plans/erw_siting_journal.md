@@ -872,6 +872,14 @@ Monte Carlo result because pH or temperature is missing. Assumption scenarios ar
   climate: ERA5-Land mean temperature 1996–2025 (2021–2025 downloaded from the CDS; temperature is
   the only climate input of the calculation). Running a subset of scenarios replaces only those runs.
 
+**Second round run (2026-11-18, ~110 s; internal).** Qualitative readings: without ultramafic
+sources the Tolima advantage almost disappears (its net removal per tonne falls by about an order
+of magnitude and its break-even distance to the level of the other departments), so Tolima's result
+rests on the rock with the open health questions (R09). With the Rinder & von Hagke grinding energy
+the fine grain stays net positive almost everywhere and still above the medium grain. The 1996–2025
+temperature changes the results only marginally. History snapshot of this run is tagged `-dirty`
+(the checksum file was uncommitted at run time; the code was committed).
+
 **Health risk of rock sources (David, 2026-11-18)**
 - **D-61** — `rock_units` gets `health_risk` (low | medium | high | pending), `health_hazards` and
   `health_risk_source`; every cell inherits its source's risk (`cell_results.source_health_risk`)
