@@ -21,7 +21,7 @@ Where the work stands, for the next session (F6 in this chat, David 2026-11-16).
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (38/39 ok, D-49, D-51–D-54), F5a, F5 | F6 (David's review pending), F7 (code written, D-60, not run) | F8, F9, F10, study guide |
+| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (40/41 ok, D-49, D-51–D-57), F5a, F5, F6, F7 (D-63) | F8 report (plan) | F9, F10, study guide; R09 health research (David) |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -726,6 +726,9 @@ ignored. With this rule the acidic Meta keeps only 32 % of the theoretical captu
 **F4 result.** 39 parameters, 38 `ok`, each value recomputed by code and checked against its
 source text in every run; 1 `missing` (exchangeable Al, unused).
 
+- **D-63 (David, 2026-11-18)** — F6 and F7 approved as run (base: medium grain, 10-year horizon,
+  Apta sources, savanna excluded; eight assumption scenarios; Monte Carlo seed 20261118).
+
 ---
 
 ## Study guide for David (requested 2026-11-16) ⏳
@@ -759,7 +762,7 @@ examples and where each lives in the code. Terms are collected here as they appe
 
 ---
 
-## F6 — Deterministic net removal 🔄 (code and first run 2026-11-18; David's review pending)
+## F6 — Deterministic net removal ✅ (approved by David, 2026-11-18, D-63)
 
 **What.** `erw_siting/net_removal.py` builds one row per cell (filters, mean temperature, topsoil pH,
 dry months, Apta route, source rock class) and computes for the candidate cells:
@@ -829,7 +832,7 @@ use the fresh-dunite rate (pilot ultramafics are serpentinized) — the most fra
 
 ---
 
-## F7 — Monte Carlo and sensitivity 🔄 (first run 2026-11-18; David's review pending)
+## F7 — Monte Carlo and sensitivity ✅ (approved by David, 2026-11-18, D-63)
 
 **What.** `erw_siting/monte_carlo.py`: for each F6 grain run, 1,000 draws (seed 20261118) of every
 parameter with a source range (triangular min / base / max; the same draw for every cell) and a
