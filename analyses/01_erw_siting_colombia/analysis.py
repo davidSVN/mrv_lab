@@ -31,12 +31,14 @@ from mrv_lab.erw_siting import (
     emission_factors,
     land_cover,
     lithology,
+    monte_carlo,
     net_removal,
     protected_areas,
     quarries,
     regions,
     registry,
     rock_chemistry,
+    sensitivity,
     soil,
     soil_losses,
     terrain,
@@ -234,6 +236,15 @@ if (f6_results.loc[f6_results["scenario_id"] == "base", "net_tco2_per_t"] <= 0).
     print("CHECKPOINT: net removal <= 0 in every candidate cell (base) — re-plan before F7.")
 
 # %% [markdown]
+# ### F7 — Monte Carlo per cell, tornado and assumption scenarios (D-60)
+# 1,000 draws (fixed seed) per grain run; per-cell draws kept in data/interim (npz); five
+# deterministic assumption scenarios. Internal until SGC answers (D-08).
+
+# %%
+f7_mc = monte_carlo.run(rock_samples, parameters)
+f7_assumptions = sensitivity.run()
+
+# %% [markdown]
 # ## Figure
 # Use `mrv_lab.plotting`: `new_figure`, `highlight_colors`, `add_title`,
 # `add_footer`, `export_figure(fig, "<name>", FIGURES_DIR)`.
@@ -282,3 +293,5 @@ if __name__ == "__main__":
     print(f"Parameters: {len(parameters)} ({len(missing_parameters)} missing)")
     print(f"F6 (internal): {', '.join(str(v.relative_to(root)) for v in f6_qc.values())}")
     print(f6_summary.to_string(index=False))
+    f7_paths = {**f7_mc, **f7_assumptions}
+    print(f"F7 (internal): {', '.join(str(v.relative_to(root)) for v in f7_paths.values())}")

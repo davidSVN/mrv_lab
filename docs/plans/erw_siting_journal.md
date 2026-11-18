@@ -21,7 +21,7 @@ Where the work stands, for the next session (F6 in this chat, David 2026-11-16).
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (38/39 ok, D-49, D-51–D-54), F5a, F5 | F6 (code and first run done, D-56; David's review pending) | F7, F8, F9, F10, study guide |
+| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (38/39 ok, D-49, D-51–D-54), F5a, F5 | F6 (David's review pending), F7 (code written, D-60, not run) | F8, F9, F10, study guide |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -825,6 +825,30 @@ answers; they are in `data/interim/erw_siting/qc/f6_summary.csv`.
 **Readings to check in F7 (qualitative).** Coarse grain is net negative almost everywhere; the
 eastern Meta is beyond break-even distance; ultramafic sources dominate the Tolima result and
 use the fresh-dunite rate (pilot ultramafics are serpentinized) — the most fragile part of F6.
+
+---
+
+## F7 — Monte Carlo and sensitivity 🔄 (code written 2026-11-18; not run yet)
+
+**What.** `erw_siting/monte_carlo.py`: for each F6 grain run, 1,000 draws (seed 20261118) of every
+parameter with a source range (triangular min / base / max; the same draw for every cell) and a
+whole-sample bootstrap of rock chemistry; the F6 chain (`net_removal.chain`, shared with F6) is
+evaluated per draw. Per-cell draws of net removal (float32) go to
+`data/interim/erw_siting/monte_carlo/<run_id>.npz` with the parameter and rock draws; P5 / P50 /
+P95 per ha and year and P(net > 0) go to `cell_results`; `runs.seed` is set. Tornado (one parameter
+at a time to its range ends, department medians) to `qc/f7_tornado.csv` / `.png`.
+`erw_siting/sensitivity.py`: five deterministic medium-grain scenarios stored as `scenarios` + runs
+(horizon 30 yr; conditioned frontier; slope 8 %; Apta + Mixta; Meta without its main rock unit,
+re-routed) and summarised in `qc/f7_assumptions.csv`. F6 refactor: `net_removal.chain` (plain
+arrays) and `run_scenario` (adds a scenario without clearing others).
+
+**Decisions (David, 2026-11-18)**
+- **D-60** — (1) 1,000 draws, fixed recorded seed. (2) Triangular (min, base, max) for parameters
+  with a range; fixed: definitions (P80, reference temperature, pH threshold) and choices tested
+  as scenarios (application rate, horizon); rock chemistry resampled by whole sample (a blank
+  oxide takes the set median). (3) Assumption scenarios 1–5 now; recent climate and Rinder &
+  von Hagke fine grinding in a second round. (4) Per-cell draws stored as NumPy `.npz` (no new
+  dependency); Parquet can come with F9 / F10.
 
 ---
 

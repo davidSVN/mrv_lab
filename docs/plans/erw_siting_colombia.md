@@ -46,7 +46,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F5 | Grid, masks, routing | ✅ | 132,264 cells; route validation source still missing (D-47) |
 | F6 | Deterministic calculation, three pilot departments | 🔄 | Code + first run done (D-56): 3 grain runs in `cell_results`; checkpoint passed (net > 0 in part of every department). Results internal until SGC answers (D-08). Pending David's review |
 | F1–F6 national | Scale to the country | ⏳ | — |
-| F7 | Monte Carlo + sensitivity | ⏳ | Includes recent-climate run (1996-2025) and Meta single-source dependency (84 % of cells from one source) |
+| F7 | Monte Carlo + sensitivity | 🔄 | Code written (D-60): 1,000 draws per grain run, per-cell draws in npz, P5/P50/P95 and P(net > 0) in `cell_results`, tornado, 5 assumption scenarios. Not run yet. Second round: recent climate (1996–2025), Rinder fine grinding (verify first) |
 | F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
@@ -277,7 +277,9 @@ src/mrv_lab/erw_siting/
   weathering.py            # ✅ dissolved fraction per cell: Strefler Eq. 2 + Arrhenius (F4, D-52)
   capture.py               # ✅ R_CO2 by charges, eta = 0.831 (F4, D-53)
   soil_losses.py           # ✅ f_loss by pH class (F4, D-54)
-  net_removal.py           # 🔄 F6 net removal per cell, 3 grain runs, QC (D-56)
+  net_removal.py           # 🔄 F6 net removal per cell, 3 grain runs, QC (D-56, D-58)
+  monte_carlo.py           # 🔄 F7 Monte Carlo per cell + tornado (D-60)
+  sensitivity.py           # 🔄 F7 assumption scenarios 1-5 (D-60)
   literature.py            # ✅ download, pin and check numbers quoted from documents
   lithology.py             # SGC units → mafic / ultramafic / unsuitable
   quarries.py              # ✅ suitable rock near truck roads → potential sources (F3, D-46)

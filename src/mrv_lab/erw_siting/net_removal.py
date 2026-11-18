@@ -97,7 +97,9 @@ def rock_class(units: pd.DataFrame) -> pd.Series:
     return units.set_index("unit_code").apply(classify, axis=1).rename("rock_class")
 
 
-def load_inputs(path: Path | None = None, settings: dict | None = None) -> pd.DataFrame:
+def load_inputs(
+    path: Path | None = None, settings: dict | None = None, route_scenario: str = "apta"
+) -> pd.DataFrame:
     """One row per cell: filters, temperature, pH, dry months, route and source rock class."""
     path = path or db.database_path()
     with db.connect(path) as con:
@@ -111,7 +113,7 @@ def load_inputs(path: Path | None = None, settings: dict | None = None) -> pd.Da
         routes = pd.read_sql(
             "SELECT cell_id, rock_source_id, road_km FROM cell_routes WHERE scenario = ?",
             con,
-            params=(ROUTE_SCENARIO,),
+            params=(route_scenario,),
         )
         sources = pd.read_sql(
             "SELECT s.rock_source_id, u.unit_code, u.symbol, u.rock_types, u.ultramafic "
@@ -134,20 +136,24 @@ def load_inputs(path: Path | None = None, settings: dict | None = None) -> pd.Da
     return frame
 
 
-def compute(frame: pd.DataFrame, values: dict[str, float], grain: str) -> pd.DataFrame:
-    """Net-removal chain for the candidate cells of ``frame`` (others get only the filter)."""
-    v = values
-    out = frame[["cell_id", "candidate", "excluded_by"]].copy()
-    cand = frame["candidate"].to_numpy() == 1
-    rock = frame["rock_class"].where(cand)
-    temp = frame["t2m_mean_c"].to_numpy(dtype="float64")
-    ph = frame["phh2o"].to_numpy(dtype="float64")
-    road_km = frame["road_km"].to_numpy(dtype="float64")
+def chain(
+    rock: np.ndarray,
+    temp_c: np.ndarray,
+    ph: np.ndarray,
+    road_km: np.ndarray,
+    values: dict[str, float],
+    grain: str,
+) -> dict[str, np.ndarray]:
+    """The net-removal chain on plain arrays (one entry per cell); rock = class name or None.
 
-    cdr_max = np.full(len(frame), np.nan)
-    f_diss = np.full(len(frame), np.nan)
+    Shared by F6 (:func:`compute`) and the F7 Monte Carlo, which calls it once per draw.
+    """
+    v = values
+    n = len(rock)
+    cdr_max = np.full(n, np.nan)
+    f_diss = np.full(n, np.nan)
     for cls in ("basalt", "gabbro", "ultramafic"):
-        rows = (rock == cls).to_numpy()
+        rows = rock == cls
         if not rows.any():
             continue
         oxides = {ox: v[f"{ox.lower()}_wt_pct_{cls}"] for ox in OXIDES}
@@ -165,7 +171,7 @@ def compute(frame: pd.DataFrame, values: dict[str, float], grain: str) -> pd.Dat
         f_diss[rows] = weathering.dissolved_fraction(
             p80_um=v[f"p80_um_{grain}"],
             years=v["horizon_years"],
-            temperature_c=temp[rows],
+            temperature_c=temp_c[rows],
             log10_wr_mol_m2_s=log10_wr,
             molar_mass_g_per_mol=v[f"molar_mass_{kin}_g_per_mol"],
             ea_kj_per_mol=v[f"activation_energy_kj_per_mol_{kin}"],
@@ -176,32 +182,63 @@ def compute(frame: pd.DataFrame, values: dict[str, float], grain: str) -> pd.Dat
     f_loss = soil_losses.loss_fraction(
         ph, v["acid_soil_ph_threshold"], v["f_loss_acid_soil"], v["f_loss_neutral_soil"]
     )
-    f_loss = np.where(cand, f_loss, np.nan)
     diesel_t_per_l = v["diesel_ef_kgco2_per_l"] / 1000
     per_t_km = v["truck_l_diesel_per_t_km"] * v["empty_return_factor"] * diesel_t_per_l
     gross = cdr_max * f_diss * (1 - f_loss)
-    e_grind = np.where(
-        cand, v[f"grinding_kwh_per_t_{grain}"] * v["grid_ef_kgco2_per_kwh"] / 1000, np.nan
-    )
-    e_spread = np.where(cand, v["spreading_l_diesel_per_t"] * diesel_t_per_l, np.nan)
-    e_transport = np.where(cand, road_km * per_t_km, np.nan)
+    e_grind = np.full(n, v[f"grinding_kwh_per_t_{grain}"] * v["grid_ef_kgco2_per_kwh"] / 1000)
+    e_spread = np.full(n, v["spreading_l_diesel_per_t"] * diesel_t_per_l)
+    e_transport = road_km * per_t_km
     net = gross - e_grind - e_transport - e_spread
-    breakeven = (gross - e_grind - e_spread) / per_t_km
+    return {
+        "cdr_max_tco2_per_t": cdr_max,
+        "f_diss": f_diss,
+        "f_loss": f_loss,
+        "cdr_gross_tco2_per_t": gross,
+        "e_grind_tco2_per_t": e_grind,
+        "e_transport_tco2_per_t": e_transport,
+        "e_spread_tco2_per_t": e_spread,
+        "breakeven_km": (gross - e_grind - e_spread) / per_t_km,
+        "net_tco2_per_t": net,
+    }
 
+
+def compute(frame: pd.DataFrame, values: dict[str, float], grain: str) -> pd.DataFrame:
+    """Net-removal chain for the candidate cells of ``frame`` (others get only the filter)."""
+    v = values
+    out = frame[["cell_id", "candidate", "excluded_by"]].copy()
+    cand = frame["candidate"].to_numpy() == 1
+    rock = frame["rock_class"].where(cand)
+    ph = frame["phh2o"].to_numpy(dtype="float64")
+    road_km = np.where(cand, frame["road_km"].to_numpy(dtype="float64"), np.nan)
+    res = chain(
+        rock.to_numpy(dtype=object),
+        frame["t2m_mean_c"].to_numpy(dtype="float64"),
+        np.where(cand, ph, np.nan),
+        road_km,
+        v,
+        grain,
+    )
+    for key in ("e_grind_tco2_per_t", "e_spread_tco2_per_t"):
+        res[key] = np.where(cand, res[key], np.nan)
     out["rock_source_id"] = frame["rock_source_id"].where(cand)
     out["rock_class"] = rock
-    out["road_km"] = np.where(cand, road_km, np.nan)
-    out["cdr_max_tco2_per_t"] = cdr_max
-    out["f_diss"] = f_diss
-    out["f_loss"] = f_loss
-    out["cdr_gross_tco2_per_t"] = gross
-    out["e_grind_tco2_per_t"] = e_grind
-    out["e_transport_tco2_per_t"] = e_transport
-    out["e_spread_tco2_per_t"] = e_spread
-    out["breakeven_km"] = breakeven
-    out["margin_km"] = breakeven - out["road_km"]
-    out["net_tco2_per_t"] = net
-    out["net_ha_tco2_per_ha_yr"] = net * v["application_rate_t_per_ha"] / v["horizon_years"]
+    out["road_km"] = road_km
+    for key in (
+        "cdr_max_tco2_per_t",
+        "f_diss",
+        "f_loss",
+        "cdr_gross_tco2_per_t",
+        "e_grind_tco2_per_t",
+        "e_transport_tco2_per_t",
+        "e_spread_tco2_per_t",
+        "breakeven_km",
+    ):
+        out[key] = res[key]
+    out["margin_km"] = out["breakeven_km"] - out["road_km"]
+    out["net_tco2_per_t"] = res["net_tco2_per_t"]
+    out["net_ha_tco2_per_ha_yr"] = (
+        res["net_tco2_per_t"] * v["application_rate_t_per_ha"] / v["horizon_years"]
+    )
     out["lime_demand"] = np.where(cand, (ph < v["acid_soil_ph_threshold"]).astype(int), None)
     out["ultramafic_source"] = np.where(cand, (rock == "ultramafic").astype(int), None)
     out["data_quality"] = _flags(frame, cand)
@@ -240,61 +277,91 @@ def _code_commit() -> str | None:
         return None
 
 
+def run_scenario(
+    frame: pd.DataFrame,
+    scenario_id: str,
+    name: str,
+    grain: str,
+    path: Path,
+    overrides: dict[str, float] | None = None,
+    filters: dict | None = None,
+    route_scenario: str = ROUTE_SCENARIO,
+    notes: str = "F6 deterministic (D-56); internal until SGC answers (D-08)",
+) -> tuple[pd.DataFrame, dict[str, float]]:
+    """Add the scenario (if new), compute ``frame`` with its values, store ``runs`` and
+    ``cell_results`` rows (run_id = f"f6_{scenario_id}"); returns the table and the values."""
+    with db.connect(path) as con:
+        exists = con.execute(
+            "SELECT 1 FROM scenarios WHERE scenario_id = ?", (scenario_id,)
+        ).fetchone()
+    if not exists:
+        changed_filters = filters if filters and filters != DEFAULT_FILTERS else None
+        db.add_scenario(
+            scenario_id,
+            name,
+            overrides=overrides,
+            grain_class=grain,
+            route_scenario=route_scenario,
+            filters=changed_filters,
+            path=path,
+        )
+    values = db.scenario_values(scenario_id, path).set_index("parameter_id")["value"]
+    values = {k: float(x) for k, x in values.dropna().items()}
+    table = compute(frame, values, grain)
+    run_id = f"f6_{scenario_id}"
+    db.append_rows(
+        "runs",
+        pd.DataFrame(
+            [
+                {
+                    "run_id": run_id,
+                    "scenario_id": scenario_id,
+                    "created_utc": datetime.now(UTC).isoformat(timespec="seconds"),
+                    "code_commit": _code_commit(),
+                    "parameters_json": json.dumps(
+                        {
+                            "values": values,
+                            "grain_class": grain,
+                            "route_scenario": route_scenario,
+                            "filters": filters or DEFAULT_FILTERS,
+                        }
+                    ),
+                    "seed": None,
+                    "notes": notes,
+                }
+            ]
+        ),
+        path,
+    )
+    db.append_rows("cell_results", table.assign(run_id=run_id), path)
+    return table, values
+
+
 def run(
     path: Path | None = None, settings: dict | None = None
 ) -> tuple[pd.DataFrame, dict[str, Path]]:
-    """Compute and store one run per grain scenario; write internal QC table and maps.
+    """Compute and store one run per grain scenario (clearing earlier runs); write QC.
 
     ``settings``: candidate-filter overrides (:data:`DEFAULT_FILTERS`, D-58).
     """
     path = path or db.database_path()
     filters = {**DEFAULT_FILTERS, **(settings or {})}
     frame = load_inputs(path, filters)
-    base_values: dict[str, float] = {}
     with db.connect(path) as con:
-        existing = {r[0] for r in con.execute("SELECT scenario_id FROM scenarios")}
         con.execute("DELETE FROM cell_results")
         con.execute("DELETE FROM runs")
-    results = []
+    results, base_values = [], {}
     for scenario_id, grain in GRAIN_SCENARIOS.items():
-        if scenario_id not in existing:
-            db.add_scenario(
-                scenario_id,
-                f"Registry values (sourced), {grain} grain",
-                grain_class=grain,
-                path=path,
-            )
-        values = db.scenario_values(scenario_id, path).set_index("parameter_id")["value"]
-        values = {k: float(x) for k, x in values.dropna().items()}
+        table, values = run_scenario(
+            frame,
+            scenario_id,
+            f"Registry values (sourced), {grain} grain",
+            grain,
+            path,
+            filters=filters,
+        )
         if scenario_id == db.BASE_SCENARIO:
             base_values = values
-        table = compute(frame, values, grain)
-        run_id = f"f6_{scenario_id}"
-        db.append_rows(
-            "runs",
-            pd.DataFrame(
-                [
-                    {
-                        "run_id": run_id,
-                        "scenario_id": scenario_id,
-                        "created_utc": datetime.now(UTC).isoformat(timespec="seconds"),
-                        "code_commit": _code_commit(),
-                        "parameters_json": json.dumps(
-                            {
-                                "values": values,
-                                "grain_class": grain,
-                                "route_scenario": ROUTE_SCENARIO,
-                                "filters": filters,
-                            }
-                        ),
-                        "seed": None,
-                        "notes": "F6 deterministic (D-56); internal until SGC answers (D-08)",
-                    }
-                ]
-            ),
-            path,
-        )
-        db.append_rows("cell_results", table.assign(run_id=run_id), path)
         results.append(table.assign(scenario_id=scenario_id, grain_class=grain))
     combined = pd.concat(results, ignore_index=True).merge(
         frame[["cell_id", "department"]], on="cell_id"
