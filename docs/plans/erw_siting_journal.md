@@ -729,6 +729,13 @@ source text in every run; 1 `missing` (exchangeable Al, unused).
 - **D-63 (David, 2026-11-18)** — F6 and F7 approved as run (base: medium grain, 10-year horizon,
   Apta sources, savanna excluded; eight assumption scenarios; Monte Carlo seed 20261118).
 
+- **D-64 (David, 2026-11-19)** — Data and licence section of the analysis README written from
+  `data/SOURCES.md` (David's draft reviewed: it listed unused sources — IGAC, IDEAM, ANM — and
+  missed used ones and their required attributions). Output licences: code MIT; figures, tables
+  and numbers CC BY-SA 4.0 (they derive from the UPRA frontier and RUNAP, both CC BY-SA 4.0);
+  road-derived databases ODbL 1.0; nothing SGC-derived until the SGC answers. Pending before
+  publication: MapBiomas citation format and the exact C3S attribution text.
+
 ---
 
 ## Study guide for David (requested 2026-11-16) ⏳

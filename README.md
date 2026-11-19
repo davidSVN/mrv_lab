@@ -55,3 +55,5 @@ tests/               tests for src/mrv_lab
 - **Data:** keeps the license of its original source. The MIT license does not apply to
   third-party data. Check [`data/SOURCES.md`](data/SOURCES.md) and each analysis README
   before reusing any data or derived figures.
+- **Derived outputs** (figures, tables, numbers) take the license their sources require; each
+  analysis README states it (analysis 01: CC BY-SA 4.0, ODbL for road-derived databases).
