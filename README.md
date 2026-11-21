@@ -11,7 +11,7 @@ Every number published from this work is computed by code in this repo and store
 
 | # | Analysis | Question | Key result | Data |
 |---|---|---|---|---|
-| 01 | [Where does ERW make sense in Colombia?](analyses/01_erw_siting_colombia/) | _In progress_ | — | — |
+| 01 | [Where does ERW make sense in Colombia?](analyses/01_erw_siting_colombia/) | Where would spreading crushed rock on farmland remove net CO₂ (Meta, Tolima, Valle del Cauca)? | Likely in Tolima (thanks to ultramafic rock) and Valle (rock nearby); borderline in Meta. Numbers in [`results.json`](analyses/01_erw_siting_colombia/results.json) | SGC, UPRA, RUNAP, MapBiomas, SoilGrids, ERA5-Land, CHIRPS, Copernicus DEM, OpenStreetMap |
 
 Each analysis lives in `analyses/NN_slug/` with a README (Question · Data · Method ·
 Result · Limitations · Reproduce), an `analysis.py`, a `results.json` and its figures.

@@ -1,1 +1,457 @@
-[]
+[
+  {
+    "key": "candidate_area_km2_meta",
+    "value": 14915.0,
+    "unit": "km2",
+    "description": "Candidate farmland in Meta (passes the four hard filters, D-56)",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_acid_topsoil_meta",
+    "value": 1.0,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with topsoil pH < 5.5 (SoilGrids)",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_road_km_to_rock_meta",
+    "value": 169.7612,
+    "unit": "km",
+    "description": "Median road distance from Meta candidate cells to the nearest Apta rock source",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_breakeven_km_medium_meta",
+    "value": 247.0281,
+    "unit": "km",
+    "description": "Median truck distance at which transport cancels net removal, Meta, medium grain (100 \u00b5m), 10 years",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_p_net_positive_medium_meta",
+    "value": 0.473,
+    "unit": "probability",
+    "description": "Median probability of net removal > 0 over 1,000 Monte Carlo draws, Meta, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_p_net_positive_ge_90_medium_meta",
+    "value": 0.0,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with P(net > 0) >= 0.9, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_ha_yr_p50_medium_meta",
+    "value": -0.0059,
+    "unit": "t CO2/ha/yr",
+    "description": "Median of the per-cell Monte Carlo P50 net removal, Meta, 20 t/ha over 10 years",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_medium_meta",
+    "value": 0.6822,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with deterministic net removal > 0, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_medium_meta",
+    "value": 0.0062,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Meta, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_coarse_meta",
+    "value": 0.0,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with deterministic net removal > 0, coarse grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_coarse_meta",
+    "value": -0.0188,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Meta, coarse grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_fine_meta",
+    "value": 0.9802,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with deterministic net removal > 0, fine grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_fine_meta",
+    "value": 0.0726,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Meta, fine grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s1_horizon_30_meta",
+    "value": 0.9802,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with net removal > 0, assumption scenario s1_horizon_30",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s2_conditioned_frontier_meta",
+    "value": 0.6149,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with net removal > 0, assumption scenario s2_conditioned_frontier",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s3_slope_8_meta",
+    "value": 0.6819,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with net removal > 0, assumption scenario s3_slope_8",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s4_apta_mixta_meta",
+    "value": 0.6822,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with net removal > 0, assumption scenario s4_apta_mixta",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s5_meta_without_main_unit_meta",
+    "value": 0.1757,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with net removal > 0, assumption scenario s5_meta_without_main_unit",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s6_no_ultramafic_meta",
+    "value": 0.6822,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with net removal > 0, assumption scenario s6_no_ultramafic",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s7_fine_rinder_grinding_meta",
+    "value": 0.9802,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with net removal > 0, assumption scenario s7_fine_rinder_grinding",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s8_recent_climate_meta",
+    "value": 0.6864,
+    "unit": "fraction",
+    "description": "Share of Meta candidate cells with net removal > 0, assumption scenario s8_recent_climate",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "candidate_area_km2_tolima",
+    "value": 3932.77,
+    "unit": "km2",
+    "description": "Candidate farmland in Tolima (passes the four hard filters, D-56)",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_acid_topsoil_tolima",
+    "value": 0.6427,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with topsoil pH < 5.5 (SoilGrids)",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_road_km_to_rock_tolima",
+    "value": 163.9872,
+    "unit": "km",
+    "description": "Median road distance from Tolima candidate cells to the nearest Apta rock source",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_breakeven_km_medium_tolima",
+    "value": 1297.26,
+    "unit": "km",
+    "description": "Median truck distance at which transport cancels net removal, Tolima, medium grain (100 \u00b5m), 10 years",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_p_net_positive_medium_tolima",
+    "value": 1.0,
+    "unit": "probability",
+    "description": "Median probability of net removal > 0 over 1,000 Monte Carlo draws, Tolima, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_p_net_positive_ge_90_medium_tolima",
+    "value": 0.806,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with P(net > 0) >= 0.9, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_ha_yr_p50_medium_tolima",
+    "value": 0.2431,
+    "unit": "t CO2/ha/yr",
+    "description": "Median of the per-cell Monte Carlo P50 net removal, Tolima, 20 t/ha over 10 years",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_medium_tolima",
+    "value": 0.9881,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with deterministic net removal > 0, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_medium_tolima",
+    "value": 0.0874,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Tolima, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_coarse_tolima",
+    "value": 0.0,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with deterministic net removal > 0, coarse grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_coarse_tolima",
+    "value": -0.0124,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Tolima, coarse grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_fine_tolima",
+    "value": 0.9883,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with deterministic net removal > 0, fine grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_fine_tolima",
+    "value": 0.2115,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Tolima, fine grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s1_horizon_30_tolima",
+    "value": 0.9883,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with net removal > 0, assumption scenario s1_horizon_30",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s2_conditioned_frontier_tolima",
+    "value": 0.9877,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with net removal > 0, assumption scenario s2_conditioned_frontier",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s3_slope_8_tolima",
+    "value": 0.9891,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with net removal > 0, assumption scenario s3_slope_8",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s4_apta_mixta_tolima",
+    "value": 0.9883,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with net removal > 0, assumption scenario s4_apta_mixta",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s5_meta_without_main_unit_tolima",
+    "value": 0.9881,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with net removal > 0, assumption scenario s5_meta_without_main_unit",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s6_no_ultramafic_tolima",
+    "value": 0.9493,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with net removal > 0, assumption scenario s6_no_ultramafic",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s7_fine_rinder_grinding_tolima",
+    "value": 0.9883,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with net removal > 0, assumption scenario s7_fine_rinder_grinding",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s8_recent_climate_tolima",
+    "value": 0.9881,
+    "unit": "fraction",
+    "description": "Share of Tolima candidate cells with net removal > 0, assumption scenario s8_recent_climate",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "candidate_area_km2_valle",
+    "value": 3082.25,
+    "unit": "km2",
+    "description": "Candidate farmland in Valle del Cauca (passes the four hard filters, D-56)",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_acid_topsoil_valle",
+    "value": 0.1391,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with topsoil pH < 5.5 (SoilGrids)",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_road_km_to_rock_valle",
+    "value": 10.276,
+    "unit": "km",
+    "description": "Median road distance from Valle del Cauca candidate cells to the nearest Apta rock source",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_breakeven_km_medium_valle",
+    "value": 403.0081,
+    "unit": "km",
+    "description": "Median truck distance at which transport cancels net removal, Valle del Cauca, medium grain (100 \u00b5m), 10 years",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_p_net_positive_medium_valle",
+    "value": 0.658,
+    "unit": "probability",
+    "description": "Median probability of net removal > 0 over 1,000 Monte Carlo draws, Valle del Cauca, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_p_net_positive_ge_90_medium_valle",
+    "value": 0.0516,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with P(net > 0) >= 0.9, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_ha_yr_p50_medium_valle",
+    "value": 0.0262,
+    "unit": "t CO2/ha/yr",
+    "description": "Median of the per-cell Monte Carlo P50 net removal, Valle del Cauca, 20 t/ha over 10 years",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_medium_valle",
+    "value": 0.9748,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with deterministic net removal > 0, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_medium_valle",
+    "value": 0.0303,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Valle del Cauca, medium grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_coarse_valle",
+    "value": 0.0,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with deterministic net removal > 0, coarse grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_coarse_valle",
+    "value": -0.0059,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Valle del Cauca, coarse grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_fine_valle",
+    "value": 0.9748,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with deterministic net removal > 0, fine grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "median_net_tco2_per_t_rock_fine_valle",
+    "value": 0.2008,
+    "unit": "t CO2/t rock",
+    "description": "Median deterministic net removal per tonne of rock, Valle del Cauca, fine grain",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s1_horizon_30_valle",
+    "value": 0.9748,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with net removal > 0, assumption scenario s1_horizon_30",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s2_conditioned_frontier_valle",
+    "value": 0.9754,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with net removal > 0, assumption scenario s2_conditioned_frontier",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s3_slope_8_valle",
+    "value": 0.9754,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with net removal > 0, assumption scenario s3_slope_8",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s4_apta_mixta_valle",
+    "value": 0.9748,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with net removal > 0, assumption scenario s4_apta_mixta",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s5_meta_without_main_unit_valle",
+    "value": 0.9748,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with net removal > 0, assumption scenario s5_meta_without_main_unit",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s6_no_ultramafic_valle",
+    "value": 0.9748,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with net removal > 0, assumption scenario s6_no_ultramafic",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s7_fine_rinder_grinding_valle",
+    "value": 0.9748,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with net removal > 0, assumption scenario s7_fine_rinder_grinding",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "share_cells_net_positive_s8_recent_climate_valle",
+    "value": 0.9748,
+    "unit": "fraction",
+    "description": "Share of Valle del Cauca candidate cells with net removal > 0, assumption scenario s8_recent_climate",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "monte_carlo_draws",
+    "value": 1000.0,
+    "unit": "draws",
+    "description": "Draws per Monte Carlo run",
+    "as_of": "2026-11-21"
+  },
+  {
+    "key": "monte_carlo_seed",
+    "value": 20261118.0,
+    "unit": "seed",
+    "description": "Fixed random seed (D-60)",
+    "as_of": "2026-11-21"
+  }
+]

@@ -21,7 +21,7 @@ Where the work stands, for the next session (F6 in this chat, David 2026-11-16).
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (40/41 ok, D-49, D-51–D-57), F5a, F5, F6, F7 (D-63) | F8 report (4 decisions pending, plan §0) | F9, F10, study guide; R09 and R10 research (David) |
+| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (40/41 ok, D-49, D-51–D-57), F5a, F5, F6, F7 (D-63) | F8 publication (D-65, D-66) | F9, F10, study guide; R09 and R10 research (David) |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,
@@ -735,6 +735,34 @@ source text in every run; 1 `missing` (exchangeable Al, unused).
   and numbers CC BY-SA 4.0 (they derive from the UPRA frontier and RUNAP, both CC BY-SA 4.0);
   road-derived databases ODbL 1.0; nothing SGC-derived until the SGC answers. Pending before
   publication: MapBiomas citation format and the exact C3S attribution text.
+
+- **D-65 (David, 2026-11-21)** — **Publication of SGC-derived content approved, risk accepted.**
+  David expects a positive SGC answer and chooses to publish now, relying on the CC BY 4.0 statement
+  of the explanatory memoir. This lifts D-08's hold on publication. Risk stated to David: the SGC
+  could ask to withdraw published maps and figures for lack of written authorisation, hurting the
+  analysis's credibility. Mitigation: the README says the licence confirmation is in progress; a
+  single publication switch (`report.PUBLISH`) can withdraw the outputs; if the SGC says no, switch
+  to the most open alternative (R10 section D) and declare it.
+- **D-66 (David, 2026-11-21)** — F8 decisions: (1) publication switch, on; (2) publish everything,
+  including what does not depend on the SGC; (3) municipal tables from DANE MGN, which David
+  downloads and uploads; (4) everything in the repo in English; (5) showcase beyond 2D figures later;
+  (6) new phase **F8b — Final report** after F8 (content to be given by David). F8 is renamed
+  "Publication".
+
+---
+
+## F8 — Publication 🔄 (2026-11-21)
+
+**What.** `erw_siting/report.py` writes `results.json` (65 entries: per department candidate area,
+acid share, road km, break-even, P(net > 0), net per grain, the eight scenarios; plus Monte Carlo
+draws and seed), generates the Result table of the README from it (between markers, no number
+typed by hand) and five figures in the project style (break-even curve, probability map, margin
+map, tornado, scenarios), each with the screening label. README Method and Limitations written.
+`plotting.add_title` spacing fixed (subtitles overlapped titles of three lines) and `add_footer`
+wraps long source lists. Switches: `report.PUBLISH = True` (D-65); `report.PUBLISH_FIGURES = False`
+until David confirms that the figures may be committed (he asked earlier for no images on GitHub),
+so figures stay in `data/interim/erw_siting/report/figures/`.
+**Pending.** Municipal tables (DANE MGN file from David); David's confirmation on committing figures.
 
 ---
 

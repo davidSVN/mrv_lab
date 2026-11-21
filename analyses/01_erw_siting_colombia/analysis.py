@@ -37,6 +37,7 @@ from mrv_lab.erw_siting import (
     quarries,
     regions,
     registry,
+    report,
     rock_chemistry,
     sensitivity,
     soil,
@@ -245,6 +246,13 @@ f7_mc = monte_carlo.run(rock_samples, parameters)
 f7_assumptions = sensitivity.run()
 
 # %% [markdown]
+# ### F8 — Publication (D-65, D-66): results.json, README Result block, figures
+# Published at David's risk while the SGC's written confirmation is pending (D-65).
+
+# %%
+f8_paths = report.run()
+
+# %% [markdown]
 # ## Figure
 # Use `mrv_lab.plotting`: `new_figure`, `highlight_colors`, `add_title`,
 # `add_footer`, `export_figure(fig, "<name>", FIGURES_DIR)`.
@@ -295,3 +303,4 @@ if __name__ == "__main__":
     print(f6_summary.to_string(index=False))
     f7_paths = {**f7_mc, **f7_assumptions}
     print(f"F7 (internal): {', '.join(str(v.relative_to(root)) for v in f7_paths.values())}")
+    print(f"F8: {', '.join(str(v.relative_to(root)) for v in f8_paths.values())}")

@@ -138,7 +138,8 @@ def add_title(fig: Figure, finding: str, subtitle: str, *, wrap_chars: int = 42)
         fontweight="bold",
         linespacing=1.15,
     )
-    subtitle_y = 0.965 - 0.034 * len(title_lines) - 0.012
+    # ~0.045 of figure height per 22 pt title line at 1350 px (0.034 let subtitles overlap).
+    subtitle_y = 0.965 - 0.045 * len(title_lines) - 0.012
     fig.text(
         _MARGIN_X,
         subtitle_y,
@@ -162,12 +163,13 @@ def footer_text(source: str, accessed: str | date) -> str:
     return f"Source: {source} (accessed {accessed_date.isoformat()}) · Analysis: {REPO_URL}"
 
 
-def add_footer(fig: Figure, source: str, accessed: str | date) -> Text:
-    """Add the source footer at the bottom-left of the figure. See :func:`footer_text`."""
+def add_footer(fig: Figure, source: str, accessed: str | date, *, wrap_chars: int = 110) -> Text:
+    """Add the source footer at the bottom-left of the figure, wrapped so long source lists stay
+    inside the 1080 px width. See :func:`footer_text`."""
     return fig.text(
         _MARGIN_X,
         0.025,
-        footer_text(source, accessed),
+        "\n".join(textwrap.wrap(footer_text(source, accessed), wrap_chars)),
         ha="left",
         va="bottom",
         fontsize=10,
