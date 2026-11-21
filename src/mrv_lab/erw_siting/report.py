@@ -9,8 +9,9 @@
 
 ``PUBLISH`` is the publication switch (D-65): when True, ``results.json`` and the README are
 written into the analysis folder; when False, into ``data/interim/erw_siting/report/``.
-``PUBLISH_FIGURES`` is separate because David asked earlier not to commit images to GitHub;
-until he confirms, figures go to ``data/interim/erw_siting/report/figures/``.
+``PUBLISH_FIGURES`` is separate because David asked earlier not to commit images to GitHub; he
+confirmed on 2026-11-21 that the F8 figures may be committed (D-67). QC maps stay in
+``data/interim`` (not committed).
 """
 
 import json
@@ -28,7 +29,7 @@ from mrv_lab.erw_siting import net_removal as nr
 from mrv_lab.erw_siting import registry, sensitivity
 
 PUBLISH = True  # D-65: SGC-derived results published at David's risk
-PUBLISH_FIGURES = False  # images in git need David's confirmation (earlier "no images" rule)
+PUBLISH_FIGURES = True  # David confirmed 2026-11-21 that the F8 figures go to GitHub (D-67)
 SLUG = "01_erw_siting_colombia"
 SCREENING_LABEL = "Screening estimate from public data. Not a measured or certified removal."
 FIGURE_SOURCE = (
@@ -265,10 +266,13 @@ def figure_curve(values: dict[str, float], table: pd.DataFrame, folder: Path) ->
 
 def _map(table: gpd.GeoDataFrame, column: str, cmap: str, vmin, vmax, label: str):  # noqa: ANN001, ANN202
     fig, ax = _new_figure(left=0.05)
-    table[table["candidate"] == 0].plot(ax=ax, color="#DDDDDD", linewidth=0)
+    # Cells are rasterized inside the SVG (tens of thousands of polygons would weigh ~20 MB);
+    # text, legend and axes stay vector.
+    table[table["candidate"] == 0].plot(ax=ax, color="#DDDDDD", linewidth=0, rasterized=True)
     cand = table[table["candidate"] == 1]
     cand.plot(
         ax=ax,
+        rasterized=True,
         column=column,
         cmap=cmap,
         vmin=vmin,
@@ -312,7 +316,7 @@ def figure_margin_map(
     fig, ax = _map(gdf, "margin_km", "PuOr", -400, 400, "Break-even minus road distance, km")
     xmin, ymin, xmax, ymax = cells.total_bounds
     apta = sources[sources["final_class"] == "Apta"].cx[xmin:xmax, ymin:ymax]
-    apta.plot(ax=ax, color="black", markersize=1)
+    apta.plot(ax=ax, color="black", markersize=1, rasterized=True)
     ax.set_xlim(xmin, xmax)
     ax.set_ylim(ymin, ymax)
     plotting.add_title(

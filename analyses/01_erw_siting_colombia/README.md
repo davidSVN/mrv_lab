@@ -121,6 +121,13 @@ _Generated from [`results.json`](results.json) (as of 2026-11-21); Screening est
 | Median break-even distance, medium | 247 km | 1,297 km | 403 km |
 <!-- results:end -->
 
+![Probability of positive net CO₂ removal per 1 km cell](figures/probability_map.png)
+
+Figures (PNG 1080×1350 and SVG in [`figures/`](figures/)): [break-even curve](figures/breakeven_curve.png)
+· [probability map](figures/probability_map.png) · [margin map with rock sources](figures/margin_map.png)
+· [tornado](figures/tornado.png) · [assumption scenarios](figures/scenarios.png). All numbers in
+[`results.json`](results.json).
+
 ## Limitations
 
 - **Screening, not removal.** Lab-based weathering rates (range of three orders of magnitude) and

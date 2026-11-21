@@ -47,7 +47,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F6 | Deterministic calculation, three pilot departments | ✅ | Code + first run done (D-56): 3 grain runs in `cell_results`; checkpoint passed (net > 0 in part of every department). Results internal until SGC answers (D-08). Approved by David 2026-11-18 (D-63) |
 | F1–F6 national | Scale to the country | ⏳ | — |
 | F7 | Monte Carlo + sensitivity | ✅ | First run done 2026-11-18 (D-60; ~90 s): per-cell draws in npz (~230 MB), P5/P50/P95 and P(net > 0) in `cell_results`, tornado, 5 assumption scenarios. Results internal (D-08). Pending David's review. Second round run (D-62): s6 no ultramafic, s7 Rinder fine grinding (verified), s8 temperature 1996–2025; light results history. Approved by David 2026-11-18 (D-63) |
-| F8 | Publication: README (Data, Method, Result, Limitations), figures, `results.json`, municipal tables | 🔄 | Decided (D-65, D-66): publish now, SGC risk accepted by David; municipal tables wait for the DANE MGN file from David |
+| F8 | Publication: README (Data, Method, Result, Limitations), figures, `results.json`, municipal tables | 🔄 | README, `results.json` and 5 figures published (D-65, D-66, D-67); SGC risk accepted by David; municipal tables wait for the DANE MGN file from David |
 | F8b | Final report (content to be given by David) | ⏳ | New phase after F8 (D-66) |
 | R10 SGC licence research | Licence of the SGC geodatabase from public documents, legal frame, alternatives (David, separate chat) | ⏳ | Prompt given 2026-11-19; written evidence of CC BY 4.0 for the GDB would lift D-08 |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |

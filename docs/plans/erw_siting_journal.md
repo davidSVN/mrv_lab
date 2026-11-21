@@ -762,7 +762,11 @@ map, tornado, scenarios), each with the screening label. README Method and Limit
 wraps long source lists. Switches: `report.PUBLISH = True` (D-65); `report.PUBLISH_FIGURES = False`
 until David confirms that the figures may be committed (he asked earlier for no images on GitHub),
 so figures stay in `data/interim/erw_siting/report/figures/`.
-**Pending.** Municipal tables (DANE MGN file from David); David's confirmation on committing figures.
+- **D-67 (David, 2026-11-21)** — The five F8 figures are committed to GitHub
+  (`report.PUBLISH_FIGURES = True`); QC maps stay in `data/interim`. Map cells are rasterized inside
+  the SVGs (19–22 MB of polygons down to 60–100 KB; text stays vector).
+
+**Pending.** Municipal tables (DANE MGN file from David).
 
 ---
 
