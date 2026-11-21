@@ -15,13 +15,13 @@ Status legend: ✅ done · 🔄 in progress · ❓ decision pending · ⛔ block
 
 ---
 
-## Resume point (2026-11-18)
+## Resume point (2026-11-21)
 
 Where the work stands, for the next session (F6 in this chat, David 2026-11-16).
 
 | Done ✅ | In progress 🔄 | Next ⏳ |
 |---|---|---|
-| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (40/41 ok, D-49, D-51–D-57), F5a, F5, F6, F7 (D-63) | F8 report (plan) | F9, F10, study guide; R09 health research (David) |
+| P0, F0a, F0b, F1 (steps 0–6b), F2, F3, F4 (40/41 ok, D-49, D-51–D-57), F5a, F5, F6, F7 (D-63) | F8 report (4 decisions pending, plan §0) | F9, F10, study guide; R09 and R10 research (David) |
 
 **What exists.** One command rebuilds everything from `data/raw/`:
 `uv run python analyses/01_erw_siting_colombia/analysis.py` (pilot boundaries, RUNAP, UPRA, SoilGrids,

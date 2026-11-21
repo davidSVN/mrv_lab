@@ -47,16 +47,32 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F6 | Deterministic calculation, three pilot departments | ✅ | Code + first run done (D-56): 3 grain runs in `cell_results`; checkpoint passed (net > 0 in part of every department). Results internal until SGC answers (D-08). Approved by David 2026-11-18 (D-63) |
 | F1–F6 national | Scale to the country | ⏳ | — |
 | F7 | Monte Carlo + sensitivity | ✅ | First run done 2026-11-18 (D-60; ~90 s): per-cell draws in npz (~230 MB), P5/P50/P95 and P(net > 0) in `cell_results`, tornado, 5 assumption scenarios. Results internal (D-08). Pending David's review. Second round run (D-62): s6 no ultramafic, s7 Rinder fine grinding (verified), s8 temperature 1996–2025; light results history. Approved by David 2026-11-18 (D-63) |
-| F8 | Report | ⏳ | Official municipal boundaries (DANE unreachable, D-11) |
+| F8 | Report: README, figures, `results.json` | ❓ | Data and licence section written (D-64). Waiting for David's 4 decisions (below). Publication of SGC-derived content held by D-08 |
+| R10 SGC licence research | Licence of the SGC geodatabase from public documents, legal frame, alternatives (David, separate chat) | ⏳ | Prompt given 2026-11-19; written evidence of CC BY 4.0 for the GDB would lift D-08 |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 | R09 health research | Health risk per rock unit: asbestos, silica, metals, law, protocols, lab tests (David, separate chat) | ⏳ | Columns ready, all `pending` (D-61); levels assigned only with sourced criteria |
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
 | F10 | Scenario dashboard: every variable as a filter or parameter (D-58); compare scenarios; 3D view of Monte Carlo results per cell (exploration only, not for publication) | ⏳ | After F7, on PostGIS (F9); uses `scenarios` (incl. `filters_json`); routes precomputed per rock type; only `base` is citable (D-50) |
 
-Next action: F8 — report plan explained to David before coding.
+Next action: David decides the 4 F8 points; then F8 is coded (drafts internal until D-08 is lifted).
 
-**Resume point (2026-11-18).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
-Data for F1–F5 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
+**Open decisions (David).**
+1. F8 publication switch: figures and `results.json` written to `data/interim` until the SGC
+   answers; one change moves them to the repo. *Recommended: yes.*
+2. Publish now what does not depend on the SGC (net removal vs. truck-km curve, Method,
+   Limitations). *Recommended: yes.*
+3. Municipal tables: (a) David downloads DANE MGN locally and uploads it *(recommended)*;
+   (b) departments only; (c) geoBoundaries ADM2 (not official).
+4. Language: README and figures in English (repo rule); optional Spanish summary for David only.
+5. Showcase beyond 2D figures (David's idea, not yet described): separate phase.
+6. D-08 stays unless David chooses to publish on the memoir's CC BY 4.0 and accept the risk.
+
+**Answers awaited.** SGC written answer (D-08); David's research R09 (health risk) and R10 (SGC
+licence); a documented route-distance source to validate routes (D-47); optional paywalled PDFs
+(Kerr et al. 1997; Su et al. 2026 full text) and the Strefler 2018 supplement.
+
+**Resume point (2026-11-21).** Read this §0, the journal (section "Resume point") and CLAUDE.md.
+Data for F1–F7 is processed and stored in `data/interim/erw_siting/erw_siting.gpkg` (gitignored);
 `uv run python analyses/01_erw_siting_colombia/analysis.py` rebuilds everything from `data/raw/`.
 Open items outside the code: SGC written answer (D-08; email sent by David, reported 2026-11-18), route-validation
 source (D-47).
