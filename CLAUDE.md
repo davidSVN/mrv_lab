@@ -121,6 +121,7 @@ Plus: the touched analysis runs from a clean state.
 | # | Analysis | Data |
 |---|---|---|
 | 01 | Where does ERW make sense in Colombia? Site screening by region. Spec: `docs/plans/erw_siting_colombia.md` | SGC, ANM, UPRA, MapBiomas, SoilGrids, CHIRPS, ERA5-Land, Copernicus DEM, OSM, UPME (D1–D18 in spec) |
+| 02 | What does a tonne of CO₂ removed by ERW cost in Colombia, and what does the market pay? Spec: `docs/plans/cdr_market_colombia.md` | Market and cost data from research R11–R16 (to be sourced) + analysis 01 cell results |
 
 No deadlines. Priorities and dates are set only by David, per conversation.
 

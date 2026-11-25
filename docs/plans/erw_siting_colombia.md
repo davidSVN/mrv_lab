@@ -48,14 +48,15 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F1–F6 national | Scale to the country | ⏳ | — |
 | F7 | Monte Carlo + sensitivity | ✅ | First run done 2026-11-18 (D-60; ~90 s): per-cell draws in npz (~230 MB), P5/P50/P95 and P(net > 0) in `cell_results`, tornado, 5 assumption scenarios. Results internal (D-08). Pending David's review. Second round run (D-62): s6 no ultramafic, s7 Rinder fine grinding (verified), s8 temperature 1996–2025; light results history. Approved by David 2026-11-18 (D-63) |
 | F8 | Publication: README (Data, Method, Result, Limitations), figures, `results.json`, municipal tables | ✅ | README, `results.json`, 5 figures and municipal table published (D-65 to D-68); SGC risk accepted by David |
-| F8b | Final report (content to be given by David) | ⏳ | New phase after F8 (D-66) |
+| F8b | Publication series (up to 12 LinkedIn posts in English, business audience); plan kept private | 🔄 | Plan v0.1 written (D-69); posts 11–12 need analysis 02 |
+| A02 | Analysis 02: ERW economics in Colombia ([plan](cdr_market_colombia.md)) | ⏳ | Waiting for research R11–R16 (David) |
 | R10 SGC licence research | Licence of the SGC geodatabase from public documents, legal frame, alternatives (David, separate chat) | ⏳ | Prompt given 2026-11-19; written evidence of CC BY 4.0 for the GDB would lift D-08 |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
 | R09 health research | Health risk per rock unit: asbestos, silica, metals, law, protocols, lab tests (David, separate chat) | ⏳ | Columns ready, all `pending` (D-61); levels assigned only with sourced criteria |
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
 | F10 | Scenario dashboard: every variable as a filter or parameter (D-58); compare scenarios; 3D view of Monte Carlo results per cell (exploration only, not for publication) | ⏳ | After F7, on PostGIS (F9); uses `scenarios` (incl. `filters_json`); routes precomputed per rock type; only `base` is citable (D-50) |
 
-Next action: F8b — final report; David gives its content.
+Next action: F8b post 1 (David chooses date and format); research R11–R16 for analysis 02.
 
 **Open decisions (David).** Showcase beyond 2D figures (later); F8b content (after F8).
 

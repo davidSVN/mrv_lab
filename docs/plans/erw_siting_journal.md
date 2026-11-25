@@ -774,6 +774,18 @@ so figures stay in `data/interim/erw_siting/report/figures/`.
 
 **Pending.** Nothing in F8; next is F8b (content from David).
 
+## F8b — Publication series 🔄 (2026-11-25)
+
+- **D-69 (David, 2026-11-25)** — F8b is a series of at most 12 LinkedIn posts in English for a
+  business audience (investors, carbon-removal companies, founders, scientists). Every number comes
+  from `results.json` (analysis 01) or analysis 02; each post ships with the reference figure from
+  code, its data, and a step-by-step prompt for David to restyle the image in another AI without
+  changing numbers or geography; figures carry attribution, bibliography and the screening label.
+  Every weakness found is shown to David with a framing analysis before publishing. The detailed
+  plan is kept in `private/` (not in git). Money data is missing, so a new **analysis 02 (ERW
+  economics in Colombia)** is planned in [`cdr_market_colombia.md`](cdr_market_colombia.md) with
+  research modules R11–R16 run by David.
+
 ---
 
 ## Study guide for David (requested 2026-11-16) ⏳
