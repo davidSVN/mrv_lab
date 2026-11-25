@@ -30,6 +30,7 @@ downloads every source into `data/raw/` (gitignored) and pins its SHA-256 in
 | Elevation / slope | Copernicus DEM GLO-30 (D11) | Copernicus DEM licence | "produced using Copernicus WorldDEM-30 © DLR e.V. 2010-2014 and © Airbus Defence and Space GmbH 2014-2018 provided under COPERNICUS by the European Union and ESA; all rights reserved". "The organisations in charge of the Copernicus programme by law or by delegation do not incur any liability for any use of the Copernicus WorldDEM-30". |
 | Roads | OpenStreetMap via HOT export on HDX (D12) | ODbL 1.0 | © OpenStreetMap contributors. Derived databases are shared under ODbL. |
 | Department outlines (clipping only) | geoBoundaries gbOpen COL ADM1 (D17b) | ODbL 1.0 (OSM-derived) | Not official limits; areas are not reported by department from this layer. |
+| Municipal boundaries (tables only) | OCHA COD-AB on HDX, layer `col_admbnda_adm2_mgn_20200416`; source stated: DANE (D17c) | CC BY-IGO 3.0 | DANE Marco Geoestadístico Nacional dated 2020-04-16 via OCHA/HDX; DANE's own download was not reachable. Cells assigned to the municipality containing their centre. |
 
 ### Parameters (literature and official factors)
 
@@ -106,7 +107,7 @@ depends on.
 ## Result
 
 <!-- results:start -->
-_Generated from [`results.json`](results.json) (as of 2026-11-21); Screening estimate from public data. Not a measured or certified removal._
+_Generated from [`results.json`](results.json) (as of 2026-11-25); Screening estimate from public data. Not a measured or certified removal._
 
 | | Meta | Tolima | Valle del Cauca |
 |---|---|---|---|
@@ -119,6 +120,8 @@ _Generated from [`results.json`](results.json) (as of 2026-11-21); Screening est
 | Median P(net > 0), medium | 47% | 100% | 66% |
 | Median net removal, medium (P50) | -0.006 t CO₂/ha/yr | 0.243 t CO₂/ha/yr | 0.026 t CO₂/ha/yr |
 | Median break-even distance, medium | 247 km | 1,297 km | 403 km |
+| Municipalities with candidate land | 17 | 33 | 32 |
+| … of which with P(net > 0) > 0.8 land | 0 | 26 | 4 |
 <!-- results:end -->
 
 ![Probability of positive net CO₂ removal per 1 km cell](figures/probability_map.png)
@@ -126,7 +129,9 @@ _Generated from [`results.json`](results.json) (as of 2026-11-21); Screening est
 Figures (PNG 1080×1350 and SVG in [`figures/`](figures/)): [break-even curve](figures/breakeven_curve.png)
 · [probability map](figures/probability_map.png) · [margin map with rock sources](figures/margin_map.png)
 · [tornado](figures/tornado.png) · [assumption scenarios](figures/scenarios.png). All numbers in
-[`results.json`](results.json).
+[`results.json`](results.json). Per-municipality table: [`tables/municipalities.csv`](tables/municipalities.csv)
+(candidate km², km² with P(net > 0) > 0.8, median P(net > 0), median road km to rock, share of acid
+topsoil; base run, medium grain).
 
 ## Limitations
 

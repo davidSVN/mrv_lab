@@ -58,6 +58,7 @@ EXPORT_DPI = 150  # 1080 / 150 = 7.2 in, 1350 / 150 = 9.0 in: exact pixel sizes.
 _MARGIN_X = 0.06
 
 STYLE: dict[str, object] = {
+    "svg.hashsalt": "mrv-lab",  # fixed SVG element ids: re-runs give identical files
     "figure.figsize": (FIG_WIDTH_PX / EXPORT_DPI, FIG_HEIGHT_PX / EXPORT_DPI),
     "figure.dpi": EXPORT_DPI,
     "savefig.dpi": EXPORT_DPI,

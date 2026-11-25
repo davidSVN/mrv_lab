@@ -766,7 +766,13 @@ so figures stay in `data/interim/erw_siting/report/figures/`.
   (`report.PUBLISH_FIGURES = True`); QC maps stay in `data/interim`. Map cells are rasterized inside
   the SVGs (19–22 MB of polygons down to 60–100 KB; text stays vector).
 
-**Pending.** Municipal tables (DANE MGN file from David).
+- **D-68 (David, 2026-11-25)** — Municipal tables from OCHA's COD-AB on HDX (source DANE, MGN
+  dated 2020-04-16, CC BY-IGO 3.0; option A1), because neither the cloud session nor David could
+  download DANE's MGN. Cells go to the municipality containing their centre;
+  `tables/municipalities.csv` (82 municipalities with candidate land) plus municipality counts in
+  `results.json`. Limitation: boundaries may differ from the current MGN.
+
+**Pending.** Nothing in F8; next is F8b (content from David).
 
 ---
 

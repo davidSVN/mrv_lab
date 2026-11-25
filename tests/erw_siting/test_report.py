@@ -69,3 +69,27 @@ def test_breakeven_curve_falls_with_distance() -> None:
     assert curve["medium"][0] > curve["medium"][1] > curve["medium"][2]
     assert curve["fine"][0] > curve["medium"][0] > curve["coarse"][0]
     assert curve["coarse"][0] == pytest.approx(curve["coarse"][0])
+
+
+def test_municipal_table_aggregates_by_cell_centre() -> None:
+    from mrv_lab.erw_siting import municipalities as m
+
+    results = pd.DataFrame(
+        {
+            "cell_id": ["a", "b", "c"],
+            "candidate": [1, 1, 0],
+            "area_in_department_km2": [1.0, 0.5, 1.0],
+            "p_net_positive": [0.9, 0.5, 0.95],
+            "road_km": [10.0, 30.0, 5.0],
+            "lime_demand": [1, 0, 1],
+        }
+    )
+    codes = pd.Series({"a": "CO1", "b": "CO1", "c": "CO2"})
+    names = pd.DataFrame(
+        {"admin2Pcode": ["CO1", "CO2"], "admin2Name_es": ["X", "Y"], "admin1Name_es": ["Meta"] * 2}
+    )
+    t = m.municipal_table(results, codes, names)
+    row = t.iloc[0]
+    assert len(t) == 1 and row["municipality"] == "X"  # CO2 has no candidate cell
+    assert row["candidate_area_km2"] == 1.5 and row["area_p_net_positive_gt_0_8_km2"] == 1.0
+    assert row["median_road_km_to_rock"] == 20.0 and row["share_acid_topsoil"] == 0.5

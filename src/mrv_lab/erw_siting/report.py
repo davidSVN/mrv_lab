@@ -25,8 +25,8 @@ import pandas as pd
 from mrv_lab import io, plotting
 from mrv_lab.erw_siting import database as db
 from mrv_lab.erw_siting import monte_carlo as mc
+from mrv_lab.erw_siting import municipalities, registry, sensitivity
 from mrv_lab.erw_siting import net_removal as nr
-from mrv_lab.erw_siting import registry, sensitivity
 
 PUBLISH = True  # D-65: SGC-derived results published at David's risk
 PUBLISH_FIGURES = True  # David confirmed 2026-11-21 that the F8 figures go to GitHub (D-67)
@@ -169,6 +169,32 @@ def results_entries(table: pd.DataFrame, as_of: str | None = None) -> list[dict]
             )
     out.append(_entry("monte_carlo_draws", mc.N_DRAWS, "draws", "Draws per Monte Carlo run", as_of))
     out.append(_entry("monte_carlo_seed", mc.SEED, "seed", "Fixed random seed (D-60)", as_of))
+    return out
+
+
+def municipal_entries(munis: pd.DataFrame, as_of: str | None = None) -> list[dict]:
+    """Per department: municipalities with candidate land and with land where P(net > 0) > 0.8."""
+    as_of = as_of or date.today().isoformat()
+    out = []
+    for dept, slug in DEPARTMENTS.items():
+        m = munis[munis["department"] == dept]
+        out += [
+            _entry(
+                f"n_municipalities_with_candidate_land_{slug}",
+                len(m),
+                "municipalities",
+                f"Municipalities of {dept} with candidate farmland (HDX COD-AB, DANE MGN 2020)",
+                as_of,
+            ),
+            _entry(
+                f"n_municipalities_with_p_net_positive_gt_0_8_land_{slug}",
+                int((m["area_p_net_positive_gt_0_8_km2"] > 0).sum()),
+                "municipalities",
+                f"Municipalities of {dept} with candidate land where P(net > 0) > 0.8, medium "
+                "grain",
+                as_of,
+            ),
+        ]
     return out
 
 
@@ -426,6 +452,16 @@ def readme_results_block(entries: list[dict]) -> str:
             "{:.3f} t CO₂/ha/yr",
         ),
         ("Median break-even distance, medium", "median_breakeven_km_medium_{d}", "{:,.0f} km"),
+        (
+            "Municipalities with candidate land",
+            "n_municipalities_with_candidate_land_{d}",
+            "{:.0f}",
+        ),
+        (
+            "… of which with P(net > 0) > 0.8 land",
+            "n_municipalities_with_p_net_positive_gt_0_8_land_{d}",
+            "{:.0f}",
+        ),
     ]
     head = "| | " + " | ".join(DEPARTMENTS) + " |\n|---|" + "---|" * len(DEPARTMENTS) + "\n"
     body = ""
@@ -460,7 +496,10 @@ def run(path: Path | None = None) -> dict[str, Path]:
     out_dir.mkdir(parents=True, exist_ok=True)
     table = load_results(path)
     entries = results_entries(table)
-    paths = {"results": out_dir / "results.json"}
+    paths = {"municipalities": out_dir / "tables" / "municipalities.csv"}
+    munis = municipalities.run(table, paths["municipalities"], path)
+    entries += municipal_entries(munis, entries[0]["as_of"] if entries else None)
+    paths["results"] = out_dir / "results.json"
     paths["results"].write_text(json.dumps(entries, indent=2) + "\n", encoding="utf-8")
 
     readme_src = io.analysis_dir(SLUG) / "README.md"

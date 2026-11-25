@@ -47,7 +47,7 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | F6 | Deterministic calculation, three pilot departments | ✅ | Code + first run done (D-56): 3 grain runs in `cell_results`; checkpoint passed (net > 0 in part of every department). Results internal until SGC answers (D-08). Approved by David 2026-11-18 (D-63) |
 | F1–F6 national | Scale to the country | ⏳ | — |
 | F7 | Monte Carlo + sensitivity | ✅ | First run done 2026-11-18 (D-60; ~90 s): per-cell draws in npz (~230 MB), P5/P50/P95 and P(net > 0) in `cell_results`, tornado, 5 assumption scenarios. Results internal (D-08). Pending David's review. Second round run (D-62): s6 no ultramafic, s7 Rinder fine grinding (verified), s8 temperature 1996–2025; light results history. Approved by David 2026-11-18 (D-63) |
-| F8 | Publication: README (Data, Method, Result, Limitations), figures, `results.json`, municipal tables | 🔄 | README, `results.json` and 5 figures published (D-65, D-66, D-67); SGC risk accepted by David; municipal tables wait for the DANE MGN file from David |
+| F8 | Publication: README (Data, Method, Result, Limitations), figures, `results.json`, municipal tables | ✅ | README, `results.json`, 5 figures and municipal table published (D-65 to D-68); SGC risk accepted by David |
 | F8b | Final report (content to be given by David) | ⏳ | New phase after F8 (D-66) |
 | R10 SGC licence research | Licence of the SGC geodatabase from public documents, legal frame, alternatives (David, separate chat) | ⏳ | Prompt given 2026-11-19; written evidence of CC BY 4.0 for the GDB would lift D-08 |
 | F9 | Migration to PostgreSQL + PostGIS (same schema, `ogr2ogr`) | ⏳ | Triggered by a dashboard / web app, several writers or national scale (D-44) |
@@ -55,13 +55,11 @@ Decision IDs (D-xx, with hyphen) and rules (R-xx) are explained in the journal. 
 | Study guide | Spanish study guide of every chemical / technical term and formula, with worked examples from this analysis (private page) | ⏳ | Requested by David 2026-11-16; term backlog in the journal; delivered at the end |
 | F10 | Scenario dashboard: every variable as a filter or parameter (D-58); compare scenarios; 3D view of Monte Carlo results per cell (exploration only, not for publication) | ⏳ | After F7, on PostGIS (F9); uses `scenarios` (incl. `filters_json`); routes precomputed per rock type; only `base` is citable (D-50) |
 
-Next action: F8 publication (code, README, `results.json`, figures); municipal tables when David
-uploads the DANE MGN file.
+Next action: F8b — final report; David gives its content.
 
 **Open decisions (David).** Showcase beyond 2D figures (later); F8b content (after F8).
 
-**Answers awaited.** SGC written answer (publication goes ahead at David's risk, D-65); DANE MGN
-municipalities file (David); David's research R09 (health risk) and R10 (SGC
+**Answers awaited.** SGC written answer (publication goes ahead at David's risk, D-65); David's research R09 (health risk) and R10 (SGC
 licence); a documented route-distance source to validate routes (D-47); optional paywalled PDFs
 (Kerr et al. 1997; Su et al. 2026 full text) and the Strefler 2018 supplement.
 
